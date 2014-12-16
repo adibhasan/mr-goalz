@@ -22,7 +22,7 @@ function v_dataInsert_LastId($tablename, $dataarray) {
     $columnvalue = $returnstring['columnvalue'];
     $query = "INSERT INTO " . $tablename . " ( " . $column . " ) " . " VALUES " . " ( " . $columnvalue . " ) ";
     $result = mysqli_query($link, $query);
-    $lastinsertid = mysql_insert_id($link);
+    $lastinsertid = mysqli_insert_id($link);
     $dataresult['result'] = $result;
     $dataresult['lastinsertid'] = $lastinsertid;
     databaseClose($link);

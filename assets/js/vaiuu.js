@@ -12,8 +12,8 @@ jQuery(function ($) {
 
         },
         BindEvents: function () {
-            $(window).ready(function(){
-                $("body").css("display","block");
+            $(window).ready(function () {
+                $("body").css("display", "block");
             });
             var viewWidth = $(window).width();
             var viewHeight = $(window).height();
@@ -28,6 +28,7 @@ jQuery(function ($) {
                 e.preventDefault();
             });
             $("body").on("click", function () {
+                $(".messaage").html("");
                 $(".alert-custom").find(".alert").fadeOut("400", function () {
                     $(".alert-custom").html("");
                 })
@@ -127,6 +128,22 @@ jQuery(function ($) {
             $("form input").on("keyup", function (event) {
                 if (event.which == 13) {
                     $("form [type=submit]").trigger("click");
+                }
+            });
+            $(".league-list").on("change", function () {
+                if ($(this).val() == "other") {
+                    var id = $(this).attr("id");
+                    $(".messaage").html("");
+                    VAIUU.FormReset("#leagueinput");
+                    $("#league-modal").modal("show");
+
+                }
+            });
+            $(".team-list").on("change", function () {
+                if ($(this).val() == "other") {
+                    $(".messaage").html("");
+                    VAIUU.FormReset("#teaminput");
+                    $("#team-modal").modal("show");
                 }
             });
             $(".logoicon img").on("click", function () {
@@ -233,6 +250,12 @@ jQuery(function ($) {
             $(".proceedupload").on("click", function () {
                 $("#uploadimage").trigger("click");
             });
+            $("#leagueinput input[name=league_name]").on("keyup", function () {
+                VAIUU.AjaxFormValueCheck("controller/Ajaxcall.php", "post", "league_name=" + $(this).val() + "&method=leaguecheck" + "&token=" + $("#leagueinput input[name=token]").val(), CALLBACK.AjaxLeaguecheck);
+            });
+            $("#teaminput input[name=teamname]").on("keyup", function () {
+                VAIUU.AjaxFormValueCheck("controller/Ajaxcall.php", "post", "teamname=" + $(this).val() + "&method=teamcheck" + "&token=" + $("#teaminput input[name=token]").val(), CALLBACK.AjaxTeamCheck);
+            });
             $("#login input[name=user_id_name],#login input[name=user_password],#signup input[name=user_password]").on("keyup", function () {
                 var Pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,50}$/;
                 var fieldvalue = $(this).val();
@@ -327,6 +350,14 @@ jQuery(function ($) {
                 event.preventDefault();
                 VAIUU.AjaxForm("controller/Account.php", "post", "#login", "method=userlogin", "logincontainer", CALLBACK.Login);
             });
+            $("#leagueinput").submit(function (event) {
+                event.preventDefault();
+                VAIUU.AjaxForm("controller/Account.php", "post", "#leagueinput", "method=leagueinsert", "logincontainer", CALLBACK.AddLeague);
+            });
+            $("#teaminput").submit(function (event) {
+                event.preventDefault();
+                VAIUU.AjaxForm("controller/Account.php", "post", "#teaminput", "method=teaminput", "logincontainer2", CALLBACK.AddTeam);
+            });
             $("#retrievepassword").submit(function (event) {
                 event.preventDefault();
                 VAIUU.AjaxForm("controller/Account.php", "post", "#retrievepassword", "method=passwordretrieve", "logincontainer", CALLBACK.RetrievePassword);
@@ -350,6 +381,16 @@ jQuery(function ($) {
                 event.preventDefault();
                 VAIUU.AjaxForm("controller/Account.php", "post", "#signup", "method=registration", "signupcontainer", CALLBACK.MandatoryRegForm);
             });
+            $("#insert-game").submit(function (event) {
+                event.preventDefault();
+                if ($("#team1").val() == $("#team2").val()) {
+                    alert("Team1 and Team2 can not be same.");
+                } else {
+                    VAIUU.AjaxForm("controller/Account.php", "post", "#insert-game", "method=gamecreate", "container3", CALLBACK.GameCreate);
+                }
+
+
+            });
             // Update Settings page
             $("#form-settings").submit(function (event) {
                 event.preventDefault();
@@ -370,6 +411,7 @@ jQuery(function ($) {
                 }
 
             });
+
 
         },
         CacheElements: function () {
@@ -455,6 +497,12 @@ jQuery(function ($) {
                 VAIUU.FormReset("#signup");
             }
         },
+        GameCreate: function (data) {
+            $("#insert-game").prev().html("<div class='alert alert-" + data.styleclass + "'>" + data.message + "</div>");
+            if (data.success === true) {
+               VAIUU.FormReset("#insert-game");
+            }
+        },
         UpdateSettings: function (data) {
             $("#form-settings").prev().html("<div class='alert alert-" + data.styleclass + "'>" + data.message + "</div>");
             if (data.success === true) {
@@ -469,6 +517,26 @@ jQuery(function ($) {
             if (data.success == true) {
                 $("input[type=email]").parent().find(".error-message").hide("slow").html("");
                 $("input[type=email]").prev().removeClass("correct error loader").addClass("correct");
+            }
+        },
+        AjaxLeaguecheck: function (data) {
+            if (data.success == false) {
+                $("#leagueinput").parent().find(".alert-custom").show("slow").html(data.message).css("color", "red");
+
+            }
+            if (data.success == true) {
+                $("#leagueinput").parent().find(".alert-custom").show("slow").html(data.message).css("color", "yellowgreen");
+
+            }
+        },
+        AjaxTeamCheck: function (data) {
+            if (data.success == false) {
+                $("#teaminput").parent().find(".alert-custom").show("slow").html(data.message).css("color", "red");
+
+            }
+            if (data.success == true) {
+                $("#teaminput").parent().find(".alert-custom").show("slow").html(data.message).css("color", "yellowgreen");
+
             }
         },
         AjaxGoalNumberSubmit: function (data) {
@@ -534,10 +602,30 @@ jQuery(function ($) {
             VAIUU.FormReset("#login");
             if (data.success === true) {
                 setTimeout(function () {
-                    window.location.href =data.field;
+                    window.location.href = data.field;
                 }, 500);
             } else {
                 $("#login input[name=user_id_name],#login input[name=user_password]").prev().addClass("error");
+            }
+        },
+        AddLeague: function (data) {
+            $("#leagueinput").prev().html("<div class='alert alert-" + data.styleclass + "'>" + data.message + "</div>");
+            VAIUU.FormReset("#leagueinput");
+            if (data.success === true) {
+                $("#league-name").append('<option value="' + data.field + '" selected="selected">' + data.league_name + '</option>');
+                setTimeout(function () {
+                    $("#league-modal").modal("hide");
+                }, 3000);
+            }
+        },
+        AddTeam: function (data) {
+            $("#teaminput").prev().html("<div class='alert alert-" + data.styleclass + "'>" + data.message + "</div>");
+            VAIUU.FormReset("#teaminput");
+            if (data.success === true) {
+                $(".team-list").append('<option value="' + data.field + '" selected="selected">' + data.team_name + '</option>');
+                setTimeout(function () {
+                    $("#team-modal").modal("hide");
+                }, 3000);
             }
         },
         RetrievePassword: function (data) {

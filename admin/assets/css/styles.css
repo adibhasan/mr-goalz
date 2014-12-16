@@ -1,0 +1,125 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16-Sep-2014, 03:23:48
+    Author     : Md. Adib Hasan
+*/
+
+html,body{
+    width: 100%;
+    height: 100%;
+}
+body{
+    padding: 0px;
+    margin: 0px;
+}
+.loginpanel,.forgotpasswordpanel{
+    margin-top: 20px;
+}
+.marginvertical{
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+}
+.forgotpassword{
+    margin-left: 5px;
+    cursor: pointer;
+}
+.forgotpasswordpanel{
+    display: none;
+}
+.customnavbrand{
+    width: 100px;
+}
+.customnavbrand img{
+    height: 100%;
+}
+.shortcutblock {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    text-align: center;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+.shortcut {
+    text-align: center;
+}
+.shortcutblock a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+}
+.shortcuticon {
+    position: absolute;
+    height: 90%;
+    width: 90%;
+    box-shadow: 0px 0px 3px #AAAAAA;
+    border-radius: 5px;
+    padding-top: 5px;
+    font-size: 50px;
+}
+.color-orange{
+    color: orange;
+}
+.shortcuttext {
+    position: absolute;
+    width: 90%;
+    bottom: 15px;
+}
+.datatable {
+    margin-top: 20px;
+}
+.formcontainer {
+    margin-top: 15px;
+}
+select[name=userlist_length] {
+    height: 35px;
+    width: 100px;
+}
+#userlist_filter input[type=search]{
+    width: 233px;
+    height: 35px;
+    border: 1px solid #999999;
+}
+div#ajaxloader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 11111;
+    background: url('icons/transparent3.png');
+    top: 0px;
+    left: 0px;
+    display:none;
+}
+.ajxbg{
+    background:black;
+    position: absolute;
+    height: 70px;
+    width: 90px;
+    background-image: url(icons/3.gif);
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: .7;
+    z-index: 111;
+    top: 40%;
+    left: 45%;
+}
+.alert-custom .alert{
+    padding: 5px !important;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.client-logo{
+    margin-top: 50px;
+}
+.note{
+    font-size: 13px;
+    color: firebrick;
+}
+
+

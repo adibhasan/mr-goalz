@@ -298,7 +298,13 @@
     </div>
 </div>
 <div class="usermenu-wrapper">
-    <?php bottomSessionedMenu("", "", "shape-active", "", "", ""); ?>
+    <?php
+    if (isset($_GET['action'])) {
+        bottomSessionedMenu("", "", "", "shape-active", "", "");
+    } else {
+        bottomSessionedMenu("", "", "shape-active", "", "", "");
+    }
+    ?>
 </div>
 <div class="content-wrapper">
     <img src="<?php echo BASE_URL; ?>assets/css/images/mobile.jpg" class="mob">
