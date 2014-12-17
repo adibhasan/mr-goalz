@@ -6,6 +6,7 @@
     </div>
     <div class="col-md-10 col-md-offset-1">
         <?php if (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == "create-team"): ?>
+        
             <div class="panel panel-primary">
                 <div class="panel-heading"><strong><i class="glyphicon glyphicon-flag"></i> Add Team</strong></div>
                 <div class="panel-body">
@@ -115,7 +116,7 @@
                                         <th>Si</th>
                                         <th>Teamname</th>
                                         <th>Description</th>
-                                        <th>Play Type</th>
+                                        <th>Creator</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -126,7 +127,7 @@
                                             <td><?php echo $i + 1; ?></td>
                                             <td><?php echo $teaminfo['data'][$i]['teamname']; ?></td>
                                             <td><?php echo $teaminfo['data'][$i]['description']; ?></td>
-                                            <td><?php echo $teaminfo['data'][$i]['playtype']; ?></td>
+                                            <td><?php echo $teaminfo['data'][$i]['user_type']; ?></td>
                                             <td><?php echo $teaminfo['data'][$i]['status']; ?></td>
                                             <td>
                                                 <button class="btn btn-danger deleteteam" style="margin:1px;padding: 0px 2px;" data-id="<?php echo $teaminfo['data'][$i]['teamid']; ?>"><i class="glyphicon glyphicon-trash"></i></button>

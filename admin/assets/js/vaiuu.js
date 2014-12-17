@@ -24,6 +24,7 @@ jQuery(function ($) {
 
             });
             $('#userlist').DataTable();
+            $("#gameschedule").mask("9999-99-99 99:99:99");
             $("#userlist_wrapper .delete").on("click", function () {
                 var id = $(this).data("id");
                 $("#alertmodal #datadelete").val("");

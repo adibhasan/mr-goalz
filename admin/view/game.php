@@ -6,7 +6,7 @@
     <div class="col-md-10 col-md-offset-1">
         <?php if (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == "create-league"): ?>
             <div class="panel panel-primary">
-                <div class="panel-heading"><strong><i class="glyphicon glyphicon-flag"></i> Add Team</strong></div>
+                <div class="panel-heading"><strong><i class="glyphicon glyphicon-flag"></i> Add League</strong></div>
                 <div class="panel-body">
 
                     <div class="tab-pane" id="addnewteam">
@@ -96,7 +96,7 @@
             </div>
         <?php elseif (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action'] == "create-game"): ?>
             <div class="panel panel-primary">
-                <div class="panel-heading"><strong><i class="glyphicon glyphicon-flag"></i> Add Team</strong></div>
+                <div class="panel-heading"><strong><i class="glyphicon glyphicon-flag"></i> Create Game</strong></div>
                 <div class="panel-body">
 
                     <div class="tab-pane" id="addnewteam">

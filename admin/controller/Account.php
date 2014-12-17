@@ -93,7 +93,6 @@ if ($_POST['method'] == "addteam") {
     v_tokenCheck($_POST['token']);
     v_authenTicate("Team name", true, 2, 100, "", "teamname", $_POST['teamname']);
     v_authenTicate("Team description", true, 2, 1000, "", "description", $_POST['description']);
-    v_authenTicate("Team play type", true, 2, 100, "", "playtype", $_POST['playtype']);
     v_authenTicate("Team status", true, 2, 100, "", "status", $_POST['status']);
     addTeam($_POST);
 }
@@ -161,6 +160,7 @@ function userLogin($dataArry) {
     if ($userdata['counter'] == 0) {
         v_returnMessage("Invalid email or passwprd.", false, "danger", "", "");
     } else {
+        $_SESSION['vaiuugroup']['adminid'] = $userdata['data'][0]['id'];
         $_SESSION['vaiuugroup']['adminname'] = $userdata['data'][0]['adminname'];
         $_SESSION['vaiuugroup']['adminemail'] = $userdata['data'][0]['adminemail'];
         $_SESSION['vaiuugroup']['admintype'] = $userdata['data'][0]['admintype'];
@@ -288,6 +288,11 @@ function addTeam($dataArry) {
     if ($checkexist['counter'] > 0) {
         v_returnMessage("Team already exists.", false, "danger", "", "");
     } else {
+        foreach ($data as $key => $value) {
+            $data[$key] = addslashes($value);
+        }
+        $data['user_type'] = $_SESSION['vaiuugroup']['admintype'];
+        $data['user_id'] = $_SESSION['vaiuugroup']['adminid'];
         $data['createdate'] = date("Y-m-d H:i:s");
         $data['updatedate'] = date("Y-m-d H:i:s");
         $teaminsert = v_dataInsert("team", $data);
@@ -310,6 +315,8 @@ function addLeague($dataArry) {
     } else {
         $data['create_date'] = date("Y-m-d H:i:s");
         $data['update_date'] = date("Y-m-d H:i:s");
+        $data['user_type'] = $_SESSION['vaiuugroup']['admintype'];
+        $data['user_id'] = $_SESSION['vaiuugroup']['adminid'];
         $insert = v_dataInsert("league", $data);
         if ($insert) {
             v_returnMessage("League has been successfully inserted.", true, "success", "", "");
@@ -327,10 +334,12 @@ function addGame($dataArry) {
         v_returnMessage("Team1 and Team 2 can not be same.", false, "danger", "", "");
     }
     $data['schedule_timestamp'] = strtotime($data['schedule']);
-    $timediff=strtotime($data['schedule'])-300;
-    $data['guessing_last_moment'] =date("Y-m-d H:i:s",$timediff);
+    $timediff = strtotime($data['schedule']) - 300;
+    $data['guessing_last_moment'] = date("Y-m-d H:i:s", $timediff);
     $data['createdate'] = date("Y-m-d H:i:s");
     $data['updatedate'] = date("Y-m-d H:i:s");
+    $data['user_type'] = $_SESSION['vaiuugroup']['admintype'];
+    $data['user_id'] = $_SESSION['vaiuugroup']['adminid'];
     $insert = v_dataInsert("upcominggames", $data);
     if ($insert) {
         v_returnMessage("League has been successfully inserted.", true, "success", "", "");
@@ -338,6 +347,7 @@ function addGame($dataArry) {
         v_returnMessage("League insertion has been failed.", false, "danger", "", "");
     }
 }
+
 function updateGame($dataArry) {
     $data = $dataArry;
     unset($data['method']);
@@ -345,11 +355,11 @@ function updateGame($dataArry) {
     if ($data['team1'] === $data['team2']) {
         v_returnMessage("Team1 and Team 2 can not be same.", false, "danger", "", "");
     }
-    $id=$data['gameid'];
+    $id = $data['gameid'];
     unset($data['gameid']);
     $data['schedule_timestamp'] = strtotime($data['schedule']);
-    $timediff=strtotime($data['schedule'])-300;
-    $data['guessing_last_moment'] =date("Y-m-d H:i:s",$timediff);
+    $timediff = strtotime($data['schedule']) - 300;
+    $data['guessing_last_moment'] = date("Y-m-d H:i:s", $timediff);
     $data['updatedate'] = date("Y-m-d H:i:s");
     $insert = v_dataUpdate("upcominggames", $data, "id='$id'");
     if ($insert) {
@@ -358,6 +368,7 @@ function updateGame($dataArry) {
         v_returnMessage("League update has been failed.", false, "danger", "", "");
     }
 }
+
 function updateTeam($dataArry) {
     $data = $dataArry;
     unset($data['method']);
