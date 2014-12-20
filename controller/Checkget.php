@@ -1,4 +1,5 @@
 <?php
+
 ob_start();
 include '../Generic.php';
 if (isset($_GET['completionkey']) && isset($_GET['secretkey'])) {
@@ -8,19 +9,27 @@ if (isset($_GET['completionkey']) && isset($_GET['secretkey'])) {
     $tokencheck = v_dataSelect("tokens", "token='$token'");
     $secretkeycheck = v_dataSelect("mrpredict_user", "recovery_number='$secretkey' AND status='pending'");
     if ($tokencheck['counter'] == 0) {
-         v_show_404();
+        v_show_404();
     } else if ($secretkeycheck['counter'] == 0) {
         v_show_404();
     } else {
         $dataarray['status'] = "active";
         $dataarray['update_date'] = date("Y-m-d H:i:s");
-        $dataarray['user_ip']=v_get_client_ip();
+        $dataarray['user_ip'] = v_get_client_ip();
         $activeaccount = v_dataUpdate("mrpredict_user", $dataarray, "recovery_number='$secretkey'");
         if ($activeaccount) {
             $deletetoken = v_dataDelete("tokens", "token='$token' ");
             if ($deletetoken) {
-                $_SESSION['vaiuugroup']['user_id_name']=$secretkeycheck['data'][0]['user_id_name'];
-                $_SESSION['vaiuugroup']['user_email']=$secretkeycheck['data'][0]['user_email'];
+                $_SESSION['vaiuugroup']['user_id_name'] = $secretkeycheck['data'][0]['user_id_name'];
+                $_SESSION['vaiuugroup']['user_email'] = $secretkeycheck['data'][0]['user_email'];
+                
+                
+                $_SESSION['login_type'] = "Regular";
+                $_SESSION['vaiuugroup']['user_id_name'] = $secretkeycheck['data'][0]['user_id_name'];
+                $_SESSION['vaiuugroup']['user_email'] = $secretkeycheck['data'][0]['user_email'];
+                $_SESSION['vaiuugroup']['username'] = $secretkeycheck['data'][0]['user_name'] != "" ? $secretkeycheck['data'][0]['user_name'] : "User";
+                $_SESSION['vaiuugroup']['profile'] = $secretkeycheck['data'][0]['profile_picture'] == "" ? BASE_URL . "/assets/userimages/avatar.jpg" : $secretkeycheck['data'][0]['profile_picture'];
+                $_SESSION['vaiuugroup']['user_state'] ="active";
                 $url = BASE_URL . "settings.php";
                 v_reDirect($url);
             } else {
@@ -29,7 +38,7 @@ if (isset($_GET['completionkey']) && isset($_GET['secretkey'])) {
             }
         }
     }
-}else if(isset($_GET['completionkey']) && isset($_GET['newemail'])){
+} else if (isset($_GET['completionkey']) && isset($_GET['newemail'])) {
     echo "Hello there ";
 } else {
     $url = BASE_URL . "logout.php";  // Un authorize

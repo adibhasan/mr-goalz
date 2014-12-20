@@ -68,7 +68,7 @@ function v_ip_time_zone() {
     }
 }
 
-function v_authenTicate($fieldname="", $require="", $min="", $max="", $pattern="", $postkey="", $postvalue="") {
+function v_authenTicate($fieldname = "", $require = "", $min = "", $max = "", $pattern = "", $postkey = "", $postvalue = "") {
     if ($required == true) {
         if ($postvalue == "") {
             $response = array(
@@ -191,7 +191,7 @@ function v_cash_data() {
     $user = array();
     $userinfo = v_dataSelect("mrpredict_user", "user_email='" . $_SESSION['vaiuugroup']['user_email'] . "'");
     $getTeam = v_dataSelect("team", "status='active'");
-    $user['userid']=empty($userinfo['data'][0]['userid']) ? "" : $userinfo['data'][0]['userid'];
+    $user['userid'] = empty($userinfo['data'][0]['userid']) ? "" : $userinfo['data'][0]['userid'];
     $user['id_name'] = empty($userinfo['data'][0]['user_id_name']) ? "" : $userinfo['data'][0]['user_id_name'];
     $user['user_email'] = empty($userinfo['data'][0]['user_email']) ? "" : $userinfo['data'][0]['user_email'];
     $user['profile_picture'] = empty($userinfo['data'][0]['profile_picture']) ? BASE_URL . "assets/userimages/avatar.jpg" : $userinfo['data'][0]['profile_picture'];
@@ -202,12 +202,13 @@ function v_cash_data() {
     $user['favourite_team'] = empty($userinfo['data'][0]['favourite_team']) ? "" : $userinfo['data'][0]['favourite_team'];
     $user['recovery_number'] = empty($userinfo['data'][0]['recovery_number']) ? "" : $userinfo['data'][0]['recovery_number'];
     $user['team'] = $getTeam['data'];
+    $user['game_notification'] = $userinfo['data'][0]['game_notification'];
     $bonus_status = v_dataSelect("monthly_bonus", "user_id='" . $userinfo['data'][0]['userid'] . "' AND month_number='" . date("m") . "' AND year='" . date("Y") . "' AND status='used'");
     $user['bonus'] = $bonus_status['data'];
     // Which image to use
     $user['using_avatar'] = $_SESSION['vaiuugroup']['profile'];
-    $my_league=  v_dataSelect("league","user_id='".$user['userid']."' AND user_type='user'");
-    $user['my_league']=$my_league['data'];
+    $my_league = v_dataSelect("league", "user_id='" . $user['userid'] . "' AND user_type='user'");
+    $user['my_league'] = $my_league['data'];
     return $user;
 }
 
@@ -367,7 +368,7 @@ function timeZone($user_ip = "") {
     return $iptrack;
 }
 
-function v_sideMenu($fb="") {
+function v_sideMenu($FB_LOGIN_URL = "javascript:void(0)",$gurl="javascript:void(0)") {
     ?>
     <div class="sidemenucontainer mobsm">
         <div class="sidemenucontent mobsmcontent">
@@ -377,8 +378,8 @@ function v_sideMenu($fb="") {
                 <li><a href="<?php echo BASE_URL; ?>signin.php" >LOG IN</a></li>
             </ul>
             <div class="sidebarsocialicon mobsmicon">
-                <a class="fb"  href="<?php echo $fb; ?>" id="fb"></a>
-                <a class="gplus"></a>
+                <a class="fb"  href="<?php echo $FB_LOGIN_URL; ?>" id="fb"></a>
+                <a class="gplus" href="<?php echo $gurl; ?>"></a>
             </div>
         </div>
         <div class="sidemenubackdrop"></div>
@@ -395,7 +396,7 @@ function v_sessionedTopMenu() {
         </div>
         <div class="tooglablemenu">
             <div id="tooglablemenu-wrapper">
-                <div class="topmenu"><img src="<?php echo BASE_URL;?>assets/css/images/logo.png"></div>
+                <div class="topmenu"><img src="<?php echo BASE_URL; ?>assets/css/images/logo.png"></div>
                 <div class="topmenu"><a href="settings.php">HOME</a></div>
                 <div class="topmenu"><a href="gamelist.php">UPCOMING</a></div>
                 <div class="topmenu"><a href="my-guess-info.php">MY GUESS</a></div>
@@ -416,7 +417,7 @@ function profileInfoGeneral($avatar = "", $userid = "") {
             <a href="avatar.php"><img src="<?php echo $_SESSION['vaiuugroup']['profile']; ?>" class="img-circle" id="profileimage"></a>
         </div>
         <div class="username black">
-    <?php echo $_SESSION['vaiuugroup']['user_id_name']; ?>
+            <?php echo $_SESSION['vaiuugroup']['user_id_name']; ?>
         </div>
     </div>
     <div class="profile-rank black">
@@ -447,7 +448,7 @@ function profilePictureChange($avatar = "", $userid = "") {
             </div>
         </div>
         <div class="username black">
-    <?php echo $userid; ?>
+            <?php echo $userid; ?>
         </div>
     </div>
     <div class="profile-rank black">
@@ -491,7 +492,7 @@ function bottomSessionedMenu($p1 = "", $p2 = "", $p3 = "", $p4 = "", $p5 = "", $
     <?php
 }
 
-function v_topMenu($FB_LOGIN_URL = "javascript:void(0)") {
+function v_topMenu($FB_LOGIN_URL = "javascript:void(0)",$gurl="javascript:void(0)") {
     ?>
     <div class="topmenucontainer">
         <div class="small-device">
@@ -504,7 +505,7 @@ function v_topMenu($FB_LOGIN_URL = "javascript:void(0)") {
                 <div><a href="<?php echo BASE_URL; ?>signup.php">SIGN UP</a></div>
                 <div><a href="<?php echo BASE_URL; ?>signin.php">LOG IN</a></div>
                 <div style="margin-left:70px;"><a href="<?php echo $FB_LOGIN_URL; ?>" style="padding-top: 12px;"  id="facebook-login"><img src="<?php echo BASE_URL; ?>assets/css/images/fb.png"></a></div>
-                <div><a style="padding-top: 12px;" href="<?php echo googleLogin(); ?>" id="gpls"><img src="<?php echo BASE_URL; ?>assets/css/images/gplus.png"></a></div>
+                <div><a style="padding-top: 12px;" href="<?php echo $gurl; ?>" id="gpls"><img src="<?php echo BASE_URL; ?>assets/css/images/gplus.png"></a></div>
             </div>
             <div class="clearfix"></div>
         </div>

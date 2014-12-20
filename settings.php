@@ -42,7 +42,7 @@
                                             <div class="input-box" style="border-bottom: 2px solid #999999">
                                                 <div class="dob thin">DOB:</div>
                                                 <div class="selectionbox">
-                                                    <select class="year thin" name="birth_year">
+                                                    <select class="year thin" name="birth_year" size="4">
                                                         <?php
                                                         $currentyear = date("Y") - 4;
                                                         for ($i = $currentyear; $i > $currentyear - 100; $i--) {
@@ -75,7 +75,7 @@
                                     <div class="input-box">
                                         <input style="color:blue;" type="text" class="profileinput center-text iconrss-profile thin minput2" required="required"  name="recovery_number" placeholder="Number" maxlength="50" value="<?php echo $user['recovery_number']; ?>">
                                     </div>
-                                    <div class="input-box" style="position: relative;height:90px">
+                                    <div class="input-box" style="position: relative;height:70px">
                                         <select id="nationality" class="nationality text-indent dummy-select thin minput2" name="nationality" style="color:gainsboro;opacity:0;position: absolute;z-index: 111">
                                             <option value="" style="color: black">Nationality</option>
                                             <option value="Afghanistan">Afghanistan</option> 
@@ -320,7 +320,7 @@
                                         </select>
                                         <input style="color:black;position: absolute;left: 0px" type="text" class="profileinput center-text dummy-input earth-properties thin minput2" required="required"  placeholder="Nationality" maxlength="50" value="<?php echo $user['nationality']; ?>" readonly="readonly">
                                     </div>
-                                    <div class="input-box" style="position: relative;height: 90px">
+                                    <div class="input-box" style="position: relative;height: 70px">
                                         <select class="nationality text-indent dummy-select thin minput2" name="favourite_team" style="color:gainsboro;opacity:0;position: absolute;z-index: 111">
                                             <?php
                                             echo '<option  style="color:black" value="">Favorite Team</option>';
@@ -340,8 +340,8 @@
                                         <input style="color:black;position: absolute;left: 0px" type="text" class="profileinput center-text dummy-input team-properties thin minput2" required="required"  placeholder="Favourite Team" maxlength="50" value="<?php echo $team; ?>" readonly="readonly">
                                     </div>
                                     <div class="input-box">
-                                        <input type="checkbox" class="hidden" name="game_notification" id="notification">
-                                        <input type="text" id="noti" class="profileinput center-text notify1 thin minput2"  value="Notify Me" readonly="readonly">
+                                        <input type="checkbox" class="hidden" name="game_notification" id="notification" <?php echo $user['game_notification']==true?"checked":""; ?>>
+                                        <input type="text" id="noti" class="profileinput center-text <?php echo $user['game_notification']==true?"notify2":"notify1"; ?> thin minput2"  value="Notify Me" readonly="readonly">
                                     </div>
                                     <div class="input-box">
                                         <input type="submit" class="profileinput settingssubmit icon-save black minput2"  value="Save">

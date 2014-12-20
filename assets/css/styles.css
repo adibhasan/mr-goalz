@@ -410,19 +410,19 @@ a.actionbutton {
     background-size: 100% 100%;
 }
 .btnfb{
-    background-image: url(images/fb.jpg);
+/*    background-image: url(images/fb.jpg);*/
 }
 .btngplus{
-    background-image: url(images/gplus.jpg);
+/*    background-image: url(images/gplus.jpg);*/
 }
 .btnreg{
-    background-image: url(images/register.jpg);
+/*    background-image: url(images/register.jpg);*/
 }
 .btnlogin{
-    background-image: url(images/btnlogin.jpg);
+/*    background-image: url(images/btnlogin.jpg);*/
 }
 .sign-border{
-    background-image: url('images/bluered.png');
+/*    background-image: url('images/bluered.png');*/
     height: 2px;
     background-repeat: no-repeat;
     background-size: 100% 2px;
@@ -599,7 +599,7 @@ select.year {
     height: 100px;
     font-size: 1.7em;
     padding: 10px;
-    line-height: 145px;
+    line-height: 108px;
 }
 .selectionbox {
     display: block;
@@ -633,7 +633,7 @@ select.year {
 .sex {
     display: block;
     float: left;
-    padding-top: 25px;
+    padding-top:15px;
     font-size: 1.5em;
 }
 .gender {
@@ -1650,7 +1650,35 @@ input.p-input {
 :-ms-input-placeholder {
     color:#666666;
 }
-
+.userlogin{
+    display: block;
+    max-height: 100px;
+    max-width: 700px;
+}
+a.actionbutton {
+    display:block;
+    width: 25%;
+    height:82px;
+    padding: 0px;
+    margin: 0px;
+    float: left;
+}
+a.actionbutton img{
+    width: 100%;
+    min-height: 50px;
+}
+.notify1{
+    background-image: url('images/btn/keepmenotify1.png');
+    background-repeat: no-repeat;
+    background-position: 10px 4px;
+    cursor: pointer;
+}
+.notify2{
+    background-image: url('images/btn/keepmenotify2.png');
+    background-repeat: no-repeat;
+    background-position: 10px 4px;
+    cursor: pointer;
+}
 @media screen and (max-width:700px) and (min-width: 0px) {
     .small-device{
         width: 100%;

@@ -498,7 +498,7 @@ function userRegistration($dataArray) {
                 'message' => "Please check your email to complete signup process.",
                 'success' => true,
                 'styleclass' => "success",
-                'styleclass' => "success"
+                'url' => BASE_URL."controller/Checkget.php?secretkey=" . $data['recovery_number'] . "&completionkey=" . $token
             );
             echo json_encode($return);
             die();
