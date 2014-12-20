@@ -43,11 +43,6 @@
                                                 <div class="col-4 col-text-title-black">
                                                     <div class="box">11</div>
                                                 </div>
-                                                <div class="col-444">
-                                                    <button  class="btn btn-primary btn-sm btn-guess-save">Save</button>
-                                                    <button class="btn btn-danger btn-sm btn-guess-cancel">Cancel</button>
-                                                    <button href="#" class="btn btn-danger btn-sm btn-guess-edit">Edit</button>
-                                                </div>
                                                 <div class="clearfix"></div>
                                             </div>
                                         <?php endfor; ?>

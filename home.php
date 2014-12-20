@@ -21,7 +21,7 @@ include 'fblogin.php';
             <div class="line"></div>
             <div class="page-container container">
                 <div>
-                    <div class="add">
+                    <div class="add home-add">
                         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                             <ol class="carousel-indicators">
                                 <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>

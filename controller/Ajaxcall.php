@@ -13,7 +13,7 @@ if ($_POST['method'] == "emailcheck") {
     v_tokenCheck($token);
     $result = checkUserExistance("mrpredict_user", "user_email='$email'");
     if ($result) {
-        v_returnMessage("League exists, enter another name.", false, "warning", "", "");
+        v_returnMessage("Email exists, enter another email.", false, "warning", "", "");
     } else {
         v_returnMessage("Email can be taken.", true, "success", "", "");
     }

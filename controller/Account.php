@@ -18,6 +18,10 @@ if ($_POST['method'] == "registration") {
     v_tokenCheck($_POST['token']);
     userRegistration($_POST);
 }
+if ($_POST['method'] == "resendal") {
+    v_tokenCheck($_POST['token']);
+    ResendActivationLink($_POST);
+}
 if ($_POST['method'] == "updatesettings") {
     v_tokenCheck($_POST['token']);
     updatesettings($_POST);
@@ -337,6 +341,85 @@ function userLogin($dataArry) {
     }
 }
 
+function ResendActivationLink($dataArray) {
+    $data = $dataArray;
+    $token = $data['token'];
+    unset($data['token']);
+    unset($data['method']);
+    v_authenTicate("User name", true, 8, 20, "/^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,20}$/", "user_id_name", $data['user_id_name']);
+    if (strlen($data['user_email']) < 4 || strlen($data['user_email']) > 100 || (!filter_var($data['user_email'], FILTER_VALIDATE_EMAIL))) {
+        $return = array(
+            'message' => "Invalid email format.",
+            'success' => false,
+            'styleclass' => "danger"
+        );
+        echo json_encode($return);
+        die();
+    }
+    $usernameid = $data['user_id_name'];
+    $email = $data['user_email'];
+    $idexist = checkUserExistance("mrpredict_user", "user_id_name='$usernameid' AND user_email='$email' AND status='pending'");
+    if ($idexist == false) {
+        $return = array(
+            'message' => "No pending user found for this account, account may active or block or does not exists.",
+            'success' => false,
+            'styleclass' => "danger"
+        );
+        echo json_encode($return);
+        die();
+    }
+    v_dataDelete("tokens", "username='$usernameid'");
+    $data['recovery_number'] = generateRecoveryNumber("aA7bB1cC2dD3eE4fF5gG6hH7iI8jJ9kK10lL1mM2nN3oO4pP5qQ6rR7sS8tT9uU1vV2wW3xX4yY5zZ6", 8, true);
+    $data['update_date'] = date("Y-m-d H:i:s");
+    $data['status'] = "pending";
+    $dataToken['token'] =$token;
+    $dataToken['tokentype'] = "registration";
+    $dataToken['username'] = $usernameid;
+    $dataToken['createdate'] = date("Y:m:d H:i:s");
+    $tokeninsert = v_dataInsert("tokens", $dataToken);
+    if ($tokeninsert) {
+        $datainsert = v_dataUpdate("mrpredict_user",$data,"user_email='$email'");
+    } else {
+        $datainsert = false;
+    }
+    if ($datainsert) {
+        $messagearray[0] = "Dear, <strong>" . strip_tags($data['user_id_name']) . "</strong><br>";
+        $messagearray[1] = "You have just finished your step 1 registration process.<br>";
+        $messagearray[2] = "To complete your registration process,<br>";
+        $messagearray[3] = "please click the link below.<br>";
+        $messagearray[4] = "<br><a href='" . BASE_URL . "controller/Checkget.php?secretkey=" . $data['recovery_number'] . "&completionkey=" . $token . "' style='text-align:center;padding:5px 50px;border-radius:5px;background:black;color:white;text-decoration:none'>Activate</a>";
+        $messagearray[5] = "<br><br><i>Thanks for your patience.</i><br>";
+        $mailmessage = registrationMail($messagearray, BASE_URL);
+        $mailresponse = simpleMail(ADMIN_EMAIL, $email, $mailmessage, "Complete User Registration", ADMIN_EMAIL);
+        if ($mailresponse) {
+            $return = array(
+                'message' => "Please check your email to complete signup process.",
+                'success' => true,
+                'styleclass' => "success",
+                'url' => ""
+            );
+            echo json_encode($return);
+            die();
+        } else {
+            $return = array(
+                'message' => "Mail sending failed please retry.",
+                'success' => true,
+                'styleclass' => "warning"
+            );
+            echo json_encode($return);
+            die();
+        }
+    } else {
+        $return = array(
+            'message' => "Sorry !!! Registration process failed. Please try again.",
+            'success' => false,
+            'styleclass' => "danger"
+        );
+        echo json_encode($return);
+        die();
+    }
+}
+
 function userRegistration($dataArray) {
     $data = $dataArray;
     $token = $data['token'];
@@ -414,6 +497,7 @@ function userRegistration($dataArray) {
             $return = array(
                 'message' => "Please check your email to complete signup process.",
                 'success' => true,
+                'styleclass' => "success",
                 'styleclass' => "success"
             );
             echo json_encode($return);
@@ -503,6 +587,11 @@ function updatesettings($dataArray) {
         }
     }
     $data['status'] = "active";
+    if($data['game_notification']=="on"){
+        $data['game_notification']=true;
+    }else{
+        $data['game_notification']=false;
+    }
     $updatesettings = v_dataUpdate("mrpredict_user", $data, "user_id_name='$id' AND user_email='$email'");
     if ($updatesettings) {
         $_SESSION['vaiuugroup']['user_email'] = $data['user_email'];

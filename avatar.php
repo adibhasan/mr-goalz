@@ -15,8 +15,8 @@
             v_sessionedTopMenu();
             ?>
             <div id="ajaxloader"><div class="ajax-loader ajxbg"></div></div>
-            <div class="page-container container">
-                <div>
+            <div class="page-container container mpg">
+                <div class="data-wrapper">
                     <div class="profile">
                         <?php profilePictureChange($avatar, $userid); ?>
                     </div>

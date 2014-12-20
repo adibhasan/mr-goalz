@@ -23,9 +23,16 @@ jQuery(function ($) {
             $(document).ready(function () {
                 $('#example').DataTable();
             });
+            $("#change-password").on("click",function(){
+                $("#reset-password").modal("show");
+            });
             $('.content-wrapper', '.content-wrapper img').click(function (e) {
                 e.stopImmediatePropagation();
                 e.preventDefault();
+            });
+            $("#re-send-activation-link").on("click", function () {
+                VAIUU.FormReset("#resend-activation-link");
+                $("#resend-r-link").modal("show");
             });
             $("body").on("click", function () {
                 $(".messaage").html("");
@@ -99,6 +106,10 @@ jQuery(function ($) {
             });
             $(".checkboxinput").on("click", function () {
                 $(this).toggleClass("cb2");
+                $(this).parent().find("input[type=checkbox]").trigger("click");
+            });
+            $("#noti").on("click", function () {
+                $(this).toggleClass("notify1 notify2");
                 $(this).parent().find("input[type=checkbox]").trigger("click");
             });
             $("#incrementor").on("click", function () {
@@ -350,6 +361,10 @@ jQuery(function ($) {
                 event.preventDefault();
                 VAIUU.AjaxForm("controller/Account.php", "post", "#login", "method=userlogin", "logincontainer", CALLBACK.Login);
             });
+            $("#resend-activation-link").submit(function (event) {
+                event.preventDefault();
+                VAIUU.AjaxForm("controller/Account.php", "post", "#resend-activation-link", "method=resendal", "logincontainer", CALLBACK.ResendAl);
+            });
             $("#leagueinput").submit(function (event) {
                 event.preventDefault();
                 VAIUU.AjaxForm("controller/Account.php", "post", "#leagueinput", "method=leagueinsert", "logincontainer", CALLBACK.AddLeague);
@@ -500,7 +515,7 @@ jQuery(function ($) {
         GameCreate: function (data) {
             $("#insert-game").prev().html("<div class='alert alert-" + data.styleclass + "'>" + data.message + "</div>");
             if (data.success === true) {
-               VAIUU.FormReset("#insert-game");
+                VAIUU.FormReset("#insert-game");
             }
         },
         UpdateSettings: function (data) {
@@ -606,6 +621,16 @@ jQuery(function ($) {
                 }, 500);
             } else {
                 $("#login input[name=user_id_name],#login input[name=user_password]").prev().addClass("error");
+            }
+        },
+        ResendAl: function (data) {
+            $("#resend-activation-link").prev().html("<div class='alert alert-" + data.styleclass + "'>" + data.message + "</div>");
+            $("#resend-activation-link input").prev().removeClass("error correct loader");
+            VAIUU.FormReset("#resend-activation-link");
+            if (data.success === true) {
+                setTimeout(function () {
+                    $("#resend-r-link").modal("hide");
+                }, 5000);
             }
         },
         AddLeague: function (data) {

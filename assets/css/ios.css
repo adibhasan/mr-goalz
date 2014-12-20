@@ -22,8 +22,7 @@ html,body{
     font-weight: 100;
 }
 body{
-    min-width: 350px;
-    overflow-x: hidden;
+    min-width:250px;
     display: none;
 }
 .condenced{
@@ -43,6 +42,10 @@ ul.user-league {
     font-size: 1em;
 
 }
+#re-send-activation-link{
+    font-size: 2em;
+    margin-bottom: 25px;
+}
 .user-league  li {
     display: inline-block;
     padding: 0px;
@@ -61,6 +64,7 @@ ul.user-league {
 select.league-list {
     width: 100%;
     background: inherit;
+    border: 1px solid #999999;
 }
 .condenced.ftitle {
     margin-bottom: 10px;
@@ -69,6 +73,17 @@ textarea.private-text-area {
     width: 100%;
     height: 100px;
     resize: none;
+    background: inherit;
+    border: 1px solid #999999;
+}
+select#team1 {
+    width: 100%;
+    background: inherit;
+    border: 1px solid #999999;
+}
+select#team2 {
+    width: 100%;
+    border: 1px solid #999999;
     background: inherit;
 }
 .user-league a.user-active {
@@ -82,9 +97,11 @@ textarea.private-text-area {
     right: 0px;
     z-index: 9;
     padding-bottom: 150px;
-    min-width: 350px;
     overflow-x: hidden;
     font-family: mrcoalzthin;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .topmenucontainer {
     background: white;
@@ -93,7 +110,7 @@ textarea.private-text-area {
 .small-device{
     background: white;
     height: 54px;
-    width:700px;
+    width:100%;
     margin: 0px auto;
 
 }
@@ -121,7 +138,7 @@ div#share {
     position: relative;
     padding-right: 0px;
     padding-left: 0px;
-    width:700px;
+    width:100%;
 }
 .btn-share{
     display: block;
@@ -184,10 +201,11 @@ div#share {
 }
 .sidemenucontent ul li a {
     text-decoration: none;
-    font-size: 15px;
+    font-size:1em;
     color: firebrick;
     display: block;
     padding: 15px;
+    font-family: mrcoalzcondenced;
 }
 .sidemenucontent ul li a:hover {
     background: white;
@@ -238,15 +256,21 @@ div#share {
     display:block;
     float: left;
 }
+.userlogin{
+    display: block;
+    max-height: 100px;
+    max-width: 700px;
+}
 .big-device div a{
     text-decoration: none;
-    font-size: 15px;
+    font-size:.9em;
     color: firebrick;
     display: block;
     cursor: pointer;
     margin-left: 20px;
     height: 54px;
     padding-top: 15px;
+    font-family: mrcoalzcondenced;
 }
 .big-device div a:hover{
     color: currentColor;
@@ -289,7 +313,8 @@ div#share {
     border-left: 0px;
     border-right: 0px;
     border-radius: 0px;
-    font-size: 12px;
+    font-size:1em;
+    font-family: mrcoalzcondenced;
 }
 .alert{
     padding-top: 5px !important;
@@ -323,7 +348,7 @@ div#share {
     outline: none;
 }
 .checkbox {
-    width:50%;
+    width:55%;
     display: block;
     float: left;
     margin: 0px;
@@ -353,7 +378,7 @@ div#share {
 }
 .retrievepassword {
     display: block;
-    width:50%;
+    width:45%;
     float: left;
     height:88px;
     border-left: 2px solid black;
@@ -365,7 +390,7 @@ div#share {
 .checkboxtext,.retrievepassword a{
     color:blue;
     text-decoration: none;
-    font-size: 1.7em;
+    font-size: .9em !important;
 }
 .retrievepassword a:hover{
     color: firebrick;
@@ -382,28 +407,31 @@ div#share {
     font-size: 16px;
 }
 a.actionbutton {
-    display: inline-block;
+    display:block;
     width: 25%;
     height:82px;
     padding: 0px;
-    margin: -2px;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+    margin: 0px;
+    float: left;
+}
+a.actionbutton img{
+    width: 100%;
+    min-height: 50px;
 }
 .btnfb{
-    background-image: url(images/fb.jpg);
+    /*background-image: url(images/fb.jpg);*/
 }
 .btngplus{
-    background-image: url(images/gplus.jpg);
+    /* background-image: url(images/gplus.jpg);*/
 }
 .btnreg{
-    background-image: url(images/register.jpg);
+    /* background-image: url(images/register.jpg);*/
 }
 .btnlogin{
-    background-image: url(images/btnlogin.jpg);
+    /*background-image: url(images/btnlogin.jpg);*/
 }
 .sign-border{
-    background-image: url('images/bluered.png');
+    /*background-image: url('images/bluered.png');*/
     height: 2px;
     background-repeat: no-repeat;
     background-size: 100% 2px;
@@ -459,7 +487,7 @@ a.actionbutton {
 
 .profiletitle {
     padding: 15px 10px;
-    font-size: 35px;
+    font-size:1.9em;
     height:55px;
     border-top: 2px solid #999999;
     border-bottom: 2px solid #999999;
@@ -493,14 +521,14 @@ input.settingsinput.settingssubmit {
 .inputcontainer {
     height: 70px;
     padding-right: 10px;
-    width:400px;
+    width:100%;
     display: block;
     float: left;
     overflow: hidden;
 }
 
 .settingsinput {
-    width:350px;
+    width:100%;
     height: 100%;
     border: 0px;
     margin: 0px;
@@ -576,20 +604,21 @@ select.year {
 .dob{
     display: block;
     float: left;
-    width: 85px;
     height: 100px;
-    font-size: 1.7em;
-    padding: 10px;
-    line-height: 145px;
+    font-size: 1.5em;
+    padding: 10px 0px 10px 10px;
+    line-height:90px;
 }
 .selectionbox {
     display: block;
     float: left;
     width: 40%;
-    min-height:90px;
-    margin-top: 7px;
+    margin-top:38px;
     margin-left: 20px;
     margin-right: 10%;
+}
+.sponser-message{
+    padding-left: 0px !important;
 }
 .wrapp-container {
     width: 100%;
@@ -614,12 +643,12 @@ select.year {
 .sex {
     display: block;
     float: left;
-    padding-top: 25px;
-    font-size: 1.5em;
+    padding-top: 15px;
+    font-size: 1em;
 }
 .gender {
     display: inline-block;
-    padding: 40px 5px;
+    padding: 25px 5px;
     border-radius: 5px;
     width: 100px;
     position: relative;
@@ -649,6 +678,7 @@ select.year {
     cursor: pointer;
     background: url('buttons/TopMenu.png');
     background-repeat: no-repeat;
+    background-size: 3em;
 }
 .gola {
     width: 60px;
@@ -727,7 +757,7 @@ select.nationality {
     color: firebrick;
 }
 .usermenu{
-    width:700px;
+    width:100%;
     margin: 0px auto;
 }
 .usermenubutton{
@@ -742,7 +772,7 @@ select.nationality {
     width: 100%;
 }
 .signal{
-    background-position: 0px 12px;
+    background-position: 0px 20px;
     height: 50px;
     width: 35px;
     background-repeat: no-repeat;
@@ -782,15 +812,15 @@ select.nationality {
 .error-message {
     display: none;
     position: absolute;
-    width:300px;
+    width:90%;
     min-height: 50px;
     padding: 2px 5px;
     text-align: center;
     background: #FFFFFF;
     z-index: 111;
     color: orange;
-    right: 20px;
-    font-size:1em;
+    right: 5px;
+    font-size:1.1em;
     opacity: .9;
 
 }
@@ -845,15 +875,16 @@ div#ajaxloader {
 }
 .topmenu{
     display: inline-block;
-    margin-top: 28px;
+    margin-top:15px;
     margin-left:5px;
     margin-right:5px;
 }
 .topmenu a{
     text-decoration: none;
     color: firebrick;
-    font-size: 12px;
+    font-size:.9em;
     cursor: pointer;
+    font-family: mrcoalzcondenced;
 }
 .topmenu a:hover{
     text-decoration: none;
@@ -1153,7 +1184,7 @@ ul.copy-rigth-menu li a:hover{
     line-height: 28px;
 }
 #tooglablemenu-wrapper{
-    width:500px;
+    width:100%;
     margin: auto;
     height:auto;
     text-align: center;
@@ -1180,7 +1211,7 @@ ul.copy-rigth-menu li a:hover{
     padding-left: 10px;
     position: absolute;
     bottom: -25px;
-    left: 10px;
+    left:5px;
 }
 .more-stuff{
     background: white;
@@ -1352,7 +1383,7 @@ ul.copy-rigth-menu li a:hover{
     float: left;
 }
 .col-55{
-    width: 60% !important;
+    width:70% !important;
 }
 .col-444{
     padding-top: 10px; 
@@ -1465,7 +1496,7 @@ ul.copy-rigth-menu li a:hover{
     height: 100%;
     float: left;
     padding-top: 15px;
-    padding-left: 10px;
+    padding-left:5px;
 }
 .col-text-black {
     font-size: 1.7em;
@@ -1611,6 +1642,10 @@ input.p-input {
 #submit-league{
     font-size: 1em;
 }
+.note2{
+    font-size:.8em;
+    color: firebrick;
+}
 ::-webkit-input-placeholder {
     color:#666666;
 }
@@ -1709,16 +1744,15 @@ input.p-input {
     .selectionbox {
         margin-left: 0px;
         width:25%;
-        margin-right: 4%;
+        margin-right:5px;
     }
     .gender{
         max-width: 90px;
-        width: 45%;
+        width: 48%;
         font-size: 1em;
         overflow: hidden;
     }
     .sex{
-        padding-top:30px !important;
         width: 45%;
     }
     .usermenu{
@@ -1749,7 +1783,7 @@ input.p-input {
     .col-7 .shape-circle2{
         width: 30px;
         height: 30px;
-        font-size: 1em;
+        font-size: .8em;
     }
     .table-row.paged2 .col-7{
         padding-top: 25px;
@@ -1760,7 +1794,7 @@ input.p-input {
         padding-top:15px;
     }
     .box{
-        width: 40px;
+        width:30px;
         height: 40px;
         margin-top: 15px;
         line-height:none;
@@ -1774,13 +1808,16 @@ input.p-input {
         line-height:2em;
     }
     .col-4{
-        width: 10%;
+        width: 15%;
         margin-left: -12px;
     }
     .col-9.col-text-black{
         width: 65%;
         margin-left: 1%;
         padding-top: 20px;
+    }
+    .team {
+        min-height: 65px;
     }
     .col-444 {
         float: left;
@@ -1827,7 +1864,7 @@ input.p-input {
         font-size: 1.2em !important;
     }
     .bonus-button{
-        font-size:1.1em;
+        font-size:.9em;
         line-height:2.5em;
     }
     .more-contents a{

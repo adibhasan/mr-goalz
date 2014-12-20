@@ -1,0 +1,799 @@
+@font-face {
+    font-family: mrcoalzcondenced;
+    src:url('fonts/HelveticaNeue-CondensedBold.ttf')  format('truetype');
+}
+@font-face {
+    font-family: mrcoalzcondencedblack;
+    src:url('fonts/HelveticaNeue-CondensedBlack.ttf')  format('truetype');
+}
+@font-face {
+    font-family: mrcoalzthin;
+    src:url('fonts/HelveticaNeue-Thin.ttf')  format('truetype');
+}
+html,body{
+    margin: 0px;
+    padding:0px;
+    height: 100%;
+    width: 100%;
+}
+body{
+    padding-left: 1%;
+    padding-right: 1%;
+    background-image: url("images/tab.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    font-family: mrcoalzthin;
+    font-size:16px;
+    color: black;
+}
+.condenced{
+    font-family:mrcoalzcondenced;   
+}
+.black{
+    font-family:mrcoalzcondencedblack;   
+}
+.thin{
+    font-family:mrcoalzthin;   
+}
+::-webkit-input-placeholder {
+    color:#666666;
+}
+:-moz-placeholder { 
+    color:#666666;
+    opacity:  1;
+}
+::-moz-placeholder {
+    color:#666666;
+    opacity:  1;
+}
+:-ms-input-placeholder {
+    color:#666666;
+}
+.content-wrapper{
+    display: none; 
+}
+#datacontent{
+    width: 100%;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.big-device{
+    display: none;
+}
+.page-container.container {
+    width: 100%;
+    padding: 0px;
+}
+.sidemenucontainer {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url("images/modalbackdrop.png");
+    z-index: 1111;
+    max-width:700px;
+}
+
+.sidemenucontent{
+    display: block;
+    float: left;
+    width: 70%;
+    padding: 0px;
+    margin: 0px;
+    background: #EBEAE8;
+    height: 100%;
+}
+.sidemenubackdrop{
+    display: block;
+    float: left;
+    width: 30%;
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
+}
+.sidemenucontent ul {
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+}
+.sidemenucontent ul li {
+    border-bottom: 1px inset #DDDDDD;
+}
+.sidemenucontent ul li a {
+    text-decoration: none;
+    font-size:1em;
+    color: firebrick;
+    display: block;
+    padding: 15px;
+    font-family: mrcoalzcondenced;
+}
+.sidemenucontent ul li a:hover {
+    background: white;
+    color:currentColor;
+}
+.activesidemenu{
+    background: white !important;
+    color:currentColor !important;
+}
+.listicon {
+    float: left;
+    width: 50%;
+}
+.small-device{
+    background: white;
+    border-bottom: 1px solid black;
+    margin-bottom: 50px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.listicon {
+    height: 100%;
+    padding-top: 1%;
+    padding-left: 1.5%;
+}
+.logoicon {
+    float: left;
+    width: 50%;
+    text-align: right;
+    padding-right: 2.5%;
+}
+.gotologinpage{
+    background: inherit;
+    background-image: url('images/transparent3.png');
+    background-repeat: repeat;
+    border-radius: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-top:2px solid #FE642E;
+    border-bottom:2px solid #FE642E;
+    cursor: pointer;
+    margin-top: 50px;
+
+}
+.gotologinpage a{
+    text-decoration: none;
+    background: url('images/transparent3.png');
+    width: 100%;
+    color: #3362af;
+    display: block;
+    text-align: center;
+    padding:30px 0px;
+    font-weight: 900;
+    font-size:1.7em;
+}
+.gotologinpage a:hover{
+    color: firebrick;
+}
+.home-add{
+    background: url('images/transparent3.png');
+    padding:20px 1.5%;
+}
+.gplus{
+    background-image: url("images/gplus.png");
+    background-repeat: no-repeat;
+}
+.fb{
+    background-image: url("images/fb.png");
+    background-repeat: no-repeat;
+}
+.sidebarsocialicon a{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin: 15px;
+    cursor: pointer;
+}
+ul.copy-rigth-menu.condenced {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    width: 100%;
+    text-align: center;
+}
+.bar1{
+    display: none;
+}
+.bar2{
+    display: none;
+}
+ul.copy-rigth-menu.condenced li a{
+    text-decoration: none;
+    color: black;
+    font-family:mrcoalzcondenced;
+}
+ul.copy-rigth-menu.condenced li a:hover{
+    color:blue;
+
+}
+.mlogincontainer{
+    background: url('images/t4.png');
+}
+.minput1 {
+    width: 100%;
+    height: 90px;
+    font-size: 2em;
+    background: inherit;
+    font-family: mrcoalzcondenced;
+    color:black;
+    border: 0px;
+    border-bottom:1px solid #666666;
+    border-top: 1px solid #666666;
+    padding-left: 20px;
+    padding-right:50px;
+}
+.minput2 {
+    width: 100%;
+    height: 90px;
+    font-size: 2em;
+    background: inherit;
+    font-family: mrcoalzthin;
+    color:black;
+    border: 0px;
+    border-bottom:1px solid #666666;
+    border-top: 1px solid #666666;
+    padding-left:80px;
+    padding-right:10px;
+}
+.minputbox{
+    position: relative;
+}
+.error-message {
+    display: none;
+    position: absolute;
+    width:300px;
+    min-height: 50px;
+    padding: 2px 5px;
+    text-align: center;
+    background: #FFFFFF;
+    z-index: 111;
+    color: orange;
+    right:5px;
+    font-size:1.1em;
+    opacity: .9;
+
+}
+
+.error-message:after {
+    content: "";
+    position: absolute;
+    top: -15px;
+    right: 30px;
+    border-style: solid;
+    border-width: 0 15px 15px;
+    border-color: #FFFFFF transparent;
+    display: block;
+    width: 0;
+    z-index: 1;
+}
+.signal{
+    background-position: 0px 30px;
+    height: 90px;
+    width: 35px;
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+    position: absolute;
+    right: 5px;
+}
+.error{
+    background-image: url('images/minus.png');
+}
+.correct{
+    background-image: url('images/plus.png');
+}
+.cross{
+    background-image: url('images/cross.png');
+}
+.loader {
+    background-image: url('images/3.gif');
+}
+.sign-border{
+    background-image: url('images/bluered.png');
+    height: 2px;
+    background-repeat: no-repeat;
+    background-size: 100% 2px;
+}
+.btn-signup-submit{
+    background-image: url('images/transparent3.png');
+    padding-top:20px;
+    padding-bottom: 20px;
+    color: blue;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    font-family:mrcoalzcondenced; 
+    font-size:2em;
+}
+.checkbox.mcheckbox {
+    height: 90px;
+    width:52%;
+    display:block;
+    float: left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.retrievepassword.mretrieve {
+    width:47%;
+    height: 90px;
+    display: block;
+    float: left;
+    border-left: 2px solid #666666;
+    text-align: center;
+    font-size: 2em;
+    line-height: 90px;
+} 
+.retrievepassword.mretrieve a{
+    color: blue;
+    text-decoration: none;
+}
+.checkboxinput {
+    width: 36px;
+    height: 30px;
+    float: left;
+    margin-left: 20px;
+    margin-top: 30px;
+}
+.cb1{
+    background-image: url("images/cb1.png");
+}
+.cb2{
+    background-image: url("images/cb2.png");
+}
+.checkboxtext.thin {
+    font-size: 2em;
+    color: blue;
+    line-height: 90px;
+}
+.userlogin {
+    display: block;
+    height: 90px;
+    width: 100%;
+}
+.userlogin a{
+    display: block;
+    float: left;
+    width: 25%;
+    margin: 0px;
+    padding: 0px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.userlogin a img{
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    max-height: 90px;
+    min-height: 60px;
+}
+.sign-border{
+    background-image: url('images/bluered.png');
+    height: 2px;
+    background-repeat: no-repeat;
+    background-size: 100% 2px;
+}
+.center-text{
+    text-align: center;
+}
+.resend{
+    font-family: mrcoalzcondenced;
+    font-size: 1.5em;
+}
+#menuicon{
+    width:54px;
+    height:37px;
+    margin: 0px auto;
+    position: relative;
+    top:0px;
+    z-index: 11111;
+    cursor: pointer;
+    background: url('buttons/TopMenu.png');
+    background-repeat: no-repeat;
+    background-size: 3em;
+}
+.tooglablemenu {
+    position: absolute;
+    background: white;
+    text-align: center;
+    width: 100%;
+    max-width: 700px;
+    top: 0px;
+    padding-top: 10px;
+    display: none;
+    z-index: 111;
+}
+.topmenu a {
+    display: block;
+    text-decoration: none;
+    color: black;
+    border-top: 1px solid #f2f2f2;
+    padding: 5px;
+    font-family: mrcoalzcondenced;
+}
+.topmenu a:hover{
+    color: blue;
+}
+.mpg {
+    position: relative;
+    max-width: 700px;
+    top:-30px;
+}
+.usermenu-wrapper {
+    position: fixed;
+    bottom: 0px;
+    z-index: 111;
+    padding: 0px;
+    width:98%;
+}
+.usermenu{
+    width: 100%;
+    margin: 0px auto;
+    max-width: 700px;
+}
+.usermenubutton{
+    display:block;
+    margin: 0px;
+    padding: 0px;
+    width: 20%;
+    float: left;
+    cursor: pointer;
+}
+.usermenubutton img{
+    width: 100%;
+}
+.bottom-fixed-menu{
+    padding: 0px;
+    margin: 0px;
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #999999;
+    list-style: none;
+    background: url('buttons/bottommenu.png');
+}
+.bottom-fixed-menu li{
+    display: block;
+    width: 20%;
+    float: left;
+}
+.bottom-fixed-menu li a{
+    display: block;
+    width: 100%;
+    height:85px;
+    text-align: center;
+    text-decoration: none;
+}
+.menu-icon-holder{
+    display: block;
+    width: 100%;
+    height:50px;
+    text-align: center;
+}
+.bottom-fixed-menu li a .menu-text{
+    color: blue;
+    font-size:1.5em;
+    display: block;
+    width: 100%;
+}
+.shape-circle-menu{
+    display:block;
+    width: 40px;
+    height: 40px;
+    border-radius: 22px;
+    border: 2px solid blue;
+    margin: auto;
+    margin-top:15px;
+}
+.circle-message{
+    display: block;
+    width: 25px;
+    height: 25px;
+    background: red;
+    color: white;
+    position: absolute;
+    left: 22px;
+    top: -5px;
+    border-radius: 15px;
+    font-size: .8em;
+}
+.shape-active{
+    background: blue;
+}
+.data-wrapper {
+    padding-bottom: 120px;
+}
+.profile-image {
+    width: 70%;
+    float: left;
+    height: 120px;
+    overflow: hidden;
+}
+.profile-rank.black {
+    width: 30%;
+    float: left;
+    height: 120px;
+    overflow: hidden;
+    text-align: right;
+    font-size: 1.5em;
+}
+.username.black {
+    font-size: 1.5em;
+    width: 65%;
+    float: left;
+}
+.avatar {
+    width: 50%;
+    max-width: 150px;
+    float: left;
+}
+img#profileimage,img#changeprofileimage {
+    width: 120px;
+    height: 120px;
+    padding: 5px;
+    border: 2px solid blue;
+}
+.sponsor-link {
+    background: white;
+    min-height: 50px;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width:100%;
+    position: relative;
+    margin-top: 20px;
+}
+.sponser-number {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border: 2px solid blue;
+    border-radius: 20px;
+    line-height: 36px;
+    font-size: 2em;
+    font-family: mrcoalzcondenced;
+    float: left;
+}
+.sponser-message.thin {
+    font-size: 1.5em;
+    width: 100%;
+    padding-left: 1%;
+    line-height: 39px;
+    text-align: center;
+
+}
+.sponser-symbol {
+    width: 38px;
+    height: 39px;
+    float: left;
+    position: absolute;
+    top: 4px;
+    right: 5px;
+}
+.sponser-symbol span{
+    display: block;
+    width: 35px;
+    height: 35px;
+    background-repeat: no-repeat;
+    background-position:right 6px;
+    cursor: pointer;
+}
+.wrapp-container {
+    border: 2px solid blue;
+    border-radius: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+}
+.main-content {
+    background:url('buttons/background.png');
+    min-height:200px;
+    overflow: hidden;
+}
+.iconhmav-property{
+    background: url('buttons/avatar.png');
+    background-repeat: no-repeat;
+    background-position: 10px 20px;
+}
+.iconemail-property{
+    background-image: url('buttons/message.png');
+    background-repeat: no-repeat;
+    background-position: 10px 20px;
+}
+.notify1{
+    background-image: url('images/btn/keepmenotify1.png');
+    background-repeat: no-repeat;
+    background-position: 10px 15px;
+    cursor: pointer;
+}
+.notify2{
+    background-image: url('images/btn/keepmenotify2.png');
+    background-repeat: no-repeat;
+    background-position: 10px 15px;
+    cursor: pointer;
+}
+.iconrss-profile{
+    background-image: url('buttons/rss.png');
+    background-repeat: no-repeat;
+    background-position: 10px 15px;
+}
+.earth-properties{
+    background-image: url('buttons/world.png');
+    background-repeat: no-repeat;
+    background-position: 10px 15px;
+}
+.team-properties{
+    background-image: url('buttons/love.png');
+    background-repeat: no-repeat;
+    background-position: 10px 15px;
+}
+.icon-save{
+    background-image: url('images/savebutton.png');
+    background-repeat: no-repeat;
+    background-position: 10px 15px;
+}
+.profiletitle.condenced {
+    height: 90px;
+    padding: 10px;
+    font-size: 2em;
+    line-height: 70px;
+}
+.sex {
+    display: block;
+    float: left;
+    font-size: 1.5em;
+    width: 37%;
+    text-align: right;
+    height: 90px;
+    padding-top: 10px;
+}
+.gender {
+    display: inline-block;
+    padding:20px 5px;
+    border-radius: 5px;
+    width: 100px;
+    position: relative;
+    text-align: center;
+    cursor: pointer;
+}
+.btngrad1{
+    background: -moz-linear-gradient(88deg, #ffffff 0%, #969696 100%); /* ff3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #969696), color-stop(100%, #ffffff)); /* safari4+,chrome */
+    background: -webkit-linear-gradient(88deg, #ffffff 0%, #969696 100%); /* safari5.1+,chrome10+ */
+    background: -o-linear-gradient(88deg, #ffffff 0%, #969696 100%); /* opera 11.10+ */
+    background: -ms-linear-gradient(88deg, #ffffff 0%, #969696 100%); /* ie10+ */
+    background: linear-gradient(2deg, #ffffff 0%, #969696 100%); /* w3c */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#969696', endColorstr='#ffffff',GradientType=0 ); /* ie6-9 */
+    z-index: 11
+}
+.btngrad2{
+    background: -moz-linear-gradient(269deg, #D9D9D9 0%, #404040 100%); /* ff3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #D9D9D9), color-stop(100%, #404040)); /* safari4+,chrome */
+    background: -webkit-linear-gradient(269deg, #D9D9D9 0%, #404040 100%); /* safari5.1+,chrome10+ */
+    background: -o-linear-gradient(269deg, #D9D9D9 0%, #404040 100%); /* opera 11.10+ */
+    background: -ms-linear-gradient(269deg, #D9D9D9 0%, #404040 100%); /* ie10+ */
+    background: linear-gradient(181deg, #D9D9D9 0%, #404040 100%); /* w3c */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#D9D9D9', endColorstr='#404040',GradientType=0 ); /* ie6-9 */
+
+}
+.gender2{
+    left: -15px;
+}
+select.year.thin {
+    width: 40%;
+    height: 70px;
+    background: inherit;
+    font-size: 2em;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+.selectionbox {
+    float: left;
+    width:47%;
+}
+.dob.thin {
+    padding-left: 1.5%;
+    font-size: 2em;
+    float: left;
+    height:90px;
+    line-height: 90px;
+
+}
+.imageactionbutton {
+    position: absolute;
+    z-index: 11;
+    display: none;
+}
+.logo-profile-picture.thin{
+    font-size: 1.5em;
+    text-align: center;
+    border-bottom: 2px solid #999999 !important;
+    border-top: 2px solid #999999 !important;
+    padding-left: 60px;
+    background-image: url("buttons/profile.png");
+    background-repeat: no-repeat;
+    background-position: 10px;
+    line-height: 70px;
+    overflow: hidden;
+}
+.demo-avatar {
+    display: block;
+    width: 150px;
+    height: 150px;
+    float: left;
+    margin:20px  12px;
+    text-align: center;
+}
+.table-row-heading{
+    border-bottom: 2px solid #999999;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#league-table{
+    display: none;
+}
+@media screen and (max-width:650px){
+    .error-message{
+        width: 250px;
+    }
+    .retrievepassword.mretrieve {
+        width: 42%;
+        font-size: 1em;
+    }
+    .checkbox.mcheckbox{
+        width: 58%;   
+    }
+    .checkboxinput{
+        margin-left: 5px;
+    }
+    .checkboxtext.thin {
+        font-size: .9em;
+    }
+    .profile-image{
+        overflow: visible;
+        height: 90px;
+    }
+    .avatar{
+        width: 80px;
+    }
+    img#profileimage,img#changeprofileimage{
+        width: 80px;
+        height: 80px;
+    }
+    .username.black{
+        font-size: 1.1em;
+        padding-top: 10px;
+        padding-left: 5px;
+    }
+    .profile-rank.black{
+        font-size: 1.1em;
+        padding-top: 10px;
+        padding-left: 5px;
+        height: 90px;
+    }
+    .profile {
+        height: 120px;
+    }
+    .profiletitle.condenced{
+        font-size: 1.5em;
+    }
+    .selectionbox {
+        float: left;
+        width:21%;
+    }
+    select.year.thin{
+        margin-left: 0px;
+        font-size: 1em;
+        width: 100%;
+    }
+    .sex{
+        width: 50%;
+        font-size: 1em;
+        padding-top: 12px;
+    }
+    .gender{
+        width: 60px;
+    }
+    .gender2{
+        left:-5px;
+    }
+}
+

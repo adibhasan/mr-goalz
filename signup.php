@@ -25,31 +25,31 @@ include 'fblogin.php';
                     <div class="doubleline"></div>
                     <div class="doubleline"></div>
                     <div class="main-content">
-                    <div  id="logincontainer" class="formcontainer">
+                    <div  id="logincontainer" class="formcontainer mlogincontainer">
                         <div class="formwrapper">
                             <div class="alert-custom"></div>
                             <form autocomplete="off" name="signup" id="signup" class="dataform" >
                                 <input type="hidden" name="token" value="<?php echo v_generateToken(); ?>">
-                                <div class="input-box">
+                                <div class="input-box minputbox">
                                     <div class="signal"></div>
-                                    <input type="email" class="textinput black" name="user_email" placeholder="Email" maxlength="100" required="required">
+                                    <input type="email" class="textinput black minput1" name="user_email" placeholder="Email" maxlength="100" required="required">
                                     <div class="error-message"></div>
                                 </div>
-                                <div class="input-box">
+                                <div class="input-box minputbox">
                                     <div class="signal"></div>
-                                    <input type="text" class="textinput black" name="user_id_name" placeholder="Username" maxlength="20" required="required" pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,20}$" title="<?php echo $messages['pattern_username_sms']; ?>">
+                                    <input type="text" class="textinput black minput1" name="user_id_name" placeholder="Username" maxlength="20" required="required" pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,20}$" title="<?php echo $messages['pattern_username_sms']; ?>">
                                     <div class="error-message"></div>
                                 </div>
                                 <input type="text" class="hidden">
                                 <input type="password" class="hidden">
-                                <div class="input-box">
+                                <div class="input-box minputbox">
                                     <div class="signal"></div>
-                                    <input type="password" class="passwordinput black" name="user_password" placeholder="Password" maxlength="20" required="required" pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,50}$" title="<?php echo $messages['pattern_username_sms']; ?>">
+                                    <input type="password" class="passwordinput black minput1" name="user_password" placeholder="Password" maxlength="20" required="required" pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,50}$" title="<?php echo $messages['pattern_username_sms']; ?>">
                                     <div class="error-message"></div>
                                 </div>
-                                <div class="input-box">
+                                <div class="input-box minputbox">
                                     <div class="signal"></div>
-                                    <input type="password" class="passwordinput black" style="border-bottom: 2px solid #999999" name="retyped_user_password" placeholder="Confirm Password" maxlength="20" required="required" pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,50}$" title="<?php echo $messages['pattern_username_sms']; ?>" data-match="user_password">
+                                    <input type="password" class="passwordinput black minput1" style="border-bottom: 2px solid #999999" name="retyped_user_password" placeholder="Confirm Password" maxlength="20" required="required" pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,50}$" title="<?php echo $messages['pattern_username_sms']; ?>" data-match="user_password">
                                     <div class="error-message"></div>
                                 </div>
                                 <input type="submit" value="submit" class="hidden" id="submitsignup">

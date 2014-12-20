@@ -200,11 +200,10 @@ div#share {
 }
 .sidemenucontent ul li a {
     text-decoration: none;
-    font-size:1em;
+    font-size: 15px;
     color: firebrick;
     display: block;
     padding: 15px;
-    font-family: mrcoalzcondenced;
 }
 .sidemenucontent ul li a:hover {
     background: white;
@@ -257,14 +256,13 @@ div#share {
 }
 .big-device div a{
     text-decoration: none;
-    font-size:.9em;
+    font-size: 15px;
     color: firebrick;
     display: block;
     cursor: pointer;
     margin-left: 20px;
     height: 54px;
     padding-top: 15px;
-    font-family: mrcoalzcondenced;
 }
 .big-device div a:hover{
     color: currentColor;
@@ -810,7 +808,7 @@ select.nationality {
     z-index: 111;
     color: orange;
     right: 20px;
-    font-size:1.1em;
+    font-size:1em;
     opacity: .9;
 
 }

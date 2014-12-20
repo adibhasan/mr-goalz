@@ -15,10 +15,10 @@
             v_sessionedTopMenu();
             ?>
             <div id="ajaxloader"><div class="ajax-loader ajxbg"></div></div>
-            <div class="page-container container">
-                <div>
+            <div class="page-container container mpg">
+                <div class="data-wrapper">
                     <div class="profile">
-                        <?php profileInfoGeneral($user['using_avatar'],$user['id_name']); ?>
+                        <?php profileInfoGeneral($user['using_avatar'], $user['id_name']); ?>
                     </div>
                     <div class="line"></div>
                     <div class="sponsor-link" style="padding: 5px;">
@@ -27,22 +27,22 @@
                     <div class="wrapp-container">
                         <div class="main-content">
                             <div  id="editprofilecontainer" class="formcontainer">
-                                <div class="profiletitle condenced">Edit Profile</div>
+                                <div class="profiletitle condenced">Edit Profile <button class="btn btn-danger btn-sm" id="change-password">Change Password</button></div>
                                 <div class="progilebody">
                                     <div class="formwrapper">
                                         <div class="alert-custom"></div>
                                         <form autocomplete="off" name="form-settings" id="form-settings" class="dataform" >
                                             <input type="hidden" name="token" value="<?php echo v_generateToken(); ?>">
                                             <div class="input-box">
-                                                <input style="color:blue;" type="text" class="profileinput center-text iconhmav-property thin"  name="user_name" placeholder="Name" maxlength="50" value="<?php echo $user['user_name']; ?>">
+                                                <input style="color:blue;" type="text" class="profileinput center-text iconhmav-property thin minput2"  name="user_name" placeholder="Name" maxlength="50" value="<?php echo $user['user_name']; ?>">
                                             </div>
                                             <div class="input-box">
-                                                <input type="email" class="profileinput center-text iconemail-property thin" required="required"   name="user_email" placeholder="Email" maxlength="50" value="<?php echo $user['user_email']; ?>" readonly="readonly">
+                                                <input type="email" class="profileinput center-text iconemail-property thin minput2" required="required"   name="user_email" placeholder="Email" maxlength="50" value="<?php echo $user['user_email']; ?>" readonly="readonly">
                                             </div>
                                             <div class="input-box" style="border-bottom: 2px solid #999999">
                                                 <div class="dob thin">DOB:</div>
                                                 <div class="selectionbox">
-                                                    <select class="year thin" name="birth_year" size="5">
+                                                    <select class="year thin" name="birth_year">
                                                         <?php
                                                         $currentyear = date("Y") - 4;
                                                         for ($i = $currentyear; $i > $currentyear - 100; $i--) {
@@ -67,16 +67,16 @@
                                                     <input type="hidden" name="gender" value="<?php echo $user['gender']; ?>" id="gender">
                                                 </div>
                                                 <div class="clearfix"></div>
-                                               
-                                                
+
+
                                             </div>
-                                       
+
                                     </div>
                                     <div class="input-box">
-                                        <input style="color:blue;" type="text" class="profileinput center-text iconrss-profile thin" required="required"  name="recovery_number" placeholder="Number" maxlength="50" value="<?php echo $user['recovery_number']; ?>">
+                                        <input style="color:blue;" type="text" class="profileinput center-text iconrss-profile thin minput2" required="required"  name="recovery_number" placeholder="Number" maxlength="50" value="<?php echo $user['recovery_number']; ?>">
                                     </div>
-                                    <div class="input-box" style="position: relative;height: 70px">
-                                        <select id="nationality" class="nationality text-indent dummy-select thin" name="nationality" style="color:gainsboro;opacity:0;position: absolute;z-index: 111">
+                                    <div class="input-box" style="position: relative;height:90px">
+                                        <select id="nationality" class="nationality text-indent dummy-select thin minput2" name="nationality" style="color:gainsboro;opacity:0;position: absolute;z-index: 111">
                                             <option value="" style="color: black">Nationality</option>
                                             <option value="Afghanistan">Afghanistan</option> 
                                             <option value="Albania">Albania</option> 
@@ -318,29 +318,33 @@
                                             <option value="Zambia">Zambia</option> 
                                             <option value="Zimbabwe">Zimbabwe</option>
                                         </select>
-                                        <input style="color:black;position: absolute;left: 0px" type="text" class="profileinput center-text dummy-input earth-properties thin" required="required"  placeholder="Nationality" maxlength="50" value="<?php echo $user['nationality']; ?>" readonly="readonly">
+                                        <input style="color:black;position: absolute;left: 0px" type="text" class="profileinput center-text dummy-input earth-properties thin minput2" required="required"  placeholder="Nationality" maxlength="50" value="<?php echo $user['nationality']; ?>" readonly="readonly">
                                     </div>
-                                    <div class="input-box" style="position: relative;height: 70px">
-                                        <select class="nationality text-indent dummy-select thin" name="favourite_team" style="color:gainsboro;opacity:0;position: absolute;z-index: 111">
+                                    <div class="input-box" style="position: relative;height: 90px">
+                                        <select class="nationality text-indent dummy-select thin minput2" name="favourite_team" style="color:gainsboro;opacity:0;position: absolute;z-index: 111">
                                             <?php
                                             echo '<option  style="color:black" value="">Favorite Team</option>';
 
                                             for ($i = 0; $i < count($user['team']); $i++) {
-                                                if($user['team'][$i]['teamid']==$user['favourite_team']){
-                                                    $team=$user['team'][$i]['teamname'];
+                                                if ($user['team'][$i]['teamid'] == $user['favourite_team']) {
+                                                    $team = $user['team'][$i]['teamname'];
                                                 }
                                                 if ($user['team'][$i]['teamid'] == $user['favourite_team']) {
-                                                    echo '<option value="'.$user['team'][$i]['teamid'].'" selected="selected" style="color:black">' .$user['team'][$i]['teamname'] . '</option>';
+                                                    echo '<option value="' . $user['team'][$i]['teamid'] . '" selected="selected" style="color:black">' . $user['team'][$i]['teamname'] . '</option>';
                                                 } else {
-                                                    echo '<option value="'.$user['team'][$i]['teamid'] . '"  style="color:black">' .$user['team'][$i]['teamname'] . '</option>';
+                                                    echo '<option value="' . $user['team'][$i]['teamid'] . '"  style="color:black">' . $user['team'][$i]['teamname'] . '</option>';
                                                 }
                                             }
                                             ?>
                                         </select>
-                                        <input style="color:black;position: absolute;left: 0px" type="text" class="profileinput center-text dummy-input team-properties thin" required="required"  placeholder="Favourite Team" maxlength="50" value="<?php echo $team; ?>" readonly="readonly">
+                                        <input style="color:black;position: absolute;left: 0px" type="text" class="profileinput center-text dummy-input team-properties thin minput2" required="required"  placeholder="Favourite Team" maxlength="50" value="<?php echo $team; ?>" readonly="readonly">
                                     </div>
                                     <div class="input-box">
-                                        <input type="submit" class="profileinput settingssubmit icon-save black"  value="Save">
+                                        <input type="checkbox" class="hidden" name="game_notification" id="notification">
+                                        <input type="text" id="noti" class="profileinput center-text notify1 thin minput2"  value="Notify Me" readonly="readonly">
+                                    </div>
+                                    <div class="input-box">
+                                        <input type="submit" class="profileinput settingssubmit icon-save black minput2"  value="Save">
                                     </div>
                                     </form>
                                 </div>
@@ -351,14 +355,39 @@
 
             </div>
         </div>
-    </div>
-    <div class="usermenu-wrapper">
-        <?php bottomSessionedMenu("shape-active", "", "", "", "", ""); ?>
-    </div>
-    <div class="content-wrapper">
-        <img src="<?php echo BASE_URL; ?>assets/css/images/mobile.jpg" class="mob">
-    </div>
-    <?php v_includeFooter(); ?>
-</body>
+        <div class="usermenu-wrapper">
+            <?php bottomSessionedMenu("shape-active", "", "", "", "", ""); ?>
+        </div>
+        <div class="content-wrapper">
+            <img src="<?php echo BASE_URL; ?>assets/css/images/mobile.jpg" class="mob">
+        </div>
+        <div class="modal fade" id="reset-password">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">Change Password</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="password" class="hidden">
+                        <div class="input-box minputbox">
+                            <div class="signal"></div>
+                            <input type="password" class="passwordinput black minput1" name="user_password" placeholder="Password" maxlength="20" required="required" pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,50}$" title="<?php echo $messages['pattern_username_sms']; ?>">
+                            <div class="error-message"></div>
+                        </div>
+                        <div class="input-box minputbox">
+                            <div class="signal"></div>
+                            <input type="password" class="passwordinput black minput1" style="border-bottom: 2px solid #999999" name="retyped_user_password" placeholder="Confirm Password" maxlength="20" required="required" pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,50}$" title="<?php echo $messages['pattern_username_sms']; ?>" data-match="user_password">
+                            <div class="error-message"></div>
+                        </div>
+                        <br>
+                        <button type="button" class="btn btn-default condenced" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary condenced">Change Password</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <?php v_includeFooter(); ?>
+    </body>
 </html>
 

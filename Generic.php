@@ -303,7 +303,7 @@ function copy_right_menu() {
             <li><a href="condition.php?condition=<?php echo md5("privacy-policy"); ?>">Privacy Policy</a></li>
         </ul>
         <ul class="copy-rigth-menu condenced">
-            <li><a href="http://vaiuugroupbd.org/" style="color:black;font-size: 10px;">Developed by  Vaiuu Group BD</a></li>
+            <li><a href="http://vaiuugroupbd.org/" style="color:black;font-size:12px;">Developed by  Vaiuu Group BD</a></li>
         </ul>
     </div>
     <?php
@@ -367,18 +367,18 @@ function timeZone($user_ip = "") {
     return $iptrack;
 }
 
-function v_sideMenu() {
+function v_sideMenu($fb="") {
     ?>
-    <div class="sidemenucontainer">
-        <div class="sidemenucontent">
+    <div class="sidemenucontainer mobsm">
+        <div class="sidemenucontent mobsmcontent">
             <ul>
                 <li><a href="./">HOME</a></li>
                 <li><a href="<?php echo BASE_URL; ?>signup.php" >SIGN UP</a></li>
                 <li><a href="<?php echo BASE_URL; ?>signin.php" >LOG IN</a></li>
             </ul>
-            <div class="sidebarsocialicon">
-                <a class="fb sociallogin" title="Login with Facebook" href="javascript:;" id="fb"></a>
-                <a class="gplus sociallogin" title="Login with Google Plus"></a>
+            <div class="sidebarsocialicon mobsmicon">
+                <a class="fb"  href="<?php echo $fb; ?>" id="fb"></a>
+                <a class="gplus"></a>
             </div>
         </div>
         <div class="sidemenubackdrop"></div>
@@ -446,11 +446,11 @@ function profilePictureChange($avatar = "", $userid = "") {
                 </form>
             </div>
         </div>
-        <div class="username">
+        <div class="username black">
     <?php echo $userid; ?>
         </div>
     </div>
-    <div class="profile-rank">
+    <div class="profile-rank black">
         <div>Rank:2nd</div>
         <div>Score:100</div>
     </div>
