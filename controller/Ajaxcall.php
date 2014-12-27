@@ -23,11 +23,11 @@ if ($_POST['method'] == "leaguecheck") {
     $token = empty($_POST['token']) ? "" : $_POST['token'];
     $leaguename = empty($_POST['league_name']) ? "" : $_POST['league_name'];
     v_tokenCheck($token);
-    $result = checkUserExistance("league", "league_name='$leaguename'");
+    $result = checkUserExistance("usergroup", "groupname='$leaguename'");
     if ($result) {
-        v_returnMessage("League name exists, enter another name.", false, "warning", "", "");
+        v_returnMessage("Group name exists, enter another name.", false, "warning", "", "");
     } else {
-        v_returnMessage("League name can be taken.", true, "success", "", "");
+        v_returnMessage("Group name can be taken.", true, "success", "", "");
     }
 }
 if ($_POST['method'] == "teamcheck") {

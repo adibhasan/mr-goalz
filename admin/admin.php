@@ -5,7 +5,8 @@ $routelist = array(
     'home' => "Dashboard",
     'user' => "User",
     'team' => "Team",
-    'game' => "Game"
+    'game' => "Game",
+    'userbonus' => "Bonus"
 );
 if (empty($_GET['adminroute'])) {
     v_show_404();

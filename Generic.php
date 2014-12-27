@@ -23,6 +23,9 @@ $messages = array(
     'pattern_username_sms' => "Must have at least 8 character including 1 uppercase, 1 lowercase and 1 number.",
     'pattern_email_sms' => "Invalid email pattern."
 );
+if (empty($_SESSION['client_info'])) {
+    $_SESSION['client_info'] = timeZone();
+}
 
 function v_get_client_ip() {
     $ipaddress = '';
@@ -268,6 +271,77 @@ function v_sessionCheck() {
     }
 }
 
+function weeklyUserScore() {
+    
+}
+
+function userScorePerGame($id) {
+    $user = v_dataSelect("myguess", "status='calculated' AND userid='$id'");
+    for ($i = 0; $i < count($user['data']); $i++) {
+        $totalpoint = $user['data'][$i]['points1'] + $user['data'][$i]['points2'] + $user['data'][$i]['points3'];
+        $guessdate = $user['data'][$i]['createdate'];
+        $guessyear = $user['data'][$i]['year'];
+        $guessmonth = $user['data'][$i]['month'];
+        $guessdate = $user['data'][$i]['day'];
+        $gameweek = $user['data'][$i]['fridaynumber'];
+        $bonus = v_dataSelect("monthly_bonus", "month_number='$guessmonth' AND year='$guessyear' AND fridaynumber='$gameweek' AND status='used' AND user_id='$id'");
+        $user['data'][$i]['pointwithoutbonus'] = $totalpoint;
+        if ($bonus['counter'] != 0) {
+            $totalpoint = $totalpoint * 2;
+        }
+        $user['data'][$i]['pointwithbonus'] = $totalpoint;
+    }
+    return $user;
+}
+
+function userTotalScore($id) {
+    $us = v_dataSelect("mrpredict_user", "userid='$id'");
+    $user = v_dataSelect("myguess", "status='calculated' AND userid='$id'");
+    $numberofgame = count($user['data']);
+    for ($i = 0; $i < count($user['data']); $i++) {
+        $totalpoint = $user['data'][$i]['points1'] + $user['data'][$i]['points2'] + $user['data'][$i]['points3'];
+        $guessdate = $user['data'][$i]['createdate'];
+        $guessyear = $user['data'][$i]['year'];
+        $guessmonth = $user['data'][$i]['month'];
+        $guessdate = $user['data'][$i]['day'];
+        $gameweek = $user['data'][$i]['fridaynumber'];
+        $bonus = v_dataSelect("monthly_bonus", "month_number='$guessmonth' AND year='$guessyear' AND fridaynumber='$gameweek' AND status='used' AND user_id='$id'");
+        $user['data'][$i]['pointwithoutbonus'] = $totalpoint;
+        if ($bonus['counter'] != 0) {
+            $totalpoint = $totalpoint * 2;
+        }
+        $user['data'][$i]['pointwithbonus'] = $totalpoint;
+    }
+    $withoutbonus = 0;
+    $withbonus = 0;
+    for ($i = 0; $i < count($user['data']); $i++) {
+        $withoutbonus = $withoutbonus + $user['data'][$i]['pointwithoutbonus'];
+        $withbonus = $withbonus + $user['data'][$i]['pointwithbonus'];
+    }
+    $u['userid'] = $us['data'][0]['userid'];
+    $u['useridname'] = $us['data'][0]['user_id_name'];
+    $u['username'] = $us['data'][0]['user_name'];
+    $u['useremail'] = $us['data'][0]['user_email'];
+    $u['withbonus'] = $withbonus;
+    $u['withoutbonus'] = $withoutbonus;
+    $u['numberofgame'] = $numberofgame;
+    return $u;
+}
+
+function allUserScore() {
+    $mr = array();
+    $user = v_dataSelect("mrpredict_user", "status='active'");
+    for ($i = 0; $i < count($user['data']); $i++) {
+        $mr[$i] = userTotalScore($user['data'][$i]['userid']);
+    }
+    usort($mr, function($a, $b) {
+        if ($a['withoutbonus'] == $b['withoutbonus'])
+            return 0;
+        return $a['withoutbonus'] < $b['withoutbonus'] ? 1 : -1;
+    });
+    return $mr;
+}
+
 /* * ******************************************************************************* */
 /* * *****************************   Dirty Function ******************************** */
 /* * ******************************************************************************* */
@@ -361,14 +435,14 @@ function timeZone($user_ip = "") {
     $iptrack['latitude'] = $ip_tracking_url->{'latitude'};
     $iptrack['longitude'] = $ip_tracking_url->{'longitude'};
 
-    $timezone_info = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/timezone/json?location=' . $iptrack["latitude"] . ',' . $iptrack["longitude"] . '&timestamp=' . time() . '&key=' . GOOGLE_API_KEY));
+    $timezone_info = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/timezone/json?location=' . $iptrack["latitude"] . ',' . $iptrack["longitude"] . '&timestamp=' . time() . '&key=' . API_KEY));
     $iptrack['rawOffset'] = $timezone_info->{'rawOffset'};
     $iptrack['timeZoneId'] = $timezone_info->{'timeZoneId'};
     $iptrack['timeZoneName'] = $timezone_info->{'timeZoneName'};
     return $iptrack;
 }
 
-function v_sideMenu($FB_LOGIN_URL = "javascript:void(0)",$gurl="javascript:void(0)") {
+function v_sideMenu($FB_LOGIN_URL = "javascript:void(0)", $gurl = "javascript:void(0)") {
     ?>
     <div class="sidemenucontainer mobsm">
         <div class="sidemenucontent mobsmcontent">
@@ -411,6 +485,26 @@ function v_sessionedTopMenu() {
 }
 
 function profileInfoGeneral($avatar = "", $userid = "") {
+    $user = v_dataSelect("mrpredict_user", "user_email='" . $_SESSION['vaiuugroup']['user_email'] . "'");
+    $id = $user['data'][0]['userid'];
+    $leaderlist = allUserScore();
+    for ($i = 0; $i < count($leaderlist); $i++) {
+        if ($i == 0) {
+            $leaderlist[$i]['rank'] = ($i + 1) . "st";
+        } elseif ($i == 1) {
+            $leaderlist[$i]['rank'] = ($i + 1) . "nd";
+        } elseif ($i == 2) {
+            $leaderlist[$i]['rank'] = ($i + 1) . "rd";
+        } else {
+            $leaderlist[$i]['rank'] = ($i + 1) . "th";
+        }
+    }
+    for ($i = 0; $i < count($leaderlist); $i++) {
+        if ($leaderlist[$i]['userid'] == $id) {
+            $myrank = $leaderlist[$i]['rank'];
+            $myscore = $leaderlist[$i]['withbonus'];
+        }
+    }
     ?>
     <div class="profile-image">
         <div class="avatar">
@@ -421,8 +515,8 @@ function profileInfoGeneral($avatar = "", $userid = "") {
         </div>
     </div>
     <div class="profile-rank black">
-        <div>Rank:2nd</div>
-        <div>Score:100</div>
+        <div>Rank: <?php echo $myrank; ?></div>
+        <div>Score: <?php echo $myscore; ?></div>
     </div>
 
     <div class="clearfix"></div>
@@ -430,6 +524,26 @@ function profileInfoGeneral($avatar = "", $userid = "") {
 }
 
 function profilePictureChange($avatar = "", $userid = "") {
+    $user = v_dataSelect("mrpredict_user", "user_email='" . $_SESSION['vaiuugroup']['user_email'] . "'");
+    $id = $user['data'][0]['userid'];
+    $leaderlist = allUserScore();
+    for ($i = 0; $i < count($leaderlist); $i++) {
+        if ($i == 0) {
+            $leaderlist[$i]['rank'] = ($i + 1) . "st";
+        } elseif ($i == 1) {
+            $leaderlist[$i]['rank'] = ($i + 1) . "nd";
+        } elseif ($i == 2) {
+            $leaderlist[$i]['rank'] = ($i + 1) . "rd";
+        } else {
+            $leaderlist[$i]['rank'] = ($i + 1) . "th";
+        }
+    }
+    for ($i = 0; $i < count($leaderlist); $i++) {
+        if ($leaderlist[$i]['userid'] == $id) {
+            $myrank = $leaderlist[$i]['rank'];
+            $myscore = $leaderlist[$i]['withbonus'];
+        }
+    }
     ?>
     <div class="profile-image">
         <div class="pim avatar">
@@ -452,8 +566,8 @@ function profilePictureChange($avatar = "", $userid = "") {
         </div>
     </div>
     <div class="profile-rank black">
-        <div>Rank:2nd</div>
-        <div>Score:100</div>
+        <div>Rank: <?php echo $myrank; ?></div>
+        <div>Score: <?php echo $myscore; ?></div>
     </div>
 
     <div class="clearfix"></div>
@@ -492,7 +606,7 @@ function bottomSessionedMenu($p1 = "", $p2 = "", $p3 = "", $p4 = "", $p5 = "", $
     <?php
 }
 
-function v_topMenu($FB_LOGIN_URL = "javascript:void(0)",$gurl="javascript:void(0)") {
+function v_topMenu($FB_LOGIN_URL = "javascript:void(0)", $gurl = "javascript:void(0)") {
     ?>
     <div class="topmenucontainer">
         <div class="small-device">

@@ -18,6 +18,22 @@ if ($_POST['method'] == "changeusername") {
     }
     updateuser_name($_POST);
 }
+if ($_POST['method'] == "addmonthbonus") {
+    $monthbonus = v_dataSelect("user_bonus", "bonus_type='monthly bonus' AND bonus_year='" . date("Y") . "' AND bonus_month='" . date("m") . "' AND status='active'");
+    if ($monthbonus['counter'] != 0) {
+        v_returnMessage("Monthly bonus has been already added.", false, "danger", "", "");
+    } else {
+        addMonthLyBonus();
+    }
+}
+if ($_POST['method'] == "add-perform-bonus") {
+    $monthbonus = v_dataSelect("user_bonus", "bonus_type='performance bonus' AND bonus_year='" . date("Y") . "' AND bonus_month='" . date("m") . "' AND status='active'");
+    if ($monthbonus['counter'] != 0) {
+        v_returnMessage("Performance  bonus for this month has been already added.", false, "danger", "", "");
+    } else {
+        addPerformanceBonus();
+    }
+}
 if ($_POST['method'] == "changepassword") {
     v_tokenCheck($_POST['token']);
     v_authenTicate("Old password", true, 8, 20, "/^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,20}$/", "oldpassword", $_POST['oldpassword']);
@@ -279,6 +295,106 @@ function create_admin($dataArry) {
     }
 }
 
+function addMonthLyBonus() {
+    $data['user_type'] = $_SESSION['vaiuugroup']['admintype'];
+    $data['user_id'] = $_SESSION['vaiuugroup']['adminid'];
+    $data['bonus_type'] = "monthly bonus";
+    $data['description'] = "General bonus for all users. This bonus is given after end of every gaming month.";
+    $data['recipient'] = "all";
+    $data['bonus_month'] = date("m");
+    $data['bonus_year'] = date("Y");
+    $data['create_date'] = date("Y-m-d H:i:s");
+    $data['update_date'] = date("Y-m-d H:i:s");
+    $data['status'] = "active";
+    $ins = v_dataInsert_LastId("user_bonus", $data);
+    $ub['bonusid'] = $ins['lastinsertid'];
+    $ub['month_number'] = date("m");
+    $ub['month_name'] = date("F");
+    $ub['year'] = date("Y");
+    $ub['create_date'] = date("Y-m-d H:i:s");
+    $ub['update_date'] = date("Y-m-d H:i:s");
+    $ub['status'] = 'active';
+    $user = v_dataSelect("mrpredict_user", "status='active'");
+    $ms['sender_id'] = $_SESSION['vaiuugroup']['adminid'];
+    $ms['sender_type'] = "system";
+    $ms['message_type'] = "notification";
+    $ms['message_title'] = "Monthly General Bonus Has Been Declared";
+    $mb = "<div class='bonus'>Monthly general bonus has been declared. You can use this bonus for the month in any week. You are allowed to use on bonus per week. Please click the below link to use this bonus. <br><a class='add-month-bonus'>Use the bonus for this week</a></div>";
+    $ms['message_body'] = addslashes($mb);
+    $ms['create_date'] = date("Y-m-d H:i:s");
+    $ms['update_date'] = date("Y-m-d H:i:s");
+    $ms['status'] = "active";
+
+    $messagearray[0] = "Dear " . APP_NAME . " user you have received a monthly bonus. <br>";
+    $messagearray[1] = "Please check your " . APP_NAME . " inbox for details.<br>";
+    $messagearray[5] = "<br>Thanks for your patients.";
+    $mailmessage = registrationMail($messagearray, BASE_URL);
+
+    for ($i = 0; $i < count($user['data']); $i++) {
+        $ub['user_id'] = $user['data'][$i]['userid'];
+        $ms['receiver_id'] = $user['data'][$i]['userid'];
+        v_dataInsert("monthly_bonus", $ub);
+        v_dataInsert("message_box", $ms);
+        $email = $user['data'][$i]['user_email'];
+        simpleMail("no-reply@mrgoalz.com", $email, $mailmessage, "Admin Creation", "no-reply@mrgoalz.com");
+    }
+    if ($ins) {
+        v_returnMessage("Bonus has been declared successfully.", true, "success", "", "");
+    } else {
+        v_returnMessage("Bonus has been failed to declare, please refresh the page and  try again", false, "danger", "", "");
+    }
+}
+
+function addPerformanceBonus() {
+    $data['user_type'] = $_SESSION['vaiuugroup']['admintype'];
+    $data['user_id'] = $_SESSION['vaiuugroup']['adminid'];
+    $data['bonus_type'] = "performance bonus";
+    $data['description'] = "Performance bonus for leader user.";
+    $data['recipient'] = "all";
+    $data['bonus_month'] = date("m");
+    $data['bonus_year'] = date("Y");
+    $data['create_date'] = date("Y-m-d H:i:s");
+    $data['update_date'] = date("Y-m-d H:i:s");
+    $data['status'] = "active";
+    $ins = v_dataInsert_LastId("user_bonus", $data);
+    $ub['bonusid'] = $ins['lastinsertid'];
+    $ub['month_number'] = date("m");
+    $ub['month_name'] = date("F");
+    $ub['year'] = date("Y");
+    $ub['create_date'] = date("Y-m-d H:i:s");
+    $ub['update_date'] = date("Y-m-d H:i:s");
+    $ub['status'] = 'active';
+    $user = v_dataSelect("mrpredict_user", "status='active'");
+    $ms['sender_id'] = $_SESSION['vaiuugroup']['adminid'];
+    $ms['sender_type'] = "system";
+    $ms['message_type'] = "notification";
+    $ms['message_title'] = "Monthly General Bonus Has Been Declared";
+    $mb = "<div class='bonus'>Monthly general bonus has been declared. You can use this bonus for the month in any week. You are allowed to use on bonus per week. Please click the below link to use this bonus. <br><a class='add-month-bonus'>Use the bonus for this week</a></div>";
+    $ms['message_body'] = addslashes($mb);
+    $ms['create_date'] = date("Y-m-d H:i:s");
+    $ms['update_date'] = date("Y-m-d H:i:s");
+    $ms['status'] = "active";
+
+    $messagearray[0] = "Dear " . APP_NAME . " user you have received a monthly bonus. <br>";
+    $messagearray[1] = "Please check your " . APP_NAME . " inbox for details.<br>";
+    $messagearray[5] = "<br>Thanks for your patients.";
+    $mailmessage = registrationMail($messagearray, BASE_URL);
+
+    for ($i = 0; $i < count($user['data']); $i++) {
+        $ub['user_id'] = $user['data'][$i]['userid'];
+        $ms['receiver_id'] = $user['data'][$i]['userid'];
+        v_dataInsert("monthly_bonus", $ub);
+        v_dataInsert("message_box", $ms);
+        $email = $user['data'][$i]['user_email'];
+        simpleMail("no-reply@mrgoalz.com", $email, $mailmessage, "Admin Creation", "no-reply@mrgoalz.com");
+    }
+    if ($ins) {
+        v_returnMessage("Bonus has been declared successfully.", true, "success", "", "");
+    } else {
+        v_returnMessage("Bonus has been failed to declare, please refresh the page and  try again", false, "danger", "", "");
+    }
+}
+
 function addTeam($dataArry) {
     $data = $dataArry;
     unset($data['method']);
@@ -288,9 +404,6 @@ function addTeam($dataArry) {
     if ($checkexist['counter'] > 0) {
         v_returnMessage("Team already exists.", false, "danger", "", "");
     } else {
-        foreach ($data as $key => $value) {
-            $data[$key] = addslashes($value);
-        }
         $data['user_type'] = $_SESSION['vaiuugroup']['admintype'];
         $data['user_id'] = $_SESSION['vaiuugroup']['adminid'];
         $data['createdate'] = date("Y-m-d H:i:s");

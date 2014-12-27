@@ -14,6 +14,85 @@ if ($_POST['method'] == "userlogin") {
     v_authenTicate("User password", true, 8, 50, "/^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,50}$/", "user_password", $_POST['user_password']);
     userLogin($_POST);
 }
+if ($_POST['method'] == "joinmyleague") {
+    if ($_POST['groupid'] == "") {
+        $return = array(
+            'message' => "Group id is required.",
+            'success' => false,
+            'styleclass' => "danger"
+        );
+        echo json_encode($return);
+        die();
+    }
+    if (empty($_POST['userid'])) {
+        $return = array(
+            'message' => "Select at least one user.",
+            'success' => false,
+            'styleclass' => "danger"
+        );
+        echo json_encode($return);
+        die();
+    }
+    $u = v_dataSelect("mrpredict_user", "user_email='" . $_SESSION['vaiuugroup']['user_email'] . "'");
+    $g = v_dataSelect("usergroup", "groupid='" . $_POST['groupid'] . "'");
+    $invitoruser = $u['data'][0]['user_name'];
+    $groupname = $g['data'][0]['groupname'];
+    for ($i = 0; $i < count($_POST['userid']); $i++) {
+        $data1['groupid'] = $_POST['groupid'];
+        $data1['userid'] = $_POST['userid'][$i];
+        $data1['createdate'] = date("Y-m-d H:i:s");
+        $data1['updatedate'] = date("Y-m-d H:i:s");
+        $data1['status'] = "pending";
+        $exist = v_dataSelect("enrolegroup", "groupid='" . $_POST['groupid'] . "' AND userid='" . $data1['userid'] . "'");
+        if ($exist['counter'] != 0) {
+            $ins = v_dataInsert_LastId("enrolegroup", $data1);
+            $user = v_dataSelect("mrpredict_user", "userid='" . $data1['userid'] . "'");
+            $email = $user['data'][0]['user_email'];
+            $name = $user['data'][0]['user_name'];
+
+            $ms['receiver_id'] = $data1['userid'];
+            $ms['sender_type'] = "user";
+            $ms['message_type'] = "invitation";
+            $ms['message_title'] = addslashes("Join $invitoruser Group");
+            $ms['message_body'] = addslashes("Dear " . $user['data'][0]['user_name'] . " please join with me in " . APP_NAME . "<br><a href=''>Click here to join the $groupname group.</a> ");
+            $ms['create_date'] = date("Y-m-d H:i:s");
+            $ms['update_date'] = date("Y-m-d H:i:s");
+            $ms['status'] = "pending";
+            v_dataInsert("message_box", $ms);
+
+            $messagearray[0] = "Dear, <strong>" . $user['data'][0]['user_name'] . "</strong><br>";
+            $messagearray[1] = "$invitoruser has invited you to join his/her group <strong>$groupname</strong><br>";
+            $messagearray[2] = "Please check your " . APP_NAME . " message inbox.<br>";
+            $messagearray[3] = "<br><br><i>Thanks for your patience.</i><br>";
+            $mailmessage = registrationMail($messagearray, BASE_URL);
+            simpleMail(ADMIN_EMAIL, $email, $mailmessage, "User Group Invitation", "no-replay@mrgoalz.com");
+            if (!$ins) {
+                $return = array(
+                    'message' => "Invitation sending failed.",
+                    'success' => false,
+                    'styleclass' => "danger"
+                );
+                echo json_encode($return);
+                die();
+            } else {
+                $return = array(
+                    'message' => "Invitation has been sent successfully.",
+                    'success' => true,
+                    'styleclass' => "success"
+                );
+                echo json_encode($return);
+                die();
+            }
+        }
+        $return = array(
+            'message' => "Invitation has been sent successfully.",
+            'success' => true,
+            'styleclass' => "success"
+        );
+        echo json_encode($return);
+        die();
+    }
+}
 if ($_POST['method'] == "registration") {
     v_tokenCheck($_POST['token']);
     userRegistration($_POST);
@@ -45,6 +124,128 @@ if ($_POST['method'] == "teaminput") {
 if ($_POST['method'] == "gamecreate") {
     v_tokenCheck($_POST['token']);
     createGame($_POST);
+}
+
+if ($_POST['method'] == "changepassword") {
+    v_tokenCheck($_POST['token']);
+    changePassword($_POST);
+}
+if ($_POST['method'] == "guess") {
+    checkGuessState($_POST);
+}
+if ($_POST['method'] == "updatemyguess") {
+    v_tokenCheck($_POST['token']);
+    updateGeuss($_POST);
+}
+
+function updateGeuss($dataArry) {
+    $data = $dataArry;
+    $gameid = $data['gameid'];
+    unset($data['method']);
+    unset($data['token']);
+    $user = v_dataSelect("mrpredict_user", "user_email='" . $_SESSION['vaiuugroup']['user_email'] . "'");
+    $userid = $user['data'][0]['userid'];
+    $bid = v_dataSelect("myguess", "userid='$userid' AND gameid='$gameid'");
+    if ($bid['counter'] == 0) {
+        $inArray['userid'] = $userid;
+        $inArray['gameid'] = $gameid;
+        $inArray['team1score'] = $data['team1score'];
+        $inArray['team2score'] = $data['team2score'];
+        $inArray['createdate'] = date("Y-m-d H:i:s");
+        $inArray['updatedate'] = date("Y-m-d H:i:s");
+        $inArray['status'] = "active";
+        $ins = v_dataInsert("myguess", $inArray);
+    } else {
+        $inArray['team1score'] = $data['team1score'];
+        $inArray['team2score'] = $data['team2score'];
+        $inArray['updatedate'] = date("Y-m-d H:i:s");
+        $ins = v_dataUpdate("myguess", $inArray, "userid='$userid' AND gameid='$gameid'");
+    }
+    if ($ins) {
+        $return = array(
+            'message' => "Score updated successfully.",
+            'success' => true,
+            'styleclass' => "success"
+        );
+        echo json_encode($return);
+        die();
+    } else {
+        $return = array(
+            'message' => "Score update failed, please try again.",
+            'success' => false,
+            'styleclass' => "danger"
+        );
+        echo json_encode($return);
+        die();
+    }
+}
+
+function checkGuessState($dataArry) {
+    unset($data['method']);
+    $gameid = $dataArry['gameid'];
+    $team1name = $dataArry['team1Name'];
+    $team2name = $dataArry['team2Name'];
+    if ($gameid == "") {
+        $return = array(
+            'message' => "Please select a game by clicking on the particular row.",
+            'success' => false,
+            'styleclass' => "danger",
+            "field" => "",
+            "title" => "Game id missing",
+            "type" => "warning"
+        );
+        echo json_encode($return);
+        die();
+    }
+    $game = v_dataSelect("upcominggames", "id='$gameid'");
+    $currenttime = time() - 300;
+    if ($game['data'][0]['schedule_timestamp'] < $currenttime) {
+        $return = array(
+            'message' => "Game will start within 5 minutes. You can not update or guess  now.",
+            'success' => false,
+            'styleclass' => "danger",
+            "field" => "",
+            "title" => "Times up",
+            "type" => "warning"
+        );
+        echo json_encode($return);
+        die();
+    }
+    $user = v_dataSelect("mrpredict_user", "user_email='" . $_SESSION['vaiuugroup']['user_email'] . "'");
+    $userguess = v_dataSelect("myguess", "userid='" . $user['data'][0]['userid'] . "' AND gameid='$gameid'");
+    if ($userguess['counter'] == 0) {
+        $return = array(
+            'message' => "insertaction",
+            'success' => true,
+            'styleclass' => "success",
+            "title" => "Save Guess",
+            "datas" => array(
+                'gameid' => $gameid,
+                'team1score' => 0,
+                'team2score' => 0,
+                'team1name' => $team1name,
+                'team2name' => $team2name
+            )
+        );
+        echo json_encode($return);
+        die();
+    } else {
+        $return = array(
+            'message' => "updateaction",
+            'success' => true,
+            'styleclass' => "success",
+            "title" => "Update Guess",
+            "datas" => array(
+                'gameid' => $gameid,
+                'team1score' => $userguess['data'][0]['team1score'],
+                'team2score' => $userguess['data'][0]['team2score'],
+                'team1name' => $team1name,
+                'team2name' => $team2name
+            )
+        );
+        echo json_encode($return);
+        die();
+    }
 }
 
 function createGame($dataArry) {
@@ -158,11 +359,51 @@ function createGame($dataArry) {
     }
 }
 
+function changePassword($dataArry) {
+    $data = $dataArry;
+    unset($data['method']);
+    unset($data['token']);
+    v_authenTicate("User password", true, 8, 20, "/^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,20}$/", "user_password", $data['user_password']);
+
+    if (strlen($data['retyped_user_password']) < 8 || strlen($data['retyped_user_password']) > 20 || ($data['retyped_user_password'] != $data['user_password'])) {
+        $return = array(
+            'message' => "Retyped password mismatch with original password.",
+            'success' => false,
+            'styleclass' => "danger"
+        );
+        echo json_encode($return);
+        die();
+    }
+    $data1['user_password'] = md5($data['user_password']);
+    $data1['update_date'] = date("Y-m-d H:i:s");
+    $update = v_dataUpdate("mrpredict_user", $data1, "user_email='" . $_SESSION['vaiuugroup']['user_email'] . "'");
+    if ($update) {
+        $return = array(
+            'message' => "Password successfully updated.",
+            'success' => true,
+            'styleclass' => "success"
+        );
+        echo json_encode($return);
+        die();
+    } else {
+        $return = array(
+            'message' => "Password update failed.",
+            'success' => false,
+            'styleclass' => "danger"
+        );
+        echo json_encode($return);
+        die();
+    }
+}
+
 function insertLeague($dataArry) {
     $data = $dataArry;
     unset($data['method']);
     unset($data['token']);
-    $chek = v_dataSelect("league", "league_name='" . $data['league_name'] . "'");
+    foreach ($data as $key => $value) {
+        $data[$key] = addslashes($value);
+    }
+    $chek = v_dataSelect("usergroup", "groupname='" . $data['league_name'] . "'");
     if ($chek['counter'] != 0) {
         $return = array(
             'message' => "League name exists.",
@@ -172,17 +413,23 @@ function insertLeague($dataArry) {
         );
     } else {
         $user = v_dataSelect("mrpredict_user", "user_email='" . $_SESSION['vaiuugroup']['user_email'] . "'");
-        $data['user_type'] = $user['data'][0]['user_type'];
-        $data['user_id'] = $user['data'][0]['userid'];
-        $data['league_name'] = addslashes($data['league_name']);
-        $data['description'] = addslashes($data['description']);
-        $data['create_date'] = date("Y-m-d H:i:s");
-        $data['update_date'] = date("Y-m-d H:i:s");
-        $data['status'] = "active";
-        $ins = v_dataInsert_LastId("league", $data);
+
+        $data1['userid'] = $user['data'][0]['userid'];
+        $data1['groupname'] = $data['league_name'];
+        $data1['description'] = $data['description'];
+        $data1['createdate'] = date("Y-m-d H:i:s");
+        $data1['updatedate'] = date("Y-m-d H:i:s");
+        $data1['status'] = "active";
+        $ins = v_dataInsert_LastId("usergroup", $data1);
+        $data2['groupid'] = $ins['lastinsertid'];
+        $data2['userid'] = $data1['userid'];
+        $data2['createdate'] = date("Y-m-d H:i:s");
+        $data2['updatedate'] = date("Y-m-d H:i:s");
+        $data2['status'] = "active";
+        v_dataInsert_LastId("enrolegroup", $data2);
         if ($ins['result']) {
             $return = array(
-                'message' => "League successfully added.",
+                'message' => "Group successfully added.",
                 'success' => true,
                 'styleclass' => "success",
                 "field" => $ins['lastinsertid'],
@@ -190,7 +437,7 @@ function insertLeague($dataArry) {
             );
         } else {
             $return = array(
-                'message' => "League insertion failed.",
+                'message' => "Group insertion failed.",
                 'success' => false,
                 'styleclass' => "danger",
                 "field" => "",
@@ -372,13 +619,13 @@ function ResendActivationLink($dataArray) {
     $data['recovery_number'] = generateRecoveryNumber("aA7bB1cC2dD3eE4fF5gG6hH7iI8jJ9kK10lL1mM2nN3oO4pP5qQ6rR7sS8tT9uU1vV2wW3xX4yY5zZ6", 8, true);
     $data['update_date'] = date("Y-m-d H:i:s");
     $data['status'] = "pending";
-    $dataToken['token'] =$token;
+    $dataToken['token'] = $token;
     $dataToken['tokentype'] = "registration";
     $dataToken['username'] = $usernameid;
     $dataToken['createdate'] = date("Y:m:d H:i:s");
     $tokeninsert = v_dataInsert("tokens", $dataToken);
     if ($tokeninsert) {
-        $datainsert = v_dataUpdate("mrpredict_user",$data,"user_email='$email'");
+        $datainsert = v_dataUpdate("mrpredict_user", $data, "user_email='$email'");
     } else {
         $datainsert = false;
     }
@@ -498,7 +745,7 @@ function userRegistration($dataArray) {
                 'message' => "Please check your email to complete signup process.",
                 'success' => true,
                 'styleclass' => "success",
-                'url' => BASE_URL."controller/Checkget.php?secretkey=" . $data['recovery_number'] . "&completionkey=" . $token
+                'url' => BASE_URL . "controller/Checkget.php?secretkey=" . $data['recovery_number'] . "&completionkey=" . $token
             );
             echo json_encode($return);
             die();
@@ -587,10 +834,10 @@ function updatesettings($dataArray) {
         }
     }
     $data['status'] = "active";
-    if($data['game_notification']=="on"){
-        $data['game_notification']=true;
-    }else{
-        $data['game_notification']=false;
+    if ($data['game_notification'] == "on") {
+        $data['game_notification'] = true;
+    } else {
+        $data['game_notification'] = false;
     }
     $updatesettings = v_dataUpdate("mrpredict_user", $data, "user_id_name='$id' AND user_email='$email'");
     if ($updatesettings) {
@@ -642,6 +889,7 @@ function updateimage($dataArray) {
     $email = $_SESSION['vaiuugroup']['user_email'];
     $updatesettings = v_dataUpdate("mrpredict_user", $data, "user_id_name='$id' AND user_email='$email'");
     if ($updatesettings) {
+        $_SESSION['vaiuugroup']['profile']=$data['profile_picture'];
         $return = array(
             'message' => "Profile information updated successfully.",
             'success' => true,

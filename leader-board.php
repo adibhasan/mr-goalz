@@ -26,7 +26,7 @@
                     <div class="sponsor-link" style="padding: 5px;">
                         <?php sponsorRedirect("http://google.com"); ?>
                     </div>
-                    <?php if (isset($_GET['key']) && isset($_GET['action'])): ?>
+                    <?php if (isset($_GET['key']) && isset($_GET['action']) && isset($_GET['groupid'])): ?>
                         <div class="wrapp-container" id="league-table2">
                             <div class="main-content">
                                 <div class="my-guess" id="my-guess2">
@@ -44,37 +44,32 @@
                                             </div>
                                         </div>
                                         <div class="table-content">
-                                            <?php for ($i = 0; $i < 50; $i++): ?>
+                                            <?php for ($i = 0; $i < count($fscore); $i++): ?>
                                                 <div class="table-row paged2" id="<?php echo 'page2_' . $i; ?>" data-pageid2="<?php echo $i; ?>">
                                                     <div class="col-7">
                                                         <div class="shape-circle2"><?php echo $i + 1; ?></div>
                                                     </div>
-                                                    <?php if (isset($_GET['action']) && $_GET['action'] == "exitleague"): ?>
-                                                        <div class="col-99 col-text-black" style="position: relative">West Born Vs Sunder Land <?php echo $i; ?> <button class="btn btn-danger btn-sm exit-league" data-exit="<?php echo $i; ?>">Exit</button></div>
-                                                    <?php elseif (isset($_GET['action']) && $_GET['action'] == "inviteuser"): ?>
-                                                        <div class="col-99 col-text-black" style="position: relative">West Born Vs Sunder Land <?php echo $i; ?> <button class="btn btn-info btn-sm invite-league" data-invite="<?php echo $i; ?>">Invite</button></div>
-                                                    <?php else: ?>
-                                                        <div class="col-99 col-text-black">West Born Vs Sunder Land <?php echo $i; ?></div>
-                                                    <?php endif; ?>
-
+                                                    <div class="col-99 col-text-black"><?php echo $fscore[$i]['username']; ?></div>
                                                     <div class="col-44 col-text-title-black">
-                                                        <div class="box">11</div>
+                                                        <div class="box"><?php echo $fscore[$i]['rank']; ?></div>
                                                     </div>
                                                     <div class="col-44 col-text-title-black">
-                                                        <div class="box box1">11</div>
+                                                        <div class="box box1"><?php echo $fscore[$i]['withbonus']; ?></div>
                                                     </div>
                                                     <div class="col-44 col-text-title-black">
-                                                        <div class="box box">11</div>
+                                                        <div class="box box"><?php echo "+" . ($fscore[$i]['withbonus'] - $fscore[$i]['withoutbonus']); ?></div>
                                                     </div>
                                                     <div class="clearfix"></div>
                                                 </div>
                                             <?php endfor; ?>
                                         </div>
                                         <div class="table-footer">
-                                            <div class="table-pagination2">
-                                                <a href="javascript:void(0)" class="up-arrow2 pagination-icon"><i class="glyphicon glyphicon-chevron-up"></i></a>
-                                                <a href="javascript:void(0)" class="down-arrow2 pagination-icon"><i class="glyphicon glyphicon-chevron-down"></i></a>
-                                            </div>
+                                            <?php if (count($fscore) > 6): ?>
+                                                <div class="table-pagination2">
+                                                    <a href="javascript:void(0)" class="up-arrow2 pagination-icon" id="uparrow2"><i class="glyphicon glyphicon-chevron-up"></i></a>
+                                                    <a href="javascript:void(0)" class="down-arrow2 pagination-icon" id="downarrow2"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                                                </div>
+                                            <?php endif; ?>
                                             <div class="closable-add">
                                                 <?php sponsorClose(); ?>
                                             </div>
@@ -102,30 +97,32 @@
                                             </div>
                                         </div>
                                         <div class="table-content">
-                                            <?php for ($i = 0; $i < 50; $i++): ?>
-                                                <div class="table-row paged history" id="<?php echo 'page_' . $i; ?>" data-pageid="<?php echo $i; ?>">
+                                            <?php for ($i = 0; $i < count($leaderlist); $i++): ?>
+                                                <div class="table-row paged1 history" id="<?php echo 'page_' . $i; ?>" data-pageid="<?php echo $i; ?>">
                                                     <div class="col-7">
                                                         <div class="shape-circle2"><?php echo $i + 1; ?></div>
                                                     </div>
-                                                    <div class="col-99 col-text-black">West Born Vs Sunder Land <?php echo $i; ?></div>
+                                                    <div class="col-99 col-text-black"><?php echo $leaderlist[$i]['username']; ?></div>
                                                     <div class="col-44 col-text-title-black">
-                                                        <div class="box">11</div>
+                                                        <div class="box"><?php echo $leaderlist[$i]['rank']; ?></div>
                                                     </div>
                                                     <div class="col-44 col-text-title-black">
-                                                        <div class="box">11</div>
+                                                        <div class="box"><?php echo $leaderlist[$i]['withbonus']; ?></div>
                                                     </div>
                                                     <div class="col-44 col-text-title-black">
-                                                        <div class="box">11</div>
+                                                        <div class="box"><?php echo "+" . ($leaderlist[$i]['withbonus'] - $leaderlist[$i]['withoutbonus']); ?></div>
                                                     </div>
                                                     <div class="clearfix"></div>
                                                 </div>
                                             <?php endfor; ?>
                                         </div>
                                         <div class="table-footer">
-                                            <div class="table-pagination">
-                                                <a href="javascript:void(0)" class="up-arrow pagination-icon"><i class="glyphicon glyphicon-chevron-up"></i></a>
-                                                <a href="javascript:void(0)" class="down-arrow pagination-icon"><i class="glyphicon glyphicon-chevron-down"></i></a>
-                                            </div>
+                                            <?php if ($totalleader > 6): ?>
+                                                <div class="table-pagination">
+                                                    <a href="javascript:void(0)" class="up-arrow pagination-icon" id="uparrow1"><i class="glyphicon glyphicon-chevron-up"></i></a>
+                                                    <a href="javascript:void(0)" class="down-arrow pagination-icon" id="downarrow1"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                                                </div>
+                                            <?php endif; ?>
                                             <div class="closable-add">
                                                 <?php sponsorClose(); ?>
                                             </div>
@@ -136,163 +133,7 @@
                             </div>
                         </div>
                     <?php endif; ?>
-
-
-
-
-
-
-
-
-
-                    <div  id="upcominggames" class="formcontainer hidden" style="margin-top: 0px;">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <tr>
-                                    <th colspan="4"><h3 class="table-heading center-text">My Guess</h3></th>
-                                </tr>
-                                <?php for ($i = 0; $i < count($upcoming_game); $i++): ?>
-                                    <tr data-play="<?php echo $upcoming_game[$i]['id']; ?>">
-                                        <td class="goal-team1"><div class="shape-box" style="float: left;padding: 0px;line-height: 35px"><?php echo $upcoming_game[$i]['team1score']; ?></div></td>
-                                        <td class="team-vs" id="<?php echo "data_" . $upcoming_game[$i]['id']; ?>"><h4 class="center-text"><?php echo $upcoming_game[$i]['team1'] . " Vs " . $upcoming_game[$i]['team2']; ?></h4></td>
-                                        <td class="goal-team2"><div class="shape-box" style="padding: 0px;line-height: 35px"><?php echo $upcoming_game[$i]['team2score']; ?></div></td>
-                                        <td class="right-text action-option">
-                                            <button  class="btn btn-primary btn-sm btn-guess-save">Save</button>
-                                            <button class="btn btn-danger btn-sm btn-guess-cancel">Cancel</button>
-                                            <button href="#" class="btn btn-danger btn-sm btn-guess-edit">Edit</button>
-                                        </td>
-                                    </tr>
-                                <?php endfor; ?>
-                            </table>
-                            <div class="pagination center-text" id="pagination">
-                                <a href="gamelist.php?limit=<?php echo $lowerlimit - 6; ?>" class="nav-link <?php echo ($_GET['limit'] < 5 || empty($_GET['limit'])) ? "no-link" : ""; ?>"><i class="glyphicon glyphicon-chevron-up"></i></a>
-                                <a href="gamelist.php?limit=<?php echo $lowerlimit + 6; ?>" class="nav-link <?php echo ($total_data <= 5 || $_GET['limit'] > $total_data) ? "no-link" : ""; ?>"><i class="glyphicon glyphicon-chevron-down"></i></a>
-                            </div>
-                            <div class="closable-add" style="width: 480px;margin:0px auto 10px;">
-                                <?php sponsorClose(); ?>
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
-            </div>
-            <div  id="upcominggames" class="formcontainer hidden" style="margin-top: 0px;">
-                <div class="table-responsive">
-                    <div id="leader-list-wrapper">
-                        <table class="table" id="leader-list">
-                            <tr>
-                                <th>
-                            <div class="pull-left heading4">Leader Board </div>
-
-                            </th>
-                            <th><div class="pull-right list-number">
-                                <a class="list-with-number" href="javascript:return false;" id="history-table-action">
-                                    <span>1</span>
-                                    <span>2</span>
-                                    <span>3</span>
-                                </a>
-                            </div></th>
-                            <th><h3 class="table-heading right-text">Rank</h3></th>
-                            <th><h3 class="table-heading right-text">Score</h3></th>
-                            <th><h3 class="table-heading right-text">+/-</h3></th>
-                            </tr>
-                            <?php for ($i = 0; $i < count($final_leader); $i++): ?>
-                                <tr class="add-friend" title="Click to add">
-                                    <td>
-                                        <span class="<?php echo "shape-circle "; ?>">
-                                            <?php echo $i + 1; ?>
-                                        </span>
-                                        <h4>
-                                            <?php echo $final_leader[$i]['username']; ?>
-                                        </h4>
-                                    </td>
-                                    <td style="text-align:right;">
-                                        <div style="margin-top: 10px;">
-                                            <?php
-//                                                if ($final_leader[$i]['fnfstatus'] == "circle-blocked") {
-//                                                    echo '<a class="btn btn-danger btn-xs">Blocked</a>';
-//                                                } else if ($final_leader[$i]['fnfstatus'] == "circle-pending") {
-//                                                    echo '<a class="btn btn-warning btn-xs">Pending</a>';
-//                                                } else if ($final_leader[$i]['fnfstatus'] == "circle-active") {
-//                                                    echo '<a class="btn btn-primary btn-xs">Alies</a>';
-//                                                } else if ($final_leader[$i]['fnfstatus'] == "add-circle") {
-//                                                    echo '<a  class="btn btn-default btn-xs add-to-circle" id="user_' . $final_leader[$i]['userid'] . '" data-userid="' . $final_leader[$i]['userid'] . '">Add</a>';
-//                                                }
-                                            ?>
-                                        </div>
-                                    </td> 
-                                    <td class="right-text">
-                                        <div class="shape-box"><?php echo $final_leader[$i]['rank']; ?></div>
-                                    </td> 
-                                    <td class="right-text">
-                                        <div class="shape-box"><?php echo $final_leader[$i]['userpoint']; ?></div>
-                                    </td>
-                                    <td class="right-text">
-                                        <div class="shape-box"><?php echo "+" . $final_leader[$i]['point3']; ?></div>
-                                    </td>
-                                </tr>
-                            <?php endfor; ?>
-                        </table>
-                        <div class="pagination center-text" id="pagination" style="bottom:30px;">
-                            <a href="gamelist.php?limit=<?php echo $lowerlimit - 6; ?>" class="nav-link <?php echo ($_GET['limit'] < 5 || empty($_GET['limit'])) ? "no-link" : ""; ?>"><i class="glyphicon glyphicon-chevron-up"></i></a>
-                            <a href="gamelist.php?limit=<?php echo $lowerlimit + 6; ?>" class="nav-link <?php echo ($total_data <= 5 || $_GET['limit'] > $total_data) ? "no-link" : ""; ?>"><i class="glyphicon glyphicon-chevron-down"></i></a>
-                        </div>
-                        <div class="closable-add" style="width: 480px;margin:0px auto 10px;bottom: 0px;">
-                            <?php sponsorClose(); ?>
-                        </div>
-                    </div>
-                    <div id="my-history">
-                        <div class="box-heading">
-                            <div class="col-md-4 heading4" style="padding: 0px"><a href="javascript:return false;" id="back-to-leader"><i class="glyphicon glyphicon-chevron-left"></i> Back</a></div>
-                            <div class="heading4 col-md-4 center-text">My History</div>
-                            <div class="heading4 col-md-4 right-text"><a href="javascript:return false;">Share</a></div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div>
-                            <table class="table" >
-                                <tr>
-                                    <th colspan="3"><h3 class="table-heading">Previous Guess</h3></th>
-                                <th colspan="1"><h3 class="table-heading right-text">Score=Points</h3></th>
-                                </tr>
-                                <?php for ($i = 0; $i < count($my_history); $i++): ?>
-                                    <tr>
-                                        <td>
-                                            <div class="shape-box" style="float: left"><?php echo $my_history["data"][$i]['team1score']; ?></div>
-                                        </td>
-                                        <td><h4 class="center-text"><?php echo $my_history["data"][$i]['team1Name'] . " VS " . $my_history["data"][$i]['team2Name']; ?></h4></td>
-                                        <td class="right-text">
-                                            <div class="shape-box"><?php echo $my_history["data"][$i]['team2score']; ?></div>
-                                        </td> 
-
-                                        <td class="right-text">
-                                            <h4><?php echo $my_history["data"][$i]['team1Goal'] . "-" . $my_history["data"][$i]['team2Goal'] . "=" . $my_history['data'][$i]['totalpoint'] . " Point(s)"; ?></h4>
-                                        </td>
-                                    </tr>
-                                <?php endfor; ?>
-                                <tr>
-                                    <td colspan="4" style="text-align: center">
-                                        <div class="weak-score"><h2 style="margin: 0px;color:#115DFF">Week Score 14x0.5(Bonus)=28</h2></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" style="text-align: center">
-                                        <a href="" class="nav-link"><i class="glyphicon glyphicon-chevron-up"></i></a>
-                                        <a href="" class="nav-link"><i class="glyphicon glyphicon-chevron-down"></i></a>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="pagination center-text" id="pagination" style="bottom:30px;">
-                            <a href="gamelist.php?limit=<?php echo $lowerlimit - 6; ?>" class="nav-link <?php echo ($_GET['limit'] < 5 || empty($_GET['limit'])) ? "no-link" : ""; ?>"><i class="glyphicon glyphicon-chevron-up"></i></a>
-                            <a href="gamelist.php?limit=<?php echo $lowerlimit + 6; ?>" class="nav-link <?php echo ($total_data <= 5 || $_GET['limit'] > $total_data) ? "no-link" : ""; ?>"><i class="glyphicon glyphicon-chevron-down"></i></a>
-                        </div>
-                        <div class="closable-add" style="width: 480px;margin:0px auto 10px;bottom: 0px;">
-                            <?php sponsorClose(); ?>
-                        </div>
-                    </div>
-
-                </div>
-
             </div>
         </div>
     </div>
@@ -517,6 +358,95 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<div class="modal fade" id="enrolled-league"tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">My Group</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive datatable">
+                    <table class="table table-bordered table-hover" id="leaguelist">
+                        <thead>
+                            <tr style="background: bisque;">
+                                <th>Si</th>
+                                <th>Group Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php for ($i = 0; $i < count($allprivateleague['data']); $i++): ?>
+                                <tr>
+                                    <td><?php echo $i + 1; ?></td>
+                                    <td><?php echo $allprivateleague['data'][$i]['groupname']; ?></td>
+                                    <td><?php echo '<a href="leader-board.php?key=leaderboard&action=chooseleague&groupid=' . $allprivateleague['data'][$i]['groupid'] . '" class="btn btn-primary btn-sm">League Details</a>'; ?></td>
+                                </tr>
+                            <?php endfor; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="invite-user"tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">My Group</h4>
+            </div>
+            <div id="containerjoin">
+                <div class="alert-custom"></div>
+                <form id="invitationform" name="invitationform" role="form">
+                    <div class="modal-body">
+                        <div class="my-p-league">
+                            <select class="form-control" required="required" name="groupid">
+                                <option value="">Select League</option>
+                                <?php for ($i = 0; $i < count($allmyleague['data']); $i++): ?>
+                                    <option value="<?php echo $allmyleague['data'][$i]['groupid']; ?>"><?php echo $allmyleague['data'][$i]['groupname']; ?></option>
+                                <?php endfor; ?>
+
+                            </select>
+                        </div>
+                        <br>
+                        <div class="table-responsive datatable">
+                            <table class="table table-bordered table-hover" id="inviteuserlist">
+                                <thead>
+                                    <tr style="background: bisque;">
+                                        <th>Si</th>
+                                        <th>User</th>
+                                        <th>Point</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php for ($i = 0; $i < count($inviteleaderlist); $i++): ?>
+                                        <tr>
+                                            <td><?php echo $i + 1; ?></td>
+                                            <td><?php echo $inviteleaderlist[$i]['username']; ?></td>
+                                            <td><?php echo $inviteleaderlist[$i]['withbonus']; ?></td>
+                                            <td>
+                                                <input type="checkbox" name="userid[]" value="<?php echo $inviteleaderlist[$i]['userid']; ?>">
+                                            </td>
+                                        </tr>
+                                    <?php endfor; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <br>
+                            <input type="submit" class="btn btn-primary btn-block" value="Invite">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <div class="modal fade bs-example-modal-sm" id="create-league-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content create-league">
@@ -538,107 +468,92 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="league-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content condenced">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Enter New League Name</h4>
+            </div>
+            <div class="modal-body" id="logincontainer">
+                <div id="league-insert" class="game">
+                    <div class="alert-custom messaage"></div>
+                    <form id="leagueinput" name="league-input" role="form">
+                        <input type="hidden" name="token" value="<?php echo v_generateToken(); ?>">
+                        <div class="input-box ftitle">
+                            <input type="text" class="textinput center-text black" name="league_name" required="required" maxlength="100" placeholder="League name">
+                            <div class="error-message"></div>
+                        </div>
+                        <div class="input-box ftitle">
+                            <textarea required="required" maxlength="200" style="width: 100%;resize: none" placeholder="Short description" name="description"></textarea>
+                            <div class="error-message"></div>
+                        </div>
+                        <br>
+                        <div>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <?php v_includeFooter(); ?>
 <script>
-    window.maxleague = "<?php echo $total_league; ?>";
-    window.incrementor = 1;
-    window.totalRow = 50;
-    window.totalPage = Math.ceil(50 / 6);
-    if (window.totalRow <= 6) {
-        $(".table-pagination").hide();
-    }
-    if (window.totalRow > 6) {
-        $(".paged").each(function () {
-            var pageid = $(this).data("pageid");
-            if (pageid >= 6) {
-                $(this).hide();
-                if (pageid == 6) {
-                    $(this).addClass("legend");
-                }
-            }
+    //Pagination common function
+    var showPage = function (page, container, pageSize) {
+        $(container).hide();
+        $(container).each(function (n) {
+            if (n >= pageSize * (page - 1) && n < pageSize * page)
+                $(this).show();
         });
     }
-    $(".down-arrow").on("click", function () {
-        if (window.totalRow > 6 && window.incrementor < window.totalPage) {
-            var i = 0;
-            window.incrementor++;
-            var currentpage = $(this).parent().parent().parent().find(".legend").data("pageid");
-            $(this).parent().parent().parent().find(".paged").hide();
-            for (i = currentpage; i < currentpage + 6; i++) {
-                $("#page_" + i).show();
-                if ((i != currentpage) && (i % 6 == 5) && ($("#page_" + currentpage).nextAll().length > 5)) {
-                    $(this).parent().parent().parent().find(".legend").removeClass("legend");
-                    $(this).parent().parent().parent().find("#page_" + (i + 1)).addClass("legend");
-                }
-            }
+    //Start pagination, page 1
+    var currentPage1 = 1;
+    var pageSize1 = 6;
+    var minPage1 = 1;
+    var maxLength1 = "<?php echo $totalleader; ?>";
+    var maxPage = Math.ceil(maxLength1 / pageSize1);
+
+    showPage(1, ".paged1", pageSize1);
+    $("#downarrow1").on("click", function () {
+        if (currentPage1 < maxPage) {
+            currentPage1++;
+            showPage(currentPage1, ".paged1", pageSize1);
         }
     });
-    $(".up-arrow").on("click", function () {
-        if (window.totalRow > 6 && window.incrementor > 1) {
-            var i = 0;
-            window.incrementor--;
-            var currentpage = $(this).parent().parent().parent().find(".legend").data("pageid");
-            $(this).parent().parent().parent().find(".paged").hide();
-            console.log("B::" + currentpage);
-            for (i = currentpage - 1; i >= currentpage - 6; i--) {
-                $("#page_" + (i - 6)).show();
-                if ((i != currentpage) && (i % 6 == 0) && ($("#page_" + currentpage).prevAll().length > 6)) {
-                    $(this).parent().parent().parent().find(".legend").removeClass("legend");
-                    $(this).parent().parent().parent().find("#page_" + (i)).addClass("legend");
-                }
-            }
+    $("#uparrow1").on("click", function () {
+        if (currentPage1 > 1) {
+            currentPage1--;
+            showPage(currentPage1, ".paged1", pageSize1);
         }
     });
-    window.maxleague2 = "<?php echo $total_league; ?>";
-    window.incrementor2 = 1;
-    window.totalRow2 = 50;
-    window.totalPage2 = Math.ceil(50 / 6);
-    if (window.totalRow2 <= 6) {
-        $(".table-pagination2").hide();
-    }
-    if (window.totalRow2 > 6) {
-        $(".paged2").each(function () {
-            var pageid2 = $(this).data("pageid2");
-            if (pageid2 >= 6) {
-                $(this).hide();
-                if (pageid2 == 6) {
-                    $(this).addClass("legend2");
-                }
-            }
-        });
-    }
-    $(".down-arrow2").on("click", function () {
-        if (window.totalRow2 > 6 && window.incrementor2 < window.totalPage2) {
-            var j = 0;
-            window.incrementor2++;
-            var currentpage2 = $(this).parent().parent().parent().find(".legend2").data("pageid2");
-            $(this).parent().parent().parent().find(".paged2").hide();
-            for (j = currentpage2; j < currentpage2 + 6; j++) {
-                $("#page2_" + j).show();
-                if ((j != currentpage2) && (j % 6 == 5) && ($("#page2_" + currentpage2).nextAll().length > 5)) {
-                    $(this).parent().parent().parent().find(".legend2").removeClass("legend2");
-                    $(this).parent().parent().parent().find("#page2_" + (j + 1)).addClass("legend2");
-                }
-            }
+    // End of pagination, page 1
+
+
+    //Start pagination, page 2
+    var currentPage2 = 1;
+    var pageSize2 = 6;
+    var minPage2 = 1;
+    var maxLength2 = "<?php echo count($fscore); ?>";
+    var maxPage2 = Math.ceil(maxLength2 / pageSize2);
+
+    showPage(1, ".paged2", pageSize2);
+    $("#downarrow2").on("click", function () {
+        if (currentPage2 < maxPage2) {
+            currentPage2++;
+            showPage(currentPage2, ".paged2", pageSize2);
         }
     });
-    $(".up-arrow2").on("click", function () {
-        console.log("V::" + window.incrementor2);
-        if (window.totalRow2 > 6 && window.incrementor2 > 1) {
-            var j = 0;
-            window.incrementor2--;
-            var currentpage2 = $(this).parent().parent().parent().find(".legend2").data("pageid2");
-            $(this).parent().parent().parent().find(".paged2").hide();
-            for (j = currentpage2 - 1; j >= currentpage2 - 6; j--) {
-                $("#page2_" + (j - 6)).show();
-                if ((j != currentpage2) && (j % 6 == 0) && ($("#page2_" + currentpage2).prevAll().length > 6)) {
-                    $(this).parent().parent().parent().find(".legend2").removeClass("legend2");
-                    $(this).parent().parent().parent().find("#page2_" + (j)).addClass("legend2");
-                }
-            }
+    $("#uparrow2").on("click", function () {
+        if (currentPage2 > 1) {
+            currentPage2--;
+            showPage(currentPage2, ".paged2", pageSize2);
         }
     });
+    // End of pagination, page 1
     $("#leader-table-list").on("click", function () {
         $("#leader-list").hide("slide", function () {
             $("#league-table2").show("slide");
@@ -658,10 +573,6 @@
     });
     $(".invite-league").on("click", function () {
         $("#invite-league-modal").modal("show");
-    });
-    $(".private").on("click", function () {
-        var url = $(this).data("pageredirect");
-        window.location.href = url;
     });
     $("#go-to-leader").on("click", function () {
         window.location.href = "leader-board.php";

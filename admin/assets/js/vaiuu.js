@@ -44,6 +44,18 @@ jQuery(function ($) {
                     VAIUU.AjaxFormValueCheck("admin/controller/Account.php", "deleteuser", "method=deleteuser&usertype=admin&" + "userid=" + adminid, CALLBACK.userDelete);
                 }
             });
+            $("#add-month-bonus").on("click", function () {
+                var r = confirm("Do you want to add  bonus for this month.");
+                if (r == true) {
+                    VAIUU.AjaxFormValueCheck("admin/controller/Account.php", "add-month-bonus", "method=addmonthbonus", CALLBACK.AddMonthBonus);
+                }
+            });
+            $("#add-perform-bonus").on("click", function () {
+                var r = confirm("Do you want to add  perform bonus for this month.");
+                if (r == true) {
+                    VAIUU.AjaxFormValueCheck("admin/controller/Account.php", "add-perform-bonus", "method=add-perform-bonus", CALLBACK.AddMonthBonus);
+                }
+            });
             $(".deleteteam").on("click", function () {
                 var teamid = $(this).data("id");
                 var r = confirm("Do you want to delete this item?");
@@ -836,6 +848,14 @@ jQuery(function ($) {
                 setTimeout(function () {
                     window.location.href = data.redirecturl;
                 }, 3000);
+            }
+
+        },
+        AddMonthBonus: function (data) {
+            if (data.success == true) {
+                $(".res").html("<h1>" + data.message + "</h1>").css("color:", "yellowgreen");
+            } else {
+                $(".res").html("<h1>" + data.message + "</h1>").css("color:", "red");
             }
 
         },

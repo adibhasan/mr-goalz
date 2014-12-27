@@ -495,6 +495,7 @@
                                             </option>
                                             <option value="active">Active</option>
                                             <option value="pending">Pending</option>
+                                            <option value="completed">Completed</option>
                                         </select>
                                     </div>
                                 </div>

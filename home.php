@@ -2,6 +2,7 @@
 include 'Generic.php';
 include 'controller/Home.php';
 include 'fblogin.php';
+$gurl=googleLogin();
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,10 +14,11 @@ include 'fblogin.php';
         <?php v_includeHeader(); ?>
     </head>
     <body>
+       
         <div id="datacontent" class="thin">
             <?php
-            v_sideMenu();
-            v_topMenu($FB_LOGIN_URL);
+            v_sideMenu($FB_LOGIN_URL,$gurl);
+            v_topMenu($FB_LOGIN_URL,$gurl);
             ?>
             <div class="line"></div>
             <div class="page-container container">

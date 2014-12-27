@@ -1,7 +1,7 @@
 <?php
 if (isset($_SESSION['vaiuugroup']['adminname']) && isset($_SESSION['vaiuugroup']['adminemail']) && $_SESSION['vaiuugroup']['admintype']) {
-    $userinfo = v_dataSelect("league", "status !='deleted'");
-    $teaminfo = v_dataSelect("team", "status !='deleted'");
+    $userinfo = v_dataSelect("league", "status !='deleted' ORDER BY league_name ASC");
+    $teaminfo = v_dataSelect("team", "status !='deleted' ORDER BY teamname ASC");
     $gameinfo = v_dataSelect("upcominggames", "status !='deleted'");
     $currentdate=date("Y-m-d H:i:s");
     $gameinfo_old = v_dataSelect("upcominggames", "status !='deleted' AND  schedule < '$currentdate'");

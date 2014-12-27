@@ -368,7 +368,9 @@
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                         <h4 class="modal-title">Change Password</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="changePasswordContainer">
+                        <div class="alert-custom"></div>
+                        <form id="changePassword" name="changePassword" role="form">
                         <input type="password" class="hidden">
                         <div class="input-box minputbox">
                             <div class="signal"></div>
@@ -381,8 +383,10 @@
                             <div class="error-message"></div>
                         </div>
                         <br>
+                        <input type="hidden" name="token" value="<?php echo v_generateToken();?>">
                         <button type="button" class="btn btn-default condenced" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary condenced">Change Password</button>
+                        </form>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->

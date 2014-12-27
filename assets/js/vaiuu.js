@@ -23,7 +23,8 @@ jQuery(function ($) {
             $(document).ready(function () {
                 $('#example').DataTable();
             });
-            $("#change-password").on("click",function(){
+            $("#change-password").on("click", function () {
+                VAIUU.FormReset("#changePassword");
                 $("#reset-password").modal("show");
             });
             $('.content-wrapper', '.content-wrapper img').click(function (e) {
@@ -141,6 +142,20 @@ jQuery(function ($) {
                     $("form [type=submit]").trigger("click");
                 }
             });
+            $("#create-private-league button").on("click", function () {
+                $("#create-league-modal").modal("hide");
+                $("#league-modal").modal("show");
+            });
+            $("#choose-private-league button").on("click", function () {
+                $("#create-league-modal").modal("hide");
+                $("#enrolled-league").modal("show");
+            });
+            $("#invite-private-league button").on("click", function () {
+                $("#create-league-modal").modal("hide");
+                $("#invite-user").modal("show");
+            });
+            $('#leaguelist').DataTable();
+            $('#inviteuserlist').DataTable();
             $(".league-list").on("change", function () {
                 if ($(this).val() == "other") {
                     var id = $(this).attr("id");
@@ -327,6 +342,9 @@ jQuery(function ($) {
             }).on("focusout", function () {
                 $(this).parent().find(".error-message").hide("slow").html("");
             });
+            $(".guess").on("click", function () {
+                VAIUU.AjaxFormValueCheck("controller/Account.php", "post", "team1Name=" + $(this).data("team1") + "&team2Name=" + $(this).data("team2") + "&gameid=" + $(this).data("gameid") + "&method=guess", CALLBACK.GuessInfoAlert);
+            });
             $("#signup input[name=user_id_name]").on("keyup", function () {
                 var Pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,150}$/;
                 var fieldvalue = $(this).val();
@@ -357,9 +375,21 @@ jQuery(function ($) {
                 var url = $(this).data("redirect");
                 window.location.href = url;
             });
+            $(document.body).on("submit", "#myguessform", function (event) {
+                event.preventDefault();
+                VAIUU.AjaxForm("controller/Account.php", "post", "#myguessform", "method=updatemyguess", "containermyguess", CALLBACK.UpdateMyGuess);
+            });
+            $(document.body).on("submit", "#invitationform", function (event) {
+                event.preventDefault();
+                VAIUU.AjaxForm("controller/Account.php", "post", "#invitationform", "method=joinmyleague", "containerjoin", CALLBACK.sendInvitation);
+            });
             $("#login").submit(function (event) {
                 event.preventDefault();
                 VAIUU.AjaxForm("controller/Account.php", "post", "#login", "method=userlogin", "logincontainer", CALLBACK.Login);
+            });
+            $("#changePassword").submit(function (event) {
+                event.preventDefault();
+                VAIUU.AjaxForm("controller/Account.php", "post", "#changePassword", "method=changepassword", "changePasswordContainer", CALLBACK.Changepassword);
             });
             $("#resend-activation-link").submit(function (event) {
                 event.preventDefault();
@@ -403,8 +433,6 @@ jQuery(function ($) {
                 } else {
                     VAIUU.AjaxForm("controller/Account.php", "post", "#insert-game", "method=gamecreate", "container3", CALLBACK.GameCreate);
                 }
-
-
             });
             // Update Settings page
             $("#form-settings").submit(function (event) {
@@ -588,6 +616,25 @@ jQuery(function ($) {
                 $("input[name=user_id_name]").prev().removeClass("correct error loader").addClass("correct");
             }
         },
+        GuessInfoAlert: function (data) {
+            if (data.success == false) {
+                var colorCode = "red";
+            } else {
+                var colorCode = "yellowgreen";
+            }
+            $("#myguessmodal .modal-title").html(data.title).css("color", colorCode);
+            if (data.success == false) {
+                $("#myguessmodal .modal-body").html(data.message);
+            } else {
+                $("#myguessmodal .modal-body").html($("#insertaction").html());
+                $(".gteam1").html(data.datas.team1name);
+                $(".gteam2").html(data.datas.team2name);
+                $("#team1score").val(data.datas.team1score);
+                $("#team2score").val(data.datas.team2score);
+                $("#guessgameid").val(data.datas.gameid);
+            }
+            $("#myguessmodal").modal("show");
+        },
         AddBonus: function (data) {
             if (data.success == false) {
                 if (data.message == "Bonus adding failed.") {
@@ -621,6 +668,33 @@ jQuery(function ($) {
                 }, 500);
             } else {
                 $("#login input[name=user_id_name],#login input[name=user_password]").prev().addClass("error");
+            }
+        },
+        UpdateMyGuess: function (data) {
+            $("#myguessform").prev().html("<div class='alert alert-" + data.styleclass + "'>" + data.message + "</div>");
+            var rowid = "#page1_" + $("#myguessform #guessgameid").val();
+            var team1Goal = $("#myguessform #team1score").val();
+            var team2Goal = $("#myguessform #team2score").val();
+            if (data.success == true) {
+                $(rowid + " .box11").html(team1Goal);
+                $(rowid + " .box22").html(team2Goal);
+            }
+            setTimeout(function () {
+                $("#myguessmodal").modal("hide");
+            }, 3000);
+
+        },
+        sendInvitation: function (data) {
+            $("#invitationform").prev().html("<div class='alert alert-" + data.styleclass + "'>" + data.message + "</div>");
+            VAIUU.FormReset("#invitationform");
+        },
+        Changepassword: function (data) {
+            $("#changePassword").prev().html("<div class='alert alert-" + data.styleclass + "'>" + data.message + "</div>");
+            if (data.success === true) {
+                VAIUU.FormReset("#changePassword");
+                setTimeout(function () {
+                    $("#reset-password").modal("hide");
+                }, 3000);
             }
         },
         ResendAl: function (data) {

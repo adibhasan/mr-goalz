@@ -63,20 +63,20 @@
                                         </div>
                                     </div>
                                     <div class="table-content">
-                                        <?php for ($i = 0; $i < 50; $i++): ?>
+                                        <?php for ($i = 0; $i < count($history2['data']); $i++): ?>
                                             <div class="table-row paged" id="<?php echo 'page_' . $i; ?>" data-pageid="<?php echo $i; ?>">
                                                 <div class="col-155 col-text-title-black his-wrapper">
                                                     <div class="sub-col-155 his">
-                                                        <div class="team ">Man United</div>
-                                                        <div class="gola">5</div>
+                                                        <div class="team "><?php echo $history2['data'][$i]['team1name']; ?></div>
+                                                        <div class="gola"><?php echo $history2['data'][$i]['team1score']; ?></div>
                                                     </div>
                                                     <div class="sub-col-156 vs">VS</div>
                                                     <div class="sub-col-155 his">
-                                                        <div class="team">Sunder Land</div>
-                                                        <div class="gola"><?php echo $i;?></div>
+                                                        <div class="team"><?php echo $history2['data'][$i]['team2name']; ?></div>
+                                                        <div class="gola"><?php echo $history2['data'][$i]['team2score']; ?></div>
                                                     </div>
                                                 </div>
-                                                <div class="col-157 col-text-title-black" style="text-align: center">7-8 = 4</div> 
+                                                <div class="col-157 col-text-title-black" style="text-align: center"><?php echo $history2['data'][$i]['team1realscore']."-".$history2['data'][$i]['team2realscore']."=".$history2['data'][$i]['totalpoints']; ?></div> 
                                                 <div class="clearfix"></div>
                                             </div>
                                         <?php endfor; ?>
@@ -85,49 +85,18 @@
                                         Week Score 14X2(Bonus) = 28
                                     </div>
                                     <div class="table-footer">
-                                        <div class="table-pagination">
-                                            <a href="javascript:void(0)" class="up-arrow pagination-icon"><i class="glyphicon glyphicon-chevron-up"></i></a>
-                                            <a href="javascript:void(0)" class="down-arrow pagination-icon"><i class="glyphicon glyphicon-chevron-down"></i></a>
-                                        </div>
+
+                                        <?php if ($totalhistory > 6): ?>
+                                            <div class="table-pagination">
+                                                <a href="javascript:void(0)" class="up-arrow pagination-icon" id="uparrow1"><i class="glyphicon glyphicon-chevron-up"></i></a>
+                                                <a href="javascript:void(0)" class="down-arrow pagination-icon" id="downarrow1"><i class="glyphicon glyphicon-chevron-down"></i></a>
+                                            </div>
+                                        <?php endif; ?>
                                         <div class="closable-add">
                                             <?php sponsorClose(); ?>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-
-
-
-
-                            <div  id="upcominggames" class="formcontainer hidden" style="margin-top: 0px;">
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <tr>
-                                            <th colspan="4"><h3 class="table-heading center-text">My Guess</h3></th>
-                                        </tr>
-                                        <?php for ($i = 0; $i < count($upcoming_game); $i++): ?>
-                                            <tr data-play="<?php echo $upcoming_game[$i]['id']; ?>">
-                                                <td class="goal-team1"><div class="shape-box" style="float: left;padding: 0px;line-height: 35px"><?php echo $upcoming_game[$i]['team1score']; ?></div></td>
-                                                <td class="team-vs" id="<?php echo "data_" . $upcoming_game[$i]['id']; ?>"><h4 class="center-text"><?php echo $upcoming_game[$i]['team1'] . " Vs " . $upcoming_game[$i]['team2']; ?></h4></td>
-                                                <td class="goal-team2"><div class="shape-box" style="padding: 0px;line-height: 35px"><?php echo $upcoming_game[$i]['team2score']; ?></div></td>
-                                                <td class="right-text action-option">
-                                                    <button  class="btn btn-primary btn-sm btn-guess-save">Save</button>
-                                                    <button class="btn btn-danger btn-sm btn-guess-cancel">Cancel</button>
-                                                    <button href="#" class="btn btn-danger btn-sm btn-guess-edit">Edit</button>
-                                                </td>
-                                            </tr>
-                                        <?php endfor; ?>
-                                    </table>
-                                    <div class="pagination center-text" id="pagination">
-                                        <a href="gamelist.php?limit=<?php echo $lowerlimit - 6; ?>" class="nav-link <?php echo ($_GET['limit'] < 5 || empty($_GET['limit'])) ? "no-link" : ""; ?>"><i class="glyphicon glyphicon-chevron-up"></i></a>
-                                        <a href="gamelist.php?limit=<?php echo $lowerlimit + 6; ?>" class="nav-link <?php echo ($total_data <= 5 || $_GET['limit'] > $total_data) ? "no-link" : ""; ?>"><i class="glyphicon glyphicon-chevron-down"></i></a>
-                                    </div>
-                                    <div class="closable-add" style="width: 480px;margin:0px auto 10px;">
-                                        <?php sponsorClose(); ?>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
                     </div>
@@ -146,55 +115,35 @@
         </div>
         <?php v_includeFooter(); ?>
         <script>
-            window.maxleague = "<?php echo $total_league; ?>";
-            window.incrementor = 1;
-            window.totalRow = 50;
-            window.totalPage = Math.ceil(50 / 6);
-            if (window.totalRow <= 6) {
-                $(".table-pagination").hide();
-            }
-            if (window.totalRow > 6) {
-                $(".paged").each(function () {
-                    var pageid = $(this).data("pageid");
-                    if (pageid >= 6) {
-                        $(this).hide();
-                        if (pageid == 6) {
-                            $(this).addClass("legend");
-                        }
-                    }
+            //Pagination common function
+            var showPage = function (page, container, pageSize) {
+                $(container).hide();
+                $(container).each(function (n) {
+                    if (n >= pageSize * (page - 1) && n < pageSize * page)
+                        $(this).show();
                 });
             }
-            $(".down-arrow").on("click", function () {
-                if (window.totalRow > 6 && window.incrementor < window.totalPage) {
-                    var i = 0;
-                    window.incrementor++;
-                    var currentpage = $(this).parent().parent().parent().find(".legend").data("pageid");
-                    $(this).parent().parent().parent().find(".paged").hide();
-                    for (i = currentpage; i < currentpage + 6; i++) {
-                        $("#page_" + i).show();
-                        if ((i != currentpage) && (i % 6 == 5) && ($("#page_" + currentpage).nextAll().length > 5)) {
-                            $(this).parent().parent().parent().find(".legend").removeClass("legend");
-                            $(this).parent().parent().parent().find("#page_" + (i + 1)).addClass("legend");
-                        }
-                    }
+            //Start pagination, page 1
+            var currentPage1 = 1;
+            var pageSize1 = 6;
+            var minPage1 = 1;
+            var maxLength1 = "<?php echo $totalhistory; ?>";
+            var maxPage = Math.ceil(maxLength1 / pageSize1);
+
+            showPage(1, ".paged1", pageSize1);
+            $("#downarrow1").on("click", function () {
+                if (currentPage1 < maxPage) {
+                    currentPage1++;
+                    showPage(currentPage1, ".paged1", pageSize1);
                 }
             });
-            $(".up-arrow").on("click", function () {
-                if (window.totalRow > 6 && window.incrementor > 1) {
-                    var i = 0;
-                    window.incrementor--;
-                    var currentpage = $(this).parent().parent().parent().find(".legend").data("pageid");
-                    $(this).parent().parent().parent().find(".paged").hide();
-                    console.log("B::" + currentpage);
-                    for (i = currentpage - 1; i >= currentpage - 6; i--) {
-                        $("#page_" + (i - 6)).show();
-                        if ((i != currentpage) && (i % 6 == 0) && ($("#page_" + currentpage).prevAll().length > 6)) {
-                            $(this).parent().parent().parent().find(".legend").removeClass("legend");
-                            $(this).parent().parent().parent().find("#page_" + (i)).addClass("legend");
-                        }
-                    }
+            $("#uparrow1").on("click", function () {
+                if (currentPage1 > 1) {
+                    currentPage1--;
+                    showPage(currentPage1, ".paged1", pageSize1);
                 }
             });
+            // End of pagination, page 1
             $(".btn-share").on("click", function () {
                 $("#share").toggle();
             });

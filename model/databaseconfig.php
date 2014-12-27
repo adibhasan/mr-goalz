@@ -47,7 +47,6 @@ function v_dataSelect($tablename, $conditions) {
     return $result;
 }
 
-
 function v_comlex_query_league($conditions) {
     $link = databaseConnector();
     $query = "SELECT SUM(t.total_play) AS final_total,SUM(t.team_score) AS final_score FROM(";
@@ -68,9 +67,33 @@ function v_comlex_query_league($conditions) {
     databaseClose($link);
     return $result;
 }
-function v_complex_query_history($id){
+
+function v_all_league($id) {
+    // SELECT l.groupid,l.groupname
+    // FROM usergroup AS l, enrolegroup AS e
+    // WHERE l.groupid=e.groupid AND e.userid=26 AND e.status="active"
     $link = databaseConnector();
-    $query_string="SELECT m.team1score,m.team2score,m.points1,m.points2,m.points3,u.team1score AS team1Goal,u.team2score AS team2Goal,u.team1,u.team2,m.calculatedtime_stamp";
+    $query = "SELECT l.groupid,l.groupname";
+    $query.=" FROM usergroup AS l, enrolegroup AS e";
+    $query.=" WHERE l.groupid=e.groupid AND e.userid='$id' AND e.status='active'";
+
+    $psql = mysqli_query($link, $query);
+    $count = mysqli_num_rows($psql);
+    if ($count == 0) {
+        $result['counter'] = 0;
+    } else {
+        $result['counter'] = 1;
+    }
+    while ($row = mysqli_fetch_assoc($psql)) {
+        $result['data'][] = $row;
+    }
+    databaseClose($link);
+    return $result;
+}
+
+function v_complex_query_history($id) {
+    $link = databaseConnector();
+    $query_string = "SELECT m.team1score,m.team2score,m.points1,m.points2,m.points3,u.team1score AS team1Goal,u.team2score AS team2Goal,u.team1,u.team2,m.calculatedtime_stamp";
     $query_string.=" FROM upcominggames AS u, myguess AS m";
     $query_string.=" WHERE m.gameid=u.id AND m.status=\"calculated\" AND userid='$id'";
     $psql = mysqli_query($link, $query_string);
@@ -147,6 +170,9 @@ function databaseClose($link) {
 
 // This function create a string for insert into database table
 function createInsertString($dataarray) {
+    foreach ($dataarray as $key => $value) {
+        $dataarray[$key] = addslashes($value);
+    }
     $columnname = "";
     $columnvalue = "";
     $result = array();
@@ -161,6 +187,9 @@ function createInsertString($dataarray) {
 
 // This function create a string for update database table
 function createUpdateString($dataarray) {
+    foreach ($dataarray as $key => $value) {
+        $dataarray[$key] = addslashes($value);
+    }
     $result = array();
     $string = "";
     foreach ($dataarray as $key => $value) {

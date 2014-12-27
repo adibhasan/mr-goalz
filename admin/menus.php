@@ -9,49 +9,53 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand customnavbrand" href="<?php echo BASE_URL;?>admin/admin.php?adminroute=home"><img src="<?php echo APP_LOGO; ?>"></a>
+            <a class="navbar-brand customnavbrand" href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=home"><img src="<?php echo APP_LOGO; ?>"></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="<?php echo BASE_URL;?>admin/admin.php?adminroute=home">Dashboard</a></li>
+                <li class="active"><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=home">Dashboard</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Game <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="<?php echo BASE_URL;?>admin/admin.php?adminroute=team&action=create-team">Create Team</a></li>
-                        <li><a href="<?php echo BASE_URL;?>admin/admin.php?adminroute=team&action=show-team-list">List of Team</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=team&action=create-team">Create Team</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=team&action=show-team-list">List of Team</a></li>
                         <li class="divider"></li>
-                        <li><a href="<?php echo BASE_URL;?>admin/admin.php?adminroute=game&action=create-league">Create League</a></li>
-                        <li><a href="<?php echo BASE_URL;?>admin/admin.php?adminroute=game&action=list-of-league">List of League</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=game&action=create-league">Create League</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=game&action=list-of-league">List of League</a></li>
                         <li class="divider"></li>
-                        <li><a href="<?php echo BASE_URL;?>admin/admin.php?adminroute=game&action=create-game">Create Game</a></li>
-                        <li><a href="<?php echo BASE_URL;?>admin/admin.php?adminroute=game&action=game-list">List of Game</a></li>
-                        <li><a href="<?php echo BASE_URL;?>admin/admin.php?adminroute=game&action=game-list-old">Old Game</a></li>
-                        <li><a href="<?php echo BASE_URL;?>admin/admin.php?adminroute=game&action=up-coming-game">Upcoming Game</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=game&action=create-game">Create Game</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=game&action=game-list">List of Game</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=game&action=game-list-old">Old Game</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=game&action=up-coming-game">Upcoming Game</a></li>
                         <li class="divider"></li>
-                        <li><a href="<?php echo BASE_URL;?>admin/admin.php?adminroute=team">Football at a Glance</a></li>
-                        
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=team">Football at a Glance</a></li>
+
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">User <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="<?php echo BASE_URL;?>admin/admin.php?adminroute=user">All User</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=user">All User</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=user&action=user-rank">User Rank</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=user&action=send-notification">Send Notification</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=userbonus&action=all-bonus">All Bonus</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=userbonus&action=month-bonus">Month Bonus</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=userbonus&action=performance-bonus">Performance Bonus</a></li>
+                         <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=userbonus&action=other-bonus">Other Bonus</a></li>
+                        <li class="divider"></li>
+                         <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=userbonus&action=user-score-list">User Score</a></li>
                     </ul>
                 </li>
                 <?php if ($_SESSION['vaiuugroup']['admintype'] == "super admin"): ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin User <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="<?php echo BASE_URL;?>admin/admin.php?adminroute=home&action=create-admin">Create Admin</a></li>
-                            <li><a href="<?php echo BASE_URL;?>admin/admin.php?adminroute=home&action=show-admin-user">List Of Admin</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=home&action=create-admin">Create Admin</a></li>
+                            <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=home&action=show-admin-user">List Of Admin</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
@@ -61,8 +65,8 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="<?php echo BASE_URL;?>admin/admin.php?adminroute=home&action=change-name">Change Name</a></li>
-                        <li><a href="<?php echo BASE_URL;?>admin/admin.php?adminroute=home&action=change-password">Change Password</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=home&action=change-name">Change Name</a></li>
+                        <li><a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=home&action=change-password">Change Password</a></li>
                         <li class="divider"></li>
                         <li><a href="<?php echo BASE_URL; ?>admin/">Log Out</a></li>
                     </ul>

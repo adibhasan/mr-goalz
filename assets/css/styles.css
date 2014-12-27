@@ -35,6 +35,9 @@ body{
 .thin{
     font-family:mrcoalzthin;   
 }
+.guess{
+    cursor: pointer;
+}
 ul.user-league {
     margin: 0px;
     padding:0px;
