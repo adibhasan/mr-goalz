@@ -63,7 +63,10 @@
                                         </div>
                                     </div>
                                     <div class="table-content">
-                                        <?php for ($i = 0; $i < count($history2['data']); $i++): ?>
+                                        <?php
+                                        $week_total=0;
+                                        for ($i = 0; $i < count($history2['data']); $i++):
+                                            ?>
                                             <div class="table-row paged" id="<?php echo 'page_' . $i; ?>" data-pageid="<?php echo $i; ?>">
                                                 <div class="col-155 col-text-title-black his-wrapper">
                                                     <div class="sub-col-155 his">
@@ -76,13 +79,20 @@
                                                         <div class="gola"><?php echo $history2['data'][$i]['team2score']; ?></div>
                                                     </div>
                                                 </div>
-                                                <div class="col-157 col-text-title-black" style="text-align: center"><?php echo $history2['data'][$i]['team1realscore']."-".$history2['data'][$i]['team2realscore']."=".$history2['data'][$i]['totalpoints']; ?></div> 
+                                                <div class="col-157 col-text-title-black" style="text-align: center"><?php echo $history2['data'][$i]['team1realscore'] . "-" . $history2['data'][$i]['team2realscore'] . "=" . $history2['data'][$i]['totalpoints']; ?></div> 
                                                 <div class="clearfix"></div>
                                             </div>
-                                        <?php endfor; ?>
+                                        <?php 
+                                        $week_total=$week_total+$history2['data'][$i]['totalpoints'];
+                                        endfor; ?>
                                     </div>
                                     <div class="update-button bonus-button condenced">
-                                        Week Score 14X2(Bonus) = 28
+                                        <?php if($week_total >= 1):?>
+                                         Week Score <?php echo $week_total; ?><?php echo $bonus==1?"":$bonus."X2(Bonus)";?> = <?php echo $week_total*$bonus;?>
+                                        <?php else:?>
+                                         Week Score 0
+                                        <?php endif;?>
+                                       
                                     </div>
                                     <div class="table-footer">
 

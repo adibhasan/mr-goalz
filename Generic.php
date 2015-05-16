@@ -342,6 +342,121 @@ function allUserScore() {
     return $mr;
 }
 
+function boxMessage() {
+    $email = $_SESSION['vaiuugroup']['user_email'];
+    $user = v_dataSelect("mrpredict_user", "user_email='$email'");
+    $message1 = v_dataSelect("message_box", "status !='deleted' AND receiver_id='" . $user['data'][0]['userid'] . "'");
+    $message2 = v_dataSelect("message_box", "status='active' AND receiver_id='" . $user['data'][0]['userid'] . "'");
+    $message['all'] = $message1['data'];
+    $message['unread'] = $message2['data'];
+    $message['totalunread'] = count($message2['data']);
+    return $message;
+}
+
+function totalUnread() {
+    $email = $_SESSION['vaiuugroup']['user_email'];
+    $user = v_dataSelect("mrpredict_user", "user_email='$email'");
+    $message2 = v_dataSelect("message_box", "status='active' AND receiver_id='" . $user['data'][0]['userid'] . "'");
+    $message = count($message2['data']);
+    return $message;
+}
+
+function v_get_week_number() {
+    $year = date("Y");
+    $month = date("m");
+    $day = date("d");
+    $dy = date("F");
+    list($n, $d) = explode('-', date('t-d', strtotime("Friday, $year-$month")));
+    $days = array();
+    while ($d <= $n) {
+        $days[] = sprintf("%04d-%02d-%02d", $year, $month, $d);
+        $d += 7;
+    }
+    $first_week = strtotime($days[0]);
+    $previous_week = $first_week - 604800;
+    $last_week_date = date("Y-m-d", $previous_week);
+    $last_weekyear = date("Y", $previous_week);
+    $last_weekmonth = date("m", $previous_week);
+    $last_weekdate = date("d", $previous_week);
+    if ($last_weekdate < 29) {
+        $last_week_number = 4;
+    } else {
+        $last_week_number = 5;
+    }
+    if (count($days) == 4) {
+        if (strtotime(date("Y-m-d")) < strtotime($days[0])) {
+            $re['applied_year'] = $last_weekyear;
+            $re['applied_month'] = $last_weekmonth;
+            $re['fridaynumber'] = $last_week_number;
+            $re['applied_day']=$last_week_date;
+            $re['applied_time'] = date("Y-m-d");
+        } else if (strtotime(date("Y-m-d")) >= strtotime($days[0]) && strtotime(date("Y-m-d")) < strtotime($days[1])) {
+            $re['applied_year'] = $year;
+            $re['applied_month'] = $month;
+            $re['fridaynumber'] = "1";
+            $re['applied_day']=$days[0];
+            $re['applied_time'] = date("Y-m-d");
+        } else if (strtotime(date("Y-m-d")) >= strtotime($days[1]) && strtotime(date("Y-m-d")) < strtotime($days[2])) {
+            $re['applied_year'] = $year;
+            $re['applied_month'] = $month;
+            $re['applied_day']=$days[1];
+            $re['fridaynumber'] = "2";
+            $re['applied_time'] = date("Y-m-d");
+        } else if (strtotime(date("Y-m-d")) >= strtotime($days[2]) && strtotime(date("Y-m-d")) < strtotime($days[3])) {
+            $re['applied_year'] = $year;
+            $re['applied_month'] = $month;
+            $re['applied_day']=$days[2];
+            $re['fridaynumber'] = "3";
+            $re['applied_time'] = date("Y-m-d");
+        } else {
+            $re['applied_year'] = $year;
+            $re['applied_month'] = $month;
+            $re['applied_day']=$days[3];
+            $re['fridaynumber'] = "4";
+            $re['applied_time'] = date("Y-m-d");
+        }
+    } else {
+        if (strtotime(date("Y-m-d")) < strtotime($days[0])) {
+            $re['applied_year'] = $last_weekyear;
+            $re['applied_month'] = $last_weekmonth;
+            $re['fridaynumber'] = $last_week_number;
+            $re['applied_day']=$last_week_date;
+            $re['applied_time'] = date("Y-m-d");
+        } else if (strtotime(date("Y-m-d")) >= strtotime($days[0]) && strtotime(date("Y-m-d")) < strtotime($days[1])) {
+            $re['applied_year'] = $year;
+            $re['applied_month'] = $month;
+            $re['applied_day']=$days[0];
+            $re['fridaynumber'] = "1";
+            $re['applied_time'] = date("Y-m-d");
+        } else if (strtotime(date("Y-m-d")) >= strtotime($days[1]) && strtotime(date("Y-m-d")) < strtotime($days[2])) {
+            $re['applied_year'] = $year;
+            $re['applied_month'] = $month;
+            $re['applied_day']=$days[1];
+            $re['fridaynumber'] = "2";
+            $re['applied_time'] = date("Y-m-d");
+        } else if (strtotime(date("Y-m-d")) >= strtotime($days[2]) && strtotime(date("Y-m-d")) < strtotime($days[3])) {
+            $re['applied_year'] = $year;
+            $re['applied_month'] = $month;
+            $re['applied_day']=$days[2];
+            $re['fridaynumber'] = "3";
+            $re['applied_time'] = date("Y-m-d");
+        } else if (strtotime(date("Y-m-d")) >= strtotime($days[3]) && strtotime(date("Y-m-d")) < strtotime($days[4])) {
+            $re['applied_year'] = $year;
+            $re['applied_month'] = $month;
+            $re['applied_day']=$days[3];
+            $re['fridaynumber'] = "4";
+            $re['applied_time'] = date("Y-m-d");
+        } else {
+            $re['applied_year'] = $year;
+            $re['applied_month'] = $month;
+            $re['applied_day']=$days[4];
+            $re['fridaynumber'] = "5";
+            $re['applied_time'] = date("Y-m-d");
+        }
+    }
+    return $re;
+}
+
 /* * ******************************************************************************* */
 /* * *****************************   Dirty Function ******************************** */
 /* * ******************************************************************************* */
@@ -439,6 +554,7 @@ function timeZone($user_ip = "") {
     $iptrack['rawOffset'] = $timezone_info->{'rawOffset'};
     $iptrack['timeZoneId'] = $timezone_info->{'timeZoneId'};
     $iptrack['timeZoneName'] = $timezone_info->{'timeZoneName'};
+    $iptrack['Offset'] = 3600*$ip_tracking_url->{'offset'};
     return $iptrack;
 }
 
@@ -471,12 +587,12 @@ function v_sessionedTopMenu() {
         <div class="tooglablemenu">
             <div id="tooglablemenu-wrapper">
                 <div class="topmenu"><img src="<?php echo BASE_URL; ?>assets/css/images/logo.png"></div>
-                <div class="topmenu"><a href="settings.php">HOME</a></div>
-                <div class="topmenu"><a href="gamelist.php">UPCOMING</a></div>
+                <div class="topmenu"><a href="gamelist.php">HOME</a></div>
                 <div class="topmenu"><a href="my-guess-info.php">MY GUESS</a></div>
                 <div class="topmenu"><a href="leader-board.php">LEADER</a></div>
                 <div class="topmenu"><a href="myhistory.php">MY HISTORY</a></div>
                 <div class="topmenu"><a href="more-stuff.php">MORE</a></div>
+                <div class="topmenu"><a href="settings.php">SETTINGS</a></div>
                 <div class="topmenu"><a href="<?php echo BASE_URL ?>logout.php">LOGOUT</a></div>
             </div>
         </div>
@@ -583,6 +699,15 @@ function sponsorRedirect($url) {
     <?php
 }
 
+function addBonus($numberofbonus = "", $class = "") {
+    ?>
+    <div class="sponser-number"><span class="shape-circle" style="color: blue"><?php echo $numberofbonus;?></span></div>
+    <div class="sponser-message thin" style="color: black">Sponsored Ad</div>
+    <div class="sponser-symbol"><span class="correct add-sponsor-button add-month-bonus" data-redirect=""></span></div>
+    <div class="clearfix"></div>
+    <?php
+}
+
 function sponsorClose() {
     ?>
     <div class="sponser-message  col-md-10 col-sm-10" style="color: black;padding-left: 80px">Sponsored Ad</div>
@@ -599,7 +724,7 @@ function bottomSessionedMenu($p1 = "", $p2 = "", $p3 = "", $p4 = "", $p5 = "", $
             <li><a href="my-guess-info.php"><span class="menu-icon-holder"><span class="shape-circle-menu <?php echo $p2; ?>"></span></span><span class="menu-text">Guess it</span></a></li>
             <li><a href="leader-board.php"><span class="menu-icon-holder"><span class="shape-circle-menu <?php echo $p3; ?>"></span></span><span class="menu-text">Ranking</span></a></li>
             <li><a href="leader-board.php?key=leaderboard&action=chooseleague"><span class="menu-icon-holder"><span class="shape-circle-menu <?php echo $p4; ?>"></span></span><span class="menu-text">My League</span></a></li>
-            <li><a href="more-stuff.php"><span class="menu-icon-holder"><span class="shape-circle-menu <?php echo $p5; ?>" style="position: relative"><span class="circle-message">1</span></span></span><span class="menu-text">More</span></a></li>
+            <li><a href="more-stuff.php"><span class="menu-icon-holder"><span class="shape-circle-menu <?php echo $p5; ?>" style="position: relative"><span class="circle-message"><?php echo totalUnread(); ?></span></span></span><span class="menu-text">More</span></a></li>
             <div class="clearfix"></div>
         </ul>
     </div>

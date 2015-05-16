@@ -44,7 +44,7 @@ if ($_POST['method'] == "joinmyleague") {
         $data1['updatedate'] = date("Y-m-d H:i:s");
         $data1['status'] = "pending";
         $exist = v_dataSelect("enrolegroup", "groupid='" . $_POST['groupid'] . "' AND userid='" . $data1['userid'] . "'");
-        if ($exist['counter'] != 0) {
+        if ($exist['counter'] == 0) {
             $ins = v_dataInsert_LastId("enrolegroup", $data1);
             $user = v_dataSelect("mrpredict_user", "userid='" . $data1['userid'] . "'");
             $email = $user['data'][0]['user_email'];
@@ -54,12 +54,11 @@ if ($_POST['method'] == "joinmyleague") {
             $ms['sender_type'] = "user";
             $ms['message_type'] = "invitation";
             $ms['message_title'] = addslashes("Join $invitoruser Group");
-            $ms['message_body'] = addslashes("Dear " . $user['data'][0]['user_name'] . " please join with me in " . APP_NAME . "<br><a href=''>Click here to join the $groupname group.</a> ");
+            $ms['message_body'] = addslashes("Dear " . $user['data'][0]['user_name'] . " please join with me in " . APP_NAME . "<br><a href='javascript:void(0)' data-invitationid=".$ins['lastinsertid']." class='add-to-group'>Click here to join the $groupname.</a> ");
             $ms['create_date'] = date("Y-m-d H:i:s");
             $ms['update_date'] = date("Y-m-d H:i:s");
-            $ms['status'] = "pending";
+            $ms['status'] = "active";
             v_dataInsert("message_box", $ms);
-
             $messagearray[0] = "Dear, <strong>" . $user['data'][0]['user_name'] . "</strong><br>";
             $messagearray[1] = "$invitoruser has invited you to join his/her group <strong>$groupname</strong><br>";
             $messagearray[2] = "Please check your " . APP_NAME . " message inbox.<br>";
@@ -201,7 +200,7 @@ function checkGuessState($dataArry) {
     $currenttime = time() - 300;
     if ($game['data'][0]['schedule_timestamp'] < $currenttime) {
         $return = array(
-            'message' => "Game will start within 5 minutes. You can not update or guess  now.",
+            'message' => "You can not update the score now. Times up.",
             'success' => false,
             'styleclass' => "danger",
             "field" => "",

@@ -86,22 +86,36 @@ if ($_POST['method'] == "deleteuser") {
     }
     if ($_POST['usertype'] == "team") {
         $id = $_POST['userid'];
-        $data['status'] = "deleted";
-        $data['updatedate'] = date("Y-m-d H:i:s");
-        $deleteuser = v_dataUpdate("team", $data, "teamid='$id' ");
+        $select = v_dataSelect("upcominggames", "team1='$id' OR  team1='$id'");
+        for ($i = 0; $i < count($select['data']); $i++) {
+            $myguessid = $select['data']['id'];
+            v_dataDelete("myguess", "gameid='$myguessid'");
+        }
+        v_dataDelete("upcominggames", "team1='$id' OR  team1='$id'");
+        $deleteuser = v_dataDelete("team", "teamid='$id' ");
         $url = "admin/admin.php?adminroute=team&action=show-team-list";
     }
     if ($_POST['usertype'] == "league") {
         $id = $_POST['leagueid'];
-        $data['status'] = "deleted";
-        $data['update_date'] = date("Y-m-d H:i:s");
-        $deleteuser = v_dataUpdate("league", $data, "leagueid='$id' ");
+        $select = v_dataSelect("upcominggames", "leagueid='$id'");
+        for ($i = 0; $i < count($select['data']); $i++) {
+            $myguessid = $select['data']['id'];
+            v_dataDelete("myguess", "gameid='$myguessid'");
+        }
+        v_dataDelete("upcominggames","leagueid='$id'");
+        $deleteuser = v_dataDelete("league", "leagueid='$id' ");
         $url = "admin/admin.php?adminroute=game&action=list-of-league";
     }
+    if ($_POST['usertype'] == "gamelist") {
+        $id = $_POST['leagueid'];
+        v_dataDelete("myguess", "gameid='$id' ");
+        $deleteuser = v_dataDelete("upcominggames", "id='$id'");
+        $url = "admin/admin.php?adminroute=game&action=game-list";
+    }
     if ($deleteuser) {
-        v_returnMessage("League has been deleted successfully.", true, "success", "", BASE_URL . $url);
+        v_returnMessage("Data has been deleted successfully.", true, "success", "", BASE_URL . $url);
     } else {
-        v_returnMessage("League has been failed to delete.", false, "danger", "", "");
+        v_returnMessage("Data has been failed to delete.", false, "danger", "", "");
     }
 }
 
@@ -164,6 +178,56 @@ if ($_POST['method'] == "addgame") {
     v_authenTicate("Game description", true, 2, 1000, "", "description", $_POST['description']);
     v_authenTicate("League status", true, 2, 10, "", "status", $_POST['status']);
     addGame($_POST);
+}
+if ($_POST['method'] == "blockupdate") {
+    $blockTitle = $_POST['block_title'];
+    $data = $_POST;
+    unset($data['method']);
+    unset($data['block_name']);
+    unset($data['block_name']);
+
+
+    foreach ($data as $key => $value) {
+        if ($key == "block_title" || $key == "status") {
+            
+        } else {
+            $data['block_text'] = $value;
+            unset($data[$key]);
+        }
+    }
+    $data['update_date'] = date("Y-m-d H:i:s");
+    $update = v_dataUpdate("block", $data, "block_title='$blockTitle'");
+    if ($update) {
+        v_returnMessage("Block successfully updated.", true, "success", "", "");
+    } else {
+        v_returnMessage("Block update failed.", false, "danger", "", "");
+    }
+}
+if ($_POST['method'] == "generatepassword") {
+    $email = $_POST['adminemail'];
+    if ($email == "") {
+        v_returnMessage("Email is required.", false, "danger", "", "");
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        v_returnMessage("Invalid email address.", false, "danger", "", "");
+    }
+    $userdata = v_userCheck($email);
+    if ($userdata['counter'] == 0) {
+        v_returnMessage("Invalid email address.", false, "danger", "", "");
+    } else {
+        $newpass = randomPassword();
+        $mailmessage = "A temporary password was requested from " . APP_NAME . " admin login panel. Make sure it is you.<br>";
+        $mailmessage = " If it is you then login with the password <strong>$newpass</strong>. <br>After login you are requested to change the temporary password.";
+        $mailresponse = simpleMail("no-reply@mrgoalz.com", $email, $mailmessage, "Admin Password Change", "no-reply@mrgoalz.com");
+        if ($mailresponse) {
+            $dataarray['adminpassword'] = md5($newpass);
+            $dataarray['updatedate'] = date("Y-m-d H:i:s");
+            v_dataUpdate("admin", $dataarray, "adminemail='$email'");
+            v_returnMessage("Password has been sent, please check your email.", true, "success", "", "");
+        } else {
+            v_returnMessage("Generating new password has been failed, please try again later.", false, "danger", "", "");
+        }
+    }
 }
 
 function userLogin($dataArry) {
@@ -529,6 +593,17 @@ function registrationMail($messagearray, $baseurl) {
     }
     $message.="</table></body></html>";
     return $message;
+}
+
+function randomPassword() {
+    $alphabet = "abcdefghij@8klmnopqrstuwxyzA#BCDEFGHIJKL=MNOPQRSTUWXYZ0123456789";
+    $pass = array(); //remember to declare $pass as an array
+    $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+    for ($i = 0; $i < 10; $i++) {
+        $n = rand(0, $alphaLength);
+        $pass[] = $alphabet[$n];
+    }
+    return implode($pass); //turn the array into a string
 }
 ?>
 

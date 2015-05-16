@@ -413,19 +413,19 @@ a.actionbutton {
     background-size: 100% 100%;
 }
 .btnfb{
-/*    background-image: url(images/fb.jpg);*/
+    /*    background-image: url(images/fb.jpg);*/
 }
 .btngplus{
-/*    background-image: url(images/gplus.jpg);*/
+    /*    background-image: url(images/gplus.jpg);*/
 }
 .btnreg{
-/*    background-image: url(images/register.jpg);*/
+    /*    background-image: url(images/register.jpg);*/
 }
 .btnlogin{
-/*    background-image: url(images/btnlogin.jpg);*/
+    /*    background-image: url(images/btnlogin.jpg);*/
 }
 .sign-border{
-/*    background-image: url('images/bluered.png');*/
+    /*    background-image: url('images/bluered.png');*/
     height: 2px;
     background-repeat: no-repeat;
     background-size: 100% 2px;
@@ -1681,6 +1681,9 @@ a.actionbutton img{
     background-repeat: no-repeat;
     background-position: 10px 4px;
     cursor: pointer;
+}
+.box.readed {
+    border-color: gray;
 }
 @media screen and (max-width:700px) and (min-width: 0px) {
     .small-device{

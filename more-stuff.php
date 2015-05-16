@@ -30,7 +30,7 @@
                                 <div class="morstuff-title condenced">More Stuff</div>
                                 <div class="more-content-wrapper">
                                     <div class="more-contents">
-                                        <div class="left-column"><a href="mail_invitations.php">My Mail & Invites</a> <span class="shape-circle-red pull-right">2</span></div>
+                                        <div class="left-column"><a href="mail_invitations.php">My Mail & Invites</a> <span class="shape-circle-red pull-right"><?php echo totalUnread(); ?></span></div>
                                         <div class="right-column right-text arabic"><a href="mail_invitations.php">بلدي البريد و يدعو</a></div>
                                         <div class="clearfix"></div>
                                     </div>
@@ -65,49 +65,24 @@
                                         <div class="clearfix"></div>
                                     </div>
                                     <div id="tutorial">
-                                        <h3 class="text-center" style="text-decoration: underline;color: #115DFF">Tutorial</h3>
-                                        <p>
-                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                        </p>
-                                        <p>
-                                            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). 
-                                        </p>
+                                        <h3 class="text-center" style="text-decoration: underline;color: #115DFF"><?= $blockArray['tutorial']['block_name'];?></h3>
+                                        <p><?= $blockArray['tutorial']['block_text'];?></p>
                                     </div>
                                     <div id="points-bonus">
-                                        <h3 class="text-center" style="text-decoration: underline;color: #115DFF">Points & Bonus</h3>
-                                        <p>
-                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                        </p>
-                                        <p>
-                                            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). 
-                                        </p>
+                                        <h3 class="text-center" style="text-decoration: underline;color: #115DFF"><?= $blockArray['points_&_bonus']['block_name'];?></h3>
+                                        <p><?= $blockArray['points_&_bonus']['block_text'];?></p>
                                     </div>
                                     <div id="prize-rules">
-                                        <h3 class="text-center" style="text-decoration: underline;color: #115DFF">Prize & Rules</h3>
-                                        <p>
-                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                        </p>
-                                        <p>
-                                            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). 
-                                        </p>
+                                        <h3 class="text-center" style="text-decoration: underline;color: #115DFF"><?= $blockArray['prize_&_rules']['block_name'];?></h3>
+                                        <p><?= $blockArray['prize_&_rules']['block_text'];?></p>
                                     </div>
                                     <div id="contact-us">
-                                        <h3 class="text-center" style="text-decoration: underline;color: #115DFF">Contact Us</h3>
-                                        <p>
-                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                        </p>
-                                        <p>
-                                            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). 
-                                        </p>
+                                        <h3 class="text-center" style="text-decoration: underline;color: #115DFF"><?= $blockArray['contact_us']['block_name'];?></h3>
+                                        <p><?= $blockArray['contact_us']['block_text'];?></p>
                                     </div>
                                     <div id="about-us">
-                                        <h3 class="text-center" style="text-decoration: underline;color: #115DFF">About Us</h3>
-                                        <p>
-                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                        </p>
-                                        <p>
-                                            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). 
-                                        </p>
+                                        <h3 class="text-center" style="text-decoration: underline;color: #115DFF"><?= $blockArray['about_us']['block_name'];?></h3>
+                                        <p><?= $blockArray['about_us']['block_text'];?></p>
                                     </div>
                                 </div>
 

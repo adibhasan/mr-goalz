@@ -41,6 +41,7 @@ $total_upcoming = count($upcoming_game);
 
 
 $all_team = v_dataSelect("team", "status='active'");
+
 for ($i = 0; $i < count($all_team['data']); $i++) {
     $leaguedata = v_comlex_query_league($all_team['data'][$i]['teamid']);
     if ($leaguedata['data'][0]['final_total'] != 0) {
@@ -55,5 +56,12 @@ usort($league, function($a, $b) {
     return $a['score'] < $b['score'] ? 1 : -1;
 });
 $total_league = count($league);
+$getBlocks = v_dataSelect("block", "status='active'");
+$getBlocks = $getBlocks['data'];
+$blockArray=array();
+foreach ($getBlocks as $key => $value) {
+    $blockArrayKey=  str_replace(" ","_",strtolower($getBlocks[$key]['block_title']));
+    $blockArray[$blockArrayKey]=$getBlocks[$key];
+}
 
 ?>

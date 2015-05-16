@@ -18,5 +18,6 @@ include '../Generic.php';
           <script src="<?php echo BASE_URL; ?>admin/assets/js/html5shiv.min.js"></script>
           <script src="<?php echo BASE_URL; ?>admin/assets/js/respond.min.js"></script>
         <![endif]-->
+        <script src="<?php echo BASE_URL; ?>library/ckeditor/ckeditor.js"></script>
     </head>
     <body>

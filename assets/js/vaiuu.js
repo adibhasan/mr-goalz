@@ -69,6 +69,14 @@ jQuery(function ($) {
 
                 }
             });
+            $(".leagueleave").on("click", function () {
+                var x = confirm("Do you want to leave this group?");
+                if (x) {
+                    var leagueid = $(this).data("leagueid");
+                    VAIUU.AjaxFormValueCheck("controller/Ajaxcall.php", "post", "leagueid=" + leagueid + "&method=leaveleague", CALLBACK.LeaveLeague);
+
+                }
+            });
             $(".my-guess-info .has-link").on("click", function () {
                 window.location.href = "my-guess-info.php";
             });
@@ -150,12 +158,17 @@ jQuery(function ($) {
                 $("#create-league-modal").modal("hide");
                 $("#enrolled-league").modal("show");
             });
+            $("#exit-private-league button").on("click", function () {
+                $("#create-league-modal").modal("hide");
+                $("#leave-league").modal("show");
+            });
             $("#invite-private-league button").on("click", function () {
                 $("#create-league-modal").modal("hide");
                 $("#invite-user").modal("show");
             });
             $('#leaguelist').DataTable();
             $('#inviteuserlist').DataTable();
+            $('#leaguelistleave').DataTable();
             $(".league-list").on("change", function () {
                 if ($(this).val() == "other") {
                     var id = $(this).attr("id");
@@ -345,6 +358,7 @@ jQuery(function ($) {
             $(".guess").on("click", function () {
                 VAIUU.AjaxFormValueCheck("controller/Account.php", "post", "team1Name=" + $(this).data("team1") + "&team2Name=" + $(this).data("team2") + "&gameid=" + $(this).data("gameid") + "&method=guess", CALLBACK.GuessInfoAlert);
             });
+            
             $("#signup input[name=user_id_name]").on("keyup", function () {
                 var Pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,150}$/;
                 var fieldvalue = $(this).val();
@@ -373,7 +387,21 @@ jQuery(function ($) {
             });
             $(".add-sponsor-button").on("click", function () {
                 var url = $(this).data("redirect");
-                window.location.href = url;
+                if (url != "") {
+                    window.location.href = url;
+                }
+
+            });
+            $(document.body).on("click", ".add-month-bonus", function () {
+                VAIUU.AjaxFormValueCheck("controller/Ajaxcall.php", "post", "method=addbonus", CALLBACK.AddBonus);
+            });
+            $(document.body).on("click", "#delete-sms", function () {
+                var smsid = $(this).data("msis");
+                VAIUU.AjaxFormValueCheck("controller/Ajaxcall.php", "post", "method=deletesms&smsis=" + smsid, CALLBACK.DeleteSms);
+            });
+            $(document.body).on("click", ".add-to-group", function () {
+                var smsid = $(this).data("invitationid");
+                VAIUU.AjaxFormValueCheck("controller/Ajaxcall.php", "post", "method=addToCircle&smsis=" + smsid, CALLBACK.AddToCircle);
             });
             $(document.body).on("submit", "#myguessform", function (event) {
                 event.preventDefault();
@@ -606,6 +634,10 @@ jQuery(function ($) {
             }
             alert(data.message);
         },
+        LeaveLeague: function (data) {
+            alert(data.message);
+            window.location.href="leader-board.php";
+        },
         AjaxUserNamecheck: function (data) {
             if (data.success == false) {
                 $("input[name=user_id_name]").parent().find(".error-message").show("slow").html(data.message);
@@ -636,27 +668,15 @@ jQuery(function ($) {
             $("#myguessmodal").modal("show");
         },
         AddBonus: function (data) {
-            if (data.success == false) {
-                if (data.message == "Bonus adding failed.") {
-                    $(".bonus-message").show(function () {
-                        $(".bonus-message-wrapper").css("color", "red").text(data.message);
-                    });
-                } else {
-                    alert(data.message);
-                    location.reload();
-                }
-            }
-            if (data.success == true) {
-                $("#not-added").html($("#already-add").html());
-                $(".bonus-message").show(function () {
-                    $(".bonus-message-wrapper").css("color", "green").text(data.message);
-                });
-            }
-            setTimeout(function () {
-                $(".bonus-message").hide(function () {
-                    $(".bonus-message-wrapper").css("color", "black").text("");
-                });
-            }, 3000);
+            alert(data.message);
+            $(".sponser-number .shape-circle").html(data.field);
+        },
+        DeleteSms: function (data) {
+            alert(data.message);
+            window.location.href = "mail_invitations.php";
+        },
+        AddToCircle: function (data) {
+            alert(data.message);
         },
         Login: function (data) {
             $("#login").prev().html("<div class='alert alert-" + data.styleclass + "'>" + data.message + "</div>");

@@ -1,4 +1,4 @@
-<?php preventDirectAccess("userlogin.php");?>
+<?php preventDirectAccess("userlogin.php"); ?>
 <div class="container-wrapper">
     <div id="ajaxloader"><div class="ajax-loader ajxbg"></div></div>
     <div class="col-md-6 col-md-offset-3">
@@ -9,8 +9,8 @@
             <div class="panel-heading"><strong>Administrator Login</strong></div>
             <div class="panel-body">
                 <div class="alert-custom"></div>
-                <form id="adminlogin" name="adminlogin" class="form-horizontal" autocomplete="off" action="<?php echo BASE_URL."admin/controller/Account.php"?>">
-                    <input type="hidden" name="token" value="<?php echo v_generateToken();?>">
+                <form id="adminlogin" name="adminlogin" class="form-horizontal" autocomplete="off" action="<?php echo BASE_URL . "admin/controller/Account.php" ?>">
+                    <input type="hidden" name="token" value="<?php echo v_generateToken(); ?>">
                     <input type="hidden" name="method" value="adminlogin">
                     <div class="form-group marginvertical">
                         <div class="input-group">
@@ -36,7 +36,8 @@
         <div class="panel panel-warning forgotpasswordpanel">
             <div class="panel-heading"><strong>Administrator Password Retrieve</strong></div>
             <div class="panel-body">
-                <form id="passwordretrieve" name="passwordretrieve" class="form-horizontal" autocomplete="off">
+                <div class="alert-custom" id="re"></div>
+                <form id="passwordretrieve" name="passwordretrieve" class="form-horizontal" autocomplete="off" action="<?php echo BASE_URL . "admin/controller/Account.php" ?>">
                     <div class="form-group marginvertical">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
@@ -44,6 +45,7 @@
                         </div>
                     </div>
                     <div class="form-group marginvertical">
+                        <input type="hidden" name="method" value="generatepassword">
                         <button type="submit" class="btn btn-info btn-block">Retrieve</button>
                     </div>
                 </form>
@@ -54,6 +56,7 @@
     </div>
 </div>
 <?php
+
 function preventDirectAccess($filename = "") {
     $requesturl = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
     if (false !== strpos($requesturl, $filename)) {

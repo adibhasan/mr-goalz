@@ -50,6 +50,7 @@ for ($i = 0; $i < count($upcoming_game); $i++) {
 // User history
 
 $history = v_dataSelect("myguess", "status='calculated' AND userid='$uid'");
+
 for ($i = 0; $i < count($history['data']); $i++) {
     $hgame = v_dataSelect("upcominggames", "id='" . $history['data'][$i]['gameid'] . "'");
     $hteam1 = v_dataSelect("team", "teamid='" . $hgame['data'][0]['team1'] . "'");
@@ -89,20 +90,108 @@ if ($currentDate == "Fri") {
         date("Y-m-d", ($initime + (4 * 86400))),
         date("Y-m-d", ($initime + (5 * 86400))),
         date("Y-m-d", ($initime + (6 * 86400)))
+        
     );
+    
+}else if ($currentDate == "Sat") {
+    $initime = time() + ($_SESSION['client_info']['rawOffset']) -691200;
+    $iniday = date("Y-m-d", $initime);
+    $dateTimeArray = array(
+        date("Y-m-d", $initime),
+        date("Y-m-d", ($initime + (1 * 86400))),
+        date("Y-m-d", ($initime + (2 * 86400))),
+        date("Y-m-d", ($initime + (3 * 86400))),
+        date("Y-m-d", ($initime + (4 * 86400))),
+        date("Y-m-d", ($initime + (5 * 86400))),
+        date("Y-m-d", ($initime + (6 * 86400)))
+    );
+    
+}else if ($currentDate == "Sun") {
+    $initime = time() + ($_SESSION['client_info']['rawOffset']) -777600;
+    $iniday = date("Y-m-d", $initime);
+    $dateTimeArray = array(
+        date("Y-m-d", $initime),
+        date("Y-m-d", ($initime + (1 * 86400))),
+        date("Y-m-d", ($initime + (2 * 86400))),
+        date("Y-m-d", ($initime + (3 * 86400))),
+        date("Y-m-d", ($initime + (4 * 86400))),
+        date("Y-m-d", ($initime + (5 * 86400))),
+        date("Y-m-d", ($initime + (6 * 86400)))
+    );
+    
+}else if($currentDate == "Mon"){
+    $initime = time() + ($_SESSION['client_info']['rawOffset']) -864000;
+    $iniday = date("Y-m-d", $initime);
+    $dateTimeArray = array(
+        date("Y-m-d", $initime),
+        date("Y-m-d", ($initime + (1 * 86400))),
+        date("Y-m-d", ($initime + (2 * 86400))),
+        date("Y-m-d", ($initime + (3 * 86400))),
+        date("Y-m-d", ($initime + (4 * 86400))),
+        date("Y-m-d", ($initime + (5 * 86400))),
+        date("Y-m-d", ($initime + (6 * 86400)))
+    );
+    
+}else if($currentDate == "Tue"){
+    $initime = time() + ($_SESSION['client_info']['rawOffset']) -950400;
+    $iniday = date("Y-m-d", $initime);
+    $dateTimeArray = array(
+        date("Y-m-d", $initime),
+        date("Y-m-d", ($initime + (1 * 86400))),
+        date("Y-m-d", ($initime + (2 * 86400))),
+        date("Y-m-d", ($initime + (3 * 86400))),
+        date("Y-m-d", ($initime + (4 * 86400))),
+        date("Y-m-d", ($initime + (5 * 86400))),
+        date("Y-m-d", ($initime + (6 * 86400)))
+    );
+    
+}else if($currentDate == "Wed"){
+    $initime = time() + ($_SESSION['client_info']['rawOffset']) -1036800;
+    $iniday = date("Y-m-d", $initime);
+    $dateTimeArray = array(
+        date("Y-m-d", $initime),
+        date("Y-m-d", ($initime + (1 * 86400))),
+        date("Y-m-d", ($initime + (2 * 86400))),
+        date("Y-m-d", ($initime + (3 * 86400))),
+        date("Y-m-d", ($initime + (4 * 86400))),
+        date("Y-m-d", ($initime + (5 * 86400))),
+        date("Y-m-d", ($initime + (6 * 86400)))
+    );
+    
+}else if($currentDate == "Thu"){
+    $initime = time() + ($_SESSION['client_info']['rawOffset']) -1123200;
+    $iniday = date("Y-m-d", $initime);
+    $dateTimeArray = array(
+        date("Y-m-d", $initime),
+        date("Y-m-d", ($initime + (1 * 86400))),
+        date("Y-m-d", ($initime + (2 * 86400))),
+        date("Y-m-d", ($initime + (3 * 86400))),
+        date("Y-m-d", ($initime + (4 * 86400))),
+        date("Y-m-d", ($initime + (5 * 86400))),
+        date("Y-m-d", ($initime + (6 * 86400)))
+    );
+    
 }
 $j = 0;
 for ($i = 0; $i < count($history['data']); $i++) {
     if (in_array($history['data'][$i]['gameTime'], $dateTimeArray)) {
-       $history2['data'][$j]['team1name']=$history['data'][$i]['team1name'];
-       $history2['data'][$j]['team1score']=$history['data'][$i]['team1score'];
-       $history2['data'][$j]['team2name']=$history['data'][$i]['team2name'];
-       $history2['data'][$j]['team2score']=$history['data'][$i]['team2score'];
-       $history2['data'][$j]['team1realscore']=$history['data'][$i]['team1realscore'];
-       $history2['data'][$j]['team2realscore']=$history['data'][$i]['team2realscore'];
-       $history2['data'][$j]['totalpoints']=$history['data'][$i]['totalpoints'];
-       $j++;
+        $history2['data'][$j]['team1name'] = $history['data'][$i]['team1name'];
+        $history2['data'][$j]['team1score'] = $history['data'][$i]['team1score'];
+        $history2['data'][$j]['team2name'] = $history['data'][$i]['team2name'];
+        $history2['data'][$j]['team2score'] = $history['data'][$i]['team2score'];
+        $history2['data'][$j]['team1realscore'] = $history['data'][$i]['team1realscore'];
+        $history2['data'][$j]['team2realscore'] = $history['data'][$i]['team2realscore'];
+        $history2['data'][$j]['totalpoints'] = $history['data'][$i]['totalpoints'];
+        $j++;
     }
 }
 $totalhistory = count($history2['data']);
+$week_date=$dateTimeArray[0];
+$range=date("Y-m-d",(strtotime($week_date)+604800));
+$bonascheck=  v_dataSelect("monthly_bonus","applied_day >='$week_date' AND applied_day < '$range' AND status='used'");
+if($bonascheck['counter']==0){
+    $bonus=1;
+}else{
+    $bonus=2;
+}
 ?>

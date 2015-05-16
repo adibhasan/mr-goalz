@@ -47,6 +47,24 @@ function v_dataSelect($tablename, $conditions) {
     return $result;
 }
 
+function v_userCheck($email) {
+    $link = databaseConnector();
+    $result = array();
+    $query = "SELECT * FROM admin WHERE adminemail='$email' AND status='active'";
+    $psql = mysqli_query($link, $query);
+    $count = mysqli_num_rows($psql);
+    if ($count == 0) {
+        $result['counter'] = 0;
+    } else {
+        $result['counter'] = 1;
+    }
+    while ($row = mysqli_fetch_assoc($psql)) {
+        $result['data'][] = $row;
+    }
+    databaseClose($link);
+    return $result;
+}
+
 function v_comlex_query_league($conditions) {
     $link = databaseConnector();
     $query = "SELECT SUM(t.total_play) AS final_total,SUM(t.team_score) AS final_score FROM(";
@@ -147,9 +165,7 @@ function databaseConnector() {
     $host = "localhost";
     $user = "root";
     $password = "";
-    //$host = "50.62.209.88:3306";
-    //$user = "mrgoalz";
-    //$password ="Password123";
+ 
     $link = mysqli_connect($host, $user, $password, $database);
     if (mysqli_connect_errno()) {
         $response = array(

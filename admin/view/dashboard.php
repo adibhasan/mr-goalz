@@ -211,9 +211,9 @@
                             </a>
                         </div>
                         <div class="shortcutblock ">
-                            <a href="" class="color-orange">
+                            <a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=blocks" class="color-orange">
                                 <div class="shortcuticon"><i class="glyphicon glyphicon-home"></i></div>
-                                <div class="shortcuttext">xvcv</div>
+                                <div class="shortcuttext">Tutorial</div>
                             </a>
                         </div>
                         <div class="shortcutblock ">

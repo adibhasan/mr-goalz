@@ -60,11 +60,15 @@ for ($i = 0; $i < count($fscore); $i++) {
 // Get my league
 $allmyleague=  v_dataSelect("usergroup","userid='".$userinfo['data'][0]['userid']."'");
 $inviteleaderlist=$leaderlist;
+
 //for($i=0;$i<count($inviteleaderlist);$i++){
 //    if($inviteleaderlist[$i]['useremail']==$_SESSION['vaiuugroup']['user_email']){
 //        unset($inviteleaderlist[$i]);
 //    }
+//    
 //}
+
+
 /********* End of new code *****************/
 $userid = empty($userinfo['data'][0]['user_id_name']) ? "" : $userinfo['data'][0]['user_id_name'];
 $useremail = empty($userinfo['data'][0]['user_email']) ? "" : $userinfo['data'][0]['user_email'];
@@ -207,25 +211,7 @@ for ($i = 0; $i < count($final_leader); $i++) {
         $final_leader[$i]['rank'] = ($i + 1) . "th";
     }
 }
+$userbonus=  v_dataSelect("monthly_bonus", "user_id='".$userinfo['data'][0]['userid']."' AND month_number='".date("m")."' AND year='".date("Y")."' AND status='active'");
+$totalbonus=count($userbonus['data']);
 
-//$my_history = v_complex_query_history($userinfo['data'][0]['userid']);
-//for ($i = 0; $i < count($my_history['data']); $i++) {
-//    $team1 = v_dataSelect("team", "teamid='" . $my_history['data'][$i]['team1'] . "'");
-//    $team2 = v_dataSelect("team", "teamid='" . $my_history['data'][$i]['team2'] . "'");
-//    $my_history['data'][$i]['team1Name'] = $team1['data'][0]['teamname'];
-//    $my_history['data'][$i]['team2Name'] = $team2['data'][0]['teamname'];
-//    $my_history['data'][$i]['year'] = date("Y", $my_history['data'][$i]['calculatedtime_stamp']);
-//    $my_history['data'][$i]['month'] = date("m", $my_history['data'][$i]['calculatedtime_stamp']);
-//    $my_history['data'][$i]['day'] = date("d", $my_history['data'][$i]['calculatedtime_stamp']);
-//    $my_history['data'][$i]['totalpoint'] = $my_history['data'][$i]['points1'] + $my_history['data'][$i]['points2'] + $my_history['data'][$i]['points3'];
-//    if ($my_history['data'][$i]['day'] <= 7) {
-//        $my_history['data'][$i]['weak'] = 1;
-//    } else if ($my_history['data'][$i]['day'] <= 14) {
-//        $my_history['data'][$i]['weak'] = 2;
-//    } else if ($my_history['data'][$i]['day'] <= 21) {
-//        $my_history['data'][$i]['weak'] = 3;
-//    } else {
-//        $my_history['data'][$i]['weak'] = 4;
-//    }
-//}
 ?>

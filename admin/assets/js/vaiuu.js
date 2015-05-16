@@ -50,6 +50,11 @@ jQuery(function ($) {
                     VAIUU.AjaxFormValueCheck("admin/controller/Account.php", "add-month-bonus", "method=addmonthbonus", CALLBACK.AddMonthBonus);
                 }
             });
+            $(".blockform").on("submit", function (event) {
+                event.preventDefault();
+                var formid=$(this).attr("id");
+                VAIUU.AjaxFormValueCheck("admin/controller/Account.php", "post", $("#"+formid).serialize()+"&method=blockupdate", CALLBACK.BlockResponse);
+            });
             $("#add-perform-bonus").on("click", function () {
                 var r = confirm("Do you want to add  perform bonus for this month.");
                 if (r == true) {
@@ -70,6 +75,14 @@ jQuery(function ($) {
                 if (r == true) {
                     $("#ajaxloader").show();
                     VAIUU.AjaxFormValueCheck("admin/controller/Account.php", "deleteuser", "method=deleteuser&usertype=league&" + "leagueid=" + id, CALLBACK.userDelete);
+                }
+            });
+            $(".deletegame").on("click", function () {
+                var id = $(this).data("id");
+                var r = confirm("Do you want to delete this item?");
+                if (r == true) {
+                    $("#ajaxloader").show();
+                    VAIUU.AjaxFormValueCheck("admin/controller/Account.php", "deleteuser", "method=deleteuser&usertype=gamelist&" + "leagueid=" + id, CALLBACK.userDelete);
                 }
             });
             $("#commonuserstatus").on("change", function () {
@@ -108,6 +121,31 @@ jQuery(function ($) {
                     var bv = $form.data('bootstrapValidator');
                     $.post($form.attr('action'), $form.serialize(), function (result) {
                         CALLBACK.adminLogin(result);
+                    }, 'json');
+                });
+                $('#passwordretrieve').bootstrapValidator({
+                    container: 'tooltip',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        adminemail: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Email is required'
+                                }
+                            }
+                        }
+                    }
+                }).on('success.form.bv', function (e) {
+                    e.preventDefault();
+                    $("#ajaxloader").show();
+                    var $form = $(e.target);
+                    var bv = $form.data('bootstrapValidator');
+                    $.post($form.attr('action'), $form.serialize(), function (result) {
+                        CALLBACK.generateTempPassword(result);
                     }, 'json');
                 });
                 $('#updateusername').bootstrapValidator({
@@ -724,6 +762,7 @@ jQuery(function ($) {
                 return fileext;
             }
         },
+        
         CanvasUploadImageFile: function () {
             var reader = new FileReader();
             var asrc = reader.readAsDataURL($('#picturefile')[0].files[0]);
@@ -808,6 +847,14 @@ jQuery(function ($) {
                 }
             }
         },
+        generateTempPassword:function(data){
+            $("#ajaxloader").hide();
+            $('#re').html('<div class="alert alert-' + data.styleclass + '">' + data.message + '</div>');
+            $("#passwordretrieve [type=submit]").removeAttr("disabled");
+            if (data.success == true) {
+                VAIUU.FormReset("#passwordretrieve");
+            }
+        },
         updateUserName: function (data) {
             $("#ajaxloader").hide();
             $('.alert-custom').html('<div class="alert alert-' + data.styleclass + '">' + data.message + '</div>');
@@ -850,6 +897,9 @@ jQuery(function ($) {
                 }, 3000);
             }
 
+        },
+        BlockResponse:function(data){
+            alert(data.message);
         },
         AddMonthBonus: function (data) {
             if (data.success == true) {

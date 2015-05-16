@@ -236,7 +236,7 @@
                                             <td><?php echo $gameinfo['data'][$i]['updatedate']; ?></td>
                                             <td><?php echo $gameinfo['data'][$i]['status']; ?></td>
                                             <td>
-                                                <button class="btn btn-danger" style="margin:1px;padding: 0px 2px;" data-id="<?php echo $gameinfo['data'][$i]['leagueid']; ?>"><i class="glyphicon glyphicon-trash"></i></button>
+                                                <button class="btn btn-danger deletegame" style="margin:1px;padding: 0px 2px;" data-id="<?php echo $gameinfo['data'][$i]['id']; ?>"><i class="glyphicon glyphicon-trash"></i></button>
                                                 <a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=game&action=update-game&gameid=<?php echo $gameinfo['data'][$i]['id']; ?>"><button class="btn btn-info edit" style="margin:1px;padding: 0px 2px;"><i class="glyphicon glyphicon-edit"></i></button></a>
                                             </td>
                                         </tr>
@@ -302,7 +302,7 @@
                                             <td><?php echo $gameinfo_old['data'][$i]['updatedate']; ?></td>
                                             <td><?php echo $gameinfo_old['data'][$i]['status']; ?></td>
                                             <td>
-                                                <button class="btn btn-danger" style="margin:1px;padding: 0px 2px;" data-id="<?php echo $gameinfo_old['data'][$i]['leagueid']; ?>"><i class="glyphicon glyphicon-trash"></i></button>
+                                                <button class="btn btn-danger deletegame" style="margin:1px;padding: 0px 2px;" data-id="<?php echo $gameinfo_old['data'][$i]['id']; ?>"><i class="glyphicon glyphicon-trash"></i></button>
                                                 <a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=game&action=update-game&gameid=<?php echo $gameinfo_old['data'][$i]['id']; ?>"><button class="btn btn-info edit" style="margin:1px;padding: 0px 2px;"><i class="glyphicon glyphicon-edit"></i></button></a>
                                             </td>
                                         </tr>
@@ -360,7 +360,7 @@
                                             <td><?php echo $gameinfo_new['data'][$i]['updatedate']; ?></td>
                                             <td><?php echo $gameinfo_new['data'][$i]['status']; ?></td>
                                             <td>
-                                                <button class="btn btn-danger" style="margin:1px;padding: 0px 2px;" data-id="<?php echo $gameinfo_new['data'][$i]['leagueid']; ?>"><i class="glyphicon glyphicon-trash"></i></button>
+                                                <button class="btn btn-danger deletegame" style="margin:1px;padding: 0px 2px;" data-id="<?php echo $gameinfo_new['data'][$i]['id']; ?>"><i class="glyphicon glyphicon-trash"></i></button>
                                                 <a href="<?php echo BASE_URL; ?>admin/admin.php?adminroute=game&action=update-game&gameid=<?php echo $gameinfo_new['data'][$i]['id']; ?>"><button class="btn btn-info edit" style="margin:1px;padding: 0px 2px;"><i class="glyphicon glyphicon-edit"></i></button></a>
                                             </td>
                                         </tr>
@@ -516,7 +516,7 @@
             </div>
         <?php else: ?>
             <div class="panel panel-primary">
-                <div class="panel-heading"><strong><i class="glyphicon glyphicon-user"></i> User Info</strong></div>
+                <div class="panel-heading"><strong><i class="glyphicon glyphicon-user"></i> Game Info</strong></div>
                 <div class="panel-body">
                     <div class="alert-custom"></div>
                     <div id="alluser">
